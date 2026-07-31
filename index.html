@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- CRITICAL FOR MOBILE: Prevents auto-zooming when tapping games/icons -->
+    <!-- CRITICAL FOR MOBILE: Prevents auto-zooming and scales perfectly -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Faiz Muhammed | f1zOS</title>
+    
+    <!-- FAVICON (Browser Tab Logo) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%23050505'/><text x='1' y='12' fill='%2333ff00' font-family='monospace' font-weight='bold' font-size='12'>&gt;_</text></svg>">
+    
     <style>
         /* --- GLOBAL & OS VARIABLES --- */
         :root {
-            /* Retro OS Colors */
-            --os-bg: #008080; /* Classic Win95 Teal Desktop */
+            --os-bg: #008080;
             --window-bg: #c0c0c0;
-            --title-active: #000080; /* Active window blue */
-            --title-inactive: #808080; /* Inactive window grey */
+            --title-active: #000080;
+            --title-inactive: #808080;
             --title-text: #fff;
             
-            /* Terminal Variables (Hacker Green) */
             --term-bg: #050505;
             --term-text: #33ff00;
             --term-glow: 0 0 5px rgba(51, 255, 0, 0.6);
             --font-term: 'Courier New', Courier, monospace;
             --font-os: 'Pixelated', 'Segoe UI', Tahoma, sans-serif;
             
-            /* 3D Borders */
             --border-light: #fff;
             --border-dark: #808080;
             --border-darker: #000;
@@ -32,33 +33,23 @@
         * { box-sizing: border-box; }
 
         body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #000; /* Starts black for boot screen */
-            font-family: var(--font-os);
-            height: 100vh;
-            /* Fixes mobile highlight color when tapping */
+            margin: 0; overflow: hidden; background-color: #000;
+            font-family: var(--font-os); height: 100vh;
             -webkit-tap-highlight-color: transparent; 
-            display: flex;
-            flex-direction: column;
-            user-select: none;
+            display: flex; flex-direction: column; user-select: none;
             -webkit-font-smoothing: none;
         }
 
         /* --- CRT SCREEN EFFECTS --- */
         .crt-overlay {
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
+            position: fixed; top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 9999;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
+            z-index: 9999; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
 
         /* --- BOOT SCREEN --- */
         #boot-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; color: #d3d3d3;
             font-family: var(--font-term); padding: 20px;
             z-index: 9000; display: flex; flex-direction: column; overflow: hidden;
@@ -73,26 +64,15 @@
             background-image: 
                 linear-gradient(45deg, #008989 25%, transparent 25%, transparent 75%, #008989 75%, #008989),
                 linear-gradient(45deg, #008989 25%, transparent 25%, transparent 75%, #008989 75%, #008989);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            display: none; /* Hidden until boot finishes */
-            overflow: hidden;
+            background-size: 20px 20px; background-position: 0 0, 10px 10px;
+            display: none; overflow: hidden;
         }
 
-        /* f1zOS Wallpaper Watermark */
         .desktop-wallpaper {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 15vw;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
-            color: rgba(255, 255, 255, 0.15);
-            pointer-events: none;
-            user-select: none;
-            letter-spacing: -2px;
-            z-index: 0;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 15vw; font-weight: bold; font-family: Arial, sans-serif;
+            color: rgba(255, 255, 255, 0.15); pointer-events: none; user-select: none;
+            letter-spacing: -2px; z-index: 0; text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
         }
 
         .desktop-icons {
@@ -108,16 +88,15 @@
         .icon svg { width: 36px; height: 36px; margin-bottom: 5px; fill: white; filter: drop-shadow(1px 1px 1px black); }
         .icon span { font-size: 0.8rem; text-shadow: 1px 1px 1px black; }
 
-        /* Virus Icon Specifics */
-        .icon-virus svg { fill: #ff3333; }
-        .icon-virus span { color: #ff9999; }
+        .icon-virus svg { fill: #ff3333; } .icon-virus span { color: #ff9999; }
+        .icon-word svg { fill: #fff; } .icon-word span { color: #fff; }
 
         /* --- WINDOW SYSTEM --- */
         .window {
             position: absolute; background: var(--window-bg);
             border-top: 2px solid var(--border-light); border-left: 2px solid var(--border-light);
             border-right: 2px solid var(--border-darker); border-bottom: 2px solid var(--border-darker);
-            box-shadow: inset -1px -1px var(--border-dark), inset 1px 1px var(--border-lightest);
+            box-shadow: inset -1px -1px var(--border-dark), inset 1px 1px var(--border-lightest), 5px 5px 10px rgba(0,0,0,0.3);
             display: flex; flex-direction: column; display: none;
         }
 
@@ -126,21 +105,20 @@
 
         .title-bar {
             background: var(--title-active); color: var(--title-text);
-            padding: 3px 5px; font-weight: bold; font-size: 0.85rem;
+            padding: 4px 6px; font-weight: bold; font-size: 0.85rem;
             display: flex; justify-content: space-between; align-items: center;
             cursor: grab; margin: 2px;
         }
         .title-bar:active { cursor: grabbing; }
-        .title-bar-text { display: flex; align-items: center; gap: 5px; }
+        .title-bar-text { display: flex; align-items: center; gap: 5px; pointer-events: none;}
 
         .title-bar-controls { display: flex; gap: 2px; }
         .title-bar-controls button {
-            background: var(--window-bg); width: 18px; height: 18px;
+            background: var(--window-bg); width: 20px; height: 20px;
             border-top: 1px solid var(--border-light); border-left: 1px solid var(--border-light);
             border-right: 1px solid var(--border-darker); border-bottom: 1px solid var(--border-darker);
-            font-weight: bold; cursor: pointer; font-size: 10px;
-            display: flex; justify-content: center; align-items: center; padding: 0;
-            color: #000;
+            font-weight: bold; cursor: pointer; font-size: 12px;
+            display: flex; justify-content: center; align-items: center; padding: 0; color: #000;
         }
         .title-bar-controls button:active {
             border-top: 1px solid var(--border-darker); border-left: 1px solid var(--border-darker);
@@ -149,11 +127,10 @@
         }
 
         .menu-bar {
-            padding: 2px 5px; border-bottom: 1px solid var(--border-dark);
-            display: flex; gap: 10px; font-size: 0.85rem; background: var(--window-bg); color: #000;
+            padding: 2px 6px; border-bottom: 1px solid var(--border-dark);
+            display: flex; gap: 12px; font-size: 0.85rem; background: var(--window-bg); color: #000;
         }
-        .menu-bar span { cursor: pointer; }
-        .menu-bar span::first-letter { text-decoration: underline; }
+        .menu-bar span { cursor: pointer; } .menu-bar span::first-letter { text-decoration: underline; }
 
         .window-content-area {
             flex-grow: 1; margin: 0 4px 4px 4px; display: flex; flex-direction: column;
@@ -162,15 +139,15 @@
             background: #fff; overflow: hidden;
         }
 
-        /* --- TERMINAL SPECIFICS --- */
+        /* Standard scrollbars */
+        ::-webkit-scrollbar { width: 16px; height: 16px; background: #dfdfdf; border-left: 1px solid #fff; border-top: 1px solid #fff; }
+        ::-webkit-scrollbar-thumb { background: #c0c0c0; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; }
+        ::-webkit-scrollbar-button { background: #c0c0c0; height: 16px; width: 16px; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; }
+
+        /* --- 1. TERMINAL SPECIFICS --- */
         #app-terminal { top: 30px; left: 80px; width: 800px; max-width: 90vw; height: 550px; max-height: 80vh; }
         #app-terminal.maximized { top: 0 !important; left: 0 !important; width: 100vw !important; height: calc(100vh - 35px) !important; max-width: none; max-height: none; border: none; padding-bottom:0; }
-        
-        #app-terminal .window-content-area { 
-            background: var(--term-bg); color: var(--term-text); font-family: var(--font-term); 
-            padding: 15px; overflow-y: auto; text-shadow: var(--term-glow); user-select: text;
-        }
-        
+        #app-terminal .window-content-area { background: var(--term-bg); color: var(--term-text); font-family: var(--font-term); padding: 15px; overflow-y: auto; text-shadow: var(--term-glow); user-select: text; touch-action: pan-y; }
         .term-container h2 { font-size: 1.1rem; border-bottom: 1px dashed var(--term-text); display: inline-block; padding-bottom: 2px; margin-top: 20px;}
         .term-container p, .term-container li { font-size: 0.95rem; line-height: 1.5; color: var(--term-text); }
         .term-container ul { list-style-type: none; padding-left: 15px; }
@@ -181,44 +158,58 @@
         .term-nav a { font-weight: bold; padding: 2px 8px; border: none; }
         .cursor { display: inline-block; width: 8px; height: 15px; background-color: var(--term-text); animation: blink 1s step-end infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
         .page { display: none; } .page.active { display: block; }
         .project-box, .exp-box { border-left: 2px solid var(--term-text); padding-left: 15px; margin-bottom: 25px; background: rgba(0, 255, 65, 0.05); padding: 10px; }
         .sys-tag { background: var(--term-text); color: var(--term-bg); padding: 2px 6px; font-size: 0.75rem; font-weight: bold; display: inline-block; margin-bottom: 8px; text-shadow: none; }
 
-        /* --- NOTEPAD SPECIFICS --- */
-        #app-notepad { top: 50px; left: 150px; width: 450px; height: 350px; }
-        #app-notepad .window-content-area { padding: 0; }
-        #notepad-textarea {
-            width: 100%; height: 100%; resize: none; border: none; outline: none; padding: 5px;
-            font-family: var(--font-term); font-size: 14px; background: #fff; color: #000;
-        }
+        /* --- 2. WORD APP SPECIFICS (CV) --- */
+        #app-word { top: 50px; left: 120px; width: 700px; height: 600px; max-width: 95vw; max-height: 85vh; }
+        .word-toolbar { background: var(--window-bg); padding: 5px; display: flex; gap: 5px; border-bottom: 1px solid var(--border-dark); }
+        .word-tool-btn { width: 24px; height: 24px; border: 1px solid transparent; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .word-tool-btn:hover { border-top: 1px solid var(--border-light); border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-darker); border-bottom: 1px solid var(--border-darker); }
+        .word-tool-btn:active { border-top: 1px solid var(--border-darker); border-left: 1px solid var(--border-darker); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+        .word-scroll-area { flex-grow: 1; background: #808080; overflow-y: auto; padding: 20px; display: flex; justify-content: center; touch-action: pan-y; }
+        .word-page { background: #fff; width: 100%; max-width: 800px; min-height: 1000px; box-shadow: 5px 5px 10px rgba(0,0,0,0.5); padding: 40px; color: #000; font-family: 'Times New Roman', Times, serif; user-select: text; cursor: text; }
+        .word-page h1 { font-size: 24px; text-align: center; margin-bottom: 5px; border: none; }
+        .word-page .contact-info { text-align: center; font-size: 14px; margin-top: 0; color: #333; }
+        .word-page h2 { font-size: 16px; text-transform: uppercase; border-bottom: 1px solid #000; padding-bottom: 2px; margin-top: 25px; margin-bottom: 10px; }
+        .word-page p, .word-page li { font-size: 14px; line-height: 1.5; margin-bottom: 8px; }
+        .word-page ul { padding-left: 20px; margin-top: 5px; }
 
-        /* --- PAINT SPECIFICS --- */
-        #app-paint { top: 70px; left: 100px; width: 600px; height: 450px; }
+        /* --- 3. MUSIC PLAYER SPECIFICS (f1zAmp) --- */
+        #app-music { top: 100px; left: 150px; width: 350px; height: auto; }
+        .music-player { background: #222; padding: 15px; border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #000; border-bottom: 2px solid #000; }
+        .lcd-screen { background: #000; border: 2px solid #111; border-radius: 3px; padding: 10px; margin-bottom: 15px; text-align: center; color: #0f0; font-family: 'Courier New', monospace; box-shadow: inset 0 0 10px #000; }
+        .lcd-title { font-weight: bold; font-size: 14px; white-space: nowrap; overflow: hidden; }
+        .lcd-time { font-size: 24px; margin: 5px 0; }
+        .lcd-visualizer { display: flex; gap: 2px; justify-content: center; height: 20px; align-items: flex-end;}
+        .vis-bar { width: 8px; background: #0f0; height: 2px; transition: height 0.1s; }
+        .music-controls { display: flex; justify-content: center; gap: 10px; }
+        .music-btn { background: var(--window-bg); border-top: 2px solid var(--border-light); border-left: 2px solid var(--border-light); border-right: 2px solid var(--border-darker); border-bottom: 2px solid var(--border-darker); width: 40px; height: 30px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 16px; color: #000;}
+        .music-btn:active, .music-btn.active { border-top: 2px solid var(--border-darker); border-left: 2px solid var(--border-darker); border-right: 2px solid var(--border-light); border-bottom: 2px solid var(--border-light); }
+
+        /* --- 4. PAINT SPECIFICS --- */
+        #app-paint { top: 70px; left: 200px; width: 600px; height: 450px; }
         .paint-layout { display: flex; height: 100%; background: var(--window-bg); }
         .paint-tools { width: 50px; border-right: 1px solid var(--border-dark); padding: 5px; display: flex; flex-direction: column; gap: 5px; flex-shrink: 0; }
         .color-btn { width: 100%; height: 25px; border: 2px solid var(--border-darker); cursor: pointer; box-shadow: inset -1px -1px #fff; }
         .color-btn.active { border: 2px solid #fff; box-shadow: inset -1px -1px var(--border-darker); }
-        .tool-btn { 
-            font-size: 10px; font-weight: bold; cursor: pointer; text-align: center; padding: 5px 0; color: #000;
-            background: var(--window-bg); border-top: 1px solid var(--border-light); border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-darker); border-bottom: 1px solid var(--border-darker);
-        }
+        .tool-btn { font-size: 10px; font-weight: bold; cursor: pointer; text-align: center; padding: 5px 0; color: #000; background: var(--window-bg); border-top: 1px solid var(--border-light); border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-darker); border-bottom: 1px solid var(--border-darker); }
         .tool-btn:active { border-top: 1px solid var(--border-darker); border-left: 1px solid var(--border-darker); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
-        #paint-canvas-container { flex-grow: 1; position: relative; overflow: auto; background: #808080; padding: 0; }
-        #paint-canvas { background: #fff; border: 1px dashed #000; cursor: crosshair; display: block; margin: 5px; }
+        #paint-canvas-container { flex-grow: 1; position: relative; overflow: auto; background: #808080; padding: 0; touch-action: none; }
+        #paint-canvas { background: #fff; border: 1px dashed #000; cursor: crosshair; display: block; margin: 5px; touch-action: none;}
 
-        /* --- SNAKE SPECIFICS --- */
+        /* --- 5. SNAKE SPECIFICS --- */
         #app-snake { top: 120px; left: 250px; width: 340px; height: auto; }
         .game-container { padding: 10px; display: flex; flex-direction: column; align-items: center; background: var(--window-bg); overflow-y: auto; height: 100%; }
-        #snake-canvas { background: #000; border-top: 2px solid var(--border-darker); border-left: 2px solid var(--border-darker); border-right: 2px solid var(--border-light); border-bottom: 2px solid var(--border-light); margin-bottom: 10px; }
+        #snake-canvas { background: #000; border-top: 2px solid var(--border-darker); border-left: 2px solid var(--border-darker); border-right: 2px solid var(--border-light); border-bottom: 2px solid var(--border-light); margin-bottom: 10px; touch-action: none;}
         .score-board { font-weight: bold; margin-bottom: 10px; width: 100%; text-align: left; padding-left: 5px; color: #000;}
         .d-pad { display: grid; grid-template-columns: 50px 50px 50px; grid-template-rows: 40px 40px; gap: 5px; justify-content: center; margin-bottom: 10px; }
         .d-pad button { background: var(--window-bg); color:#000; border-top: 2px solid var(--border-light); border-left: 2px solid var(--border-light); border-right: 2px solid var(--border-darker); border-bottom: 2px solid var(--border-darker); font-weight: bold; font-size: 18px; cursor: pointer; }
         .d-pad button:active { border-top: 2px solid var(--border-darker); border-left: 2px solid var(--border-darker); border-right: 2px solid var(--border-light); border-bottom: 2px solid var(--border-light); }
         .up-btn { grid-column: 2; grid-row: 1; } .left-btn { grid-column: 1; grid-row: 2; } .down-btn { grid-column: 2; grid-row: 2; } .right-btn { grid-column: 3; grid-row: 2; }
 
-        /* --- TIC TAC TOE SPECIFICS --- */
+        /* --- 6. TIC TAC TOE SPECIFICS --- */
         #app-tictactoe { top: 90px; left: 300px; width: 320px; height: 400px; }
         .ttt-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--border-darker); padding: 4px; margin: 15px auto; width: 260px; height: 260px; }
         .ttt-cell { background: #fff; display: flex; justify-content: center; align-items: center; font-size: 64px; font-family: Arial, sans-serif; font-weight: bold; cursor: pointer; color: #000; box-shadow: inset 1px 1px var(--border-dark), inset -1px -1px var(--border-lightest); }
@@ -229,13 +220,13 @@
 
         /* --- TASKBAR & START MENU --- */
         .taskbar {
-            height: 35px; background: var(--window-bg); border-top: 2px solid var(--border-light);
-            display: flex; align-items: center; padding: 0 2px; justify-content: space-between;
-            z-index: 8000; display: none;
+            height: 38px; background: var(--window-bg); border-top: 2px solid var(--border-light);
+            display: flex; align-items: center; padding: 0 4px; justify-content: space-between;
+            z-index: 8000; display: none; width: 100%;
         }
 
         .start-btn {
-            font-family: var(--font-os); font-weight: bold; padding: 4px 8px; margin-right: 10px;
+            font-family: var(--font-os); font-weight: bold; padding: 4px 10px; margin-right: 10px;
             background: var(--window-bg); cursor: pointer; display: flex; align-items: center; gap: 5px; color: #000;
             border-top: 2px solid var(--border-light); border-left: 2px solid var(--border-light);
             border-right: 2px solid var(--border-darker); border-bottom: 2px solid var(--border-darker);
@@ -245,11 +236,11 @@
             border-right: 2px solid var(--border-light); border-bottom: 2px solid var(--border-light); background: #dfdfdf;
         }
 
-        .taskbar-apps { flex-grow: 1; display: flex; gap: 5px; overflow-x: auto; }
+        .taskbar-apps { flex-grow: 1; display: flex; gap: 5px; overflow-x: auto; height: 100%; align-items: center;}
         .taskbar-apps::-webkit-scrollbar { display: none; }
 
         .taskbar-app {
-            padding: 4px 10px; min-width: 100px; max-width: 150px; color: #000;
+            padding: 4px 10px; min-width: 100px; max-width: 160px; color: #000; height: 28px;
             background: var(--window-bg); font-weight: bold; font-size: 0.85rem; cursor: pointer;
             display: flex; align-items: center; gap: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
             border-top: 2px solid var(--border-light); border-left: 2px solid var(--border-light);
@@ -262,13 +253,13 @@
         }
 
         .taskbar-tray {
-            padding: 4px 10px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px; color: #000;
+            padding: 4px 10px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px; color: #000; height: 28px;
             border-top: 2px solid var(--border-darker); border-left: 2px solid var(--border-darker);
             border-right: 2px solid var(--border-light); border-bottom: 2px solid var(--border-light);
         }
 
         #start-menu {
-            position: absolute; bottom: 35px; left: 0; width: 220px;
+            position: absolute; bottom: 38px; left: 0; width: 220px;
             background: var(--window-bg); box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
             display: none; z-index: 8500; flex-direction: row;
             border-top: 2px solid var(--border-light); border-left: 2px solid var(--border-light);
@@ -282,7 +273,7 @@
         .start-item svg { width: 24px; height: 24px; fill: currentColor; }
         .start-divider { height: 2px; border-top: 1px solid var(--border-dark); border-bottom: 1px solid var(--border-light); margin: 2px 0; }
 
-        /* --- VIRUS OVERLAY ANIMATIONS --- */
+        /* --- VIRUS OVERLAY --- */
         #virus-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(255, 0, 0, 0.85); z-index: 99999;
@@ -291,53 +282,41 @@
         }
         .glitch-text { font-size: 2rem; font-weight: bold; margin-bottom: 20px; animation: glitch 0.2s infinite; text-shadow: 2px 2px #000; }
         .shake-screen { animation: screenShake 0.3s infinite; }
-        
-        @keyframes glitch {
-            0% { transform: translate(0) }
-            20% { transform: translate(-5px, 5px) }
-            40% { transform: translate(-5px, -5px) }
-            60% { transform: translate(5px, 5px) }
-            80% { transform: translate(5px, -5px) }
-            100% { transform: translate(0) }
-        }
-        @keyframes screenShake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
+        @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-5px, 5px) } 40% { transform: translate(-5px, -5px) } 60% { transform: translate(5px, 5px) } 80% { transform: translate(5px, -5px) } 100% { transform: translate(0) } }
+        @keyframes screenShake { 0% { transform: translate(1px, 1px) } 20% { transform: translate(-3px, 0px) } 40% { transform: translate(1px, -1px) } 60% { transform: translate(-3px, 1px) } 80% { transform: translate(-1px, -1px) } 100% { transform: translate(1px, -2px) } }
 
-        /* Scrollbars */
-        ::-webkit-scrollbar { width: 16px; background: #dfdfdf; border-left: 1px solid #fff; }
-        ::-webkit-scrollbar-thumb { background: #c0c0c0; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; }
-        ::-webkit-scrollbar-button { background: #c0c0c0; height: 16px; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; }
+        /* --- 2K / 4K DESKTOP SCALING --- */
+        @media (min-width: 1600px) {
+            body { font-size: 1.2rem; }
+            .icon svg { width: 48px; height: 48px; }
+            .icon span { font-size: 1rem; }
+            .taskbar { height: 45px; }
+            .start-btn { padding: 6px 15px; font-size: 1.1rem; }
+            .taskbar-app { height: 35px; font-size: 1rem; min-width: 140px; }
+            .title-bar { padding: 6px 10px; font-size: 1rem; }
+            .title-bar-controls button { width: 24px; height: 24px; font-size: 14px; }
+            #start-menu { width: 280px; bottom: 45px; }
+            .start-item { padding: 12px; font-size: 1rem; }
+            .start-item svg { width: 28px; height: 28px; }
+        }
 
         /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
-            .desktop-icons {
-                flex-direction: row;
-                flex-wrap: wrap;
-                width: 100%;
-                justify-content: flex-start;
-                gap: 5px;
-            }
-            .icon { width: 70px; }
+            .desktop-icons { flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: flex-start; gap: 5px; }
+            .icon { width: 75px; }
+            .icon svg { width: 32px; height: 32px; }
             
-            /* Make ALL apps fullscreen on mobile so they don't break out */
-            .window {
-                top: 0 !important; 
-                left: 0 !important; 
-                width: 100% !important; 
-                height: calc(100% - 35px) !important; 
-                border: none !important; 
-            }
+            /* Make ALL apps fullscreen on mobile */
+            .window { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100% - 38px) !important; border: none !important; }
+            
+            /* Adjustments for touch interfaces */
+            .title-bar { padding: 8px; }
+            .title-bar-controls button { width: 26px; height: 26px; font-size: 16px; } /* Larger touch targets */
+            .taskbar-app span { display: none; } /* Hide text on taskbar to fit more icons */
+            .taskbar-app { min-width: 40px; padding: 4px; justify-content: center; }
+            
+            #app-word { height: calc(100% - 38px) !important; }
+            .word-page { padding: 15px; min-height: auto; }
         }
     </style>
 </head>
@@ -367,22 +346,32 @@
                 <svg viewBox="0 0 24 24"><path d="M20 19V7H4V19H20M20 3H4C2.89 3 2 3.89 2 5V19C2 20.11 2.89 21 4 21H20C21.11 21 22 20.11 22 19V5C22 3.89 21.11 3 20 3M13 17V15H18V17H13M9.58 13L5.57 9H8.4L11.7 12.3C12.09 12.69 12.09 13.33 11.7 13.72L8.42 17H5.59L9.58 13Z" /></svg>
                 <span>Terminal</span>
             </div>
-            <div class="icon" ondblclick="openApp('app-notepad', 'Text Editor')" onclick="if(window.innerWidth<=768) openApp('app-notepad', 'Text Editor')">
-                <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13M6,20V4H12V10H18V20H6M8,12H16V14H8V12M8,16H16V18H8V16Z" /></svg>
-                <span>Text Editor</span>
+            
+            <div class="icon icon-word" ondblclick="openApp('app-word', 'my_cv.doc')" onclick="if(window.innerWidth<=768) openApp('app-word', 'my_cv.doc')">
+                <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,16H13.8L12,10.6L10.2,16H8.8L6.5,9H8.1L9.6,14.6L11.3,9H12.8L14.4,14.6L15.9,9H17.5L15.2,16Z" /></svg>
+                <span>my_cv.doc</span>
             </div>
+
+            <div class="icon" ondblclick="openApp('app-music', 'Music Player')" onclick="if(window.innerWidth<=768) openApp('app-music', 'Music Player')">
+                <svg viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z" /></svg>
+                <span>Music</span>
+            </div>
+
             <div class="icon" ondblclick="openApp('app-paint', 'Paint')" onclick="if(window.innerWidth<=768) openApp('app-paint', 'Paint')">
                 <svg viewBox="0 0 24 24"><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" /></svg>
                 <span>Paint</span>
             </div>
+
             <div class="icon" ondblclick="openApp('app-snake', 'Snake')" onclick="if(window.innerWidth<=768) openApp('app-snake', 'Snake')">
                 <svg viewBox="0 0 24 24"><path d="M21,11H19V7C19,5.89 18.1,5 17,5H15V3H13V5H11V3H9V5H7C5.89,5 5,5.89 5,7V17C5,18.1 5.9,19 7,19H17C18.1,19 19,18.1 19,17V13H21V11M17,17H7V7H17V17M11,11V9H15V11H11M11,15V13H15V15H11M7,11V9H9V11H7M7,15V13H9V15H7Z" /></svg>
                 <span>Snake</span>
             </div>
+
             <div class="icon" ondblclick="openApp('app-tictactoe', 'Tic Tac Toe')" onclick="if(window.innerWidth<=768) openApp('app-tictactoe', 'Tic Tac Toe')">
                 <svg viewBox="0 0 24 24"><path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V5H19V19M17,15.59L15.59,17L12,13.41L8.41,17L7,15.59L10.59,12L7,8.41L8.41,7L12,10.59L15.59,7L17,8.41L13.41,12L17,15.59Z" /></svg>
                 <span>Tic Tac Toe</span>
             </div>
+
             <a href="https://github.com/fa-iizii" target="_blank" style="text-decoration: none;">
                 <div class="icon">
                     <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21V19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26V21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" /></svg>
@@ -396,7 +385,6 @@
                 </div>
             </a>
             
-            <!-- FAKE VIRUS ICON -->
             <div class="icon icon-virus" ondblclick="triggerVirus()" onclick="if(window.innerWidth<=768) triggerVirus()">
                 <svg viewBox="0 0 24 24"><path d="M12,2C8.14,2 5,5.14 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9C19,5.14 15.86,2 12,2M8.5,8C9.33,8 10,8.67 10,9.5C10,10.33 9.33,11 8.5,11C7.67,11 7,10.33 7,9.5C7,8.67 7.67,8 8.5,8M15.5,11C14.67,11 14,10.33 14,9.5C14,8.67 14.67,8 15.5,8C16.33,8 17,8.67 17,9.5C17,10.33 16.33,11 15.5,11M10,14C10,14 10.5,15 12,15C13.5,15 14,14 14,14V16H10V14Z" /></svg>
                 <span>d0nt_0p3n.f1z</span>
@@ -421,12 +409,11 @@
                 <div class="term-nav">
                     <a onclick="navigate('home')" id="nav-home" class="active-link">./profile.sh</a>
                     <a onclick="navigate('projects')" id="nav-projects">./projects.sh</a>
-                    <a onclick="navigate('experience')" id="nav-experience">./education.sh</a>
                 </div>
 
                 <header>
                     <h1 style="margin:0; font-size: 1.1rem; font-weight: normal;">
-                        <span class="prompt-user" style="color:var(--term-text)">guest@f1zOS</span><span class="prompt-char" style="color:var(--term-text)">:</span><span class="prompt-dir" id="current-dir" style="color:var(--term-text)">~</span><span class="prompt-char" style="color:var(--term-text)">$</span> <span class="cursor"></span>
+                        <span style="color:var(--term-text)">guest@f1zOS</span><span style="color:var(--term-text)">:</span><span id="current-dir" style="color:var(--term-text)">~</span><span style="color:var(--term-text)">$</span> <span class="cursor"></span>
                     </h1>
                 </header>
 
@@ -436,7 +423,6 @@
                         <div id="typewriter-profile"></div>
                         <div id="home-content" style="display: none;">
                             <p style="margin-top: 5px;">First Class BSc (Hons) Applied Computing graduate with hands-on experience delivering full-stack web applications, cloud-connected IoT systems, and AI-driven solutions.</p>
-                            <p>Comfortable across the stack — from database schema design through API development to responsive front-end interfaces. Currently studying for the AWS Certified Cloud Practitioner (CLF-C02) certification. Seeking a Software Developer role where strong problem-solving skills and a collaborative approach can add immediate value.</p>
 
                             <h2>Technical Array</h2>
                             <ul>
@@ -446,9 +432,8 @@
                                 <li><strong style="color:#fff">IoT/Hardware:</strong> ESP32, ESP8266, Arduino Nano, Sensor integrations</li>
                                 <li><strong style="color:#fff">Data/AI:</strong> NumPy, Pandas, TensorFlow, Machine Learning</li>
                             </ul>
-
-                            <h2>System Info</h2>
-                            <p>Location: Leeds, UK<br>Email: <a href="mailto:faizmuhammed07@outlook.com">faizmuhammed07@outlook.com</a></p>
+                            
+                            <p>> System Suggestion: Open 'my_cv.doc' on the desktop for full details.</p>
                         </div>
                     </div>
 
@@ -478,58 +463,103 @@
                             <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank">[ View Repository ]</a>
                         </div>
                     </div>
-
-                    <!-- EXPERIENCE & EDUCATION PAGE -->
-                    <div id="page-experience" class="page">
-                        <div class="exp-box">
-                            <span class="sys-tag">2025 - 2026 | FIRST CLASS</span>
-                            <h3 style="margin: 5px 0; color: #fff;">BSc (Hons) Applied Computing (Top-up) FT</h3>
-                            <p style="margin: 5px 0;"><strong>University of Huddersfield, UK</strong></p>
-                            <ul style="margin-top:10px;">
-                                <li>Data-driven Artificial Intelligence: <strong>90% (A)</strong></li>
-                                <li>Software Architecture: <strong>86% (A)</strong></li>
-                                <li>Large-Scale Software Engineering: <strong>78% (A)</strong></li>
-                                <li>Information Architecture: <strong>74% (A)</strong></li>
-                                <li>Individual Project: <strong>71% (A)</strong></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="exp-box">
-                            <span class="sys-tag">Jun 2024 - Aug 2024</span>
-                            <h3 style="margin: 5px 0; color: #fff;">AI Intern | Unsway Online (AI Club)</h3>
-                            <p style="margin: 5px 0;">Contributed to AI development challenges and delivered workshops. Worked with cloud-based ML workflows across a fully remote international team.</p>
-                        </div>
-                        <div class="exp-box">
-                            <span class="sys-tag">Nov - Dec 2023 & 2024</span>
-                            <h3 style="margin: 5px 0; color: #fff;">Technical Support | Formula 1 Abu Dhabi Grand Prix</h3>
-                            <p style="margin: 5px 0;">Provided on-site technical support and logistics coordination for a high-profile, time-critical event.</p>
-                        </div>
-                    </div>
                 </main>
             </div>
         </div>
 
-        <!-- ================= WINDOW: NOTEPAD ================= -->
-        <div class="window" id="app-notepad" onmousedown="focusWindow('app-notepad')">
+        <!-- ================= WINDOW: MS WORD (CV) ================= -->
+        <div class="window" id="app-word" onmousedown="focusWindow('app-word')">
             <div class="title-bar drag-handle">
                 <div class="title-bar-text">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13M6,20V4H12V10H18V20H6M8,12H16V14H8V12M8,16H16V18H8V16Z" /></svg>
-                    <span>Text Editor</span>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,16H13.8L12,10.6L10.2,16H8.8L6.5,9H8.1L9.6,14.6L11.3,9H12.8L14.4,14.6L15.9,9H17.5L15.2,16Z" /></svg>
+                    <span>my_cv.doc - Word Processor</span>
                 </div>
                 <div class="title-bar-controls">
-                    <button onclick="minimizeWindow('app-notepad')">_</button>
-                    <button onclick="maximizeWindow('app-notepad')">□</button>
-                    <button onclick="closeWindow('app-notepad')">X</button>
+                    <button onclick="minimizeWindow('app-word')">_</button>
+                    <button onclick="maximizeWindow('app-word')">□</button>
+                    <button onclick="closeWindow('app-word')">X</button>
                 </div>
             </div>
             <div class="menu-bar">
-                <span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span>
+                <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Help</span>
             </div>
-            <div class="window-content-area">
-                <textarea id="notepad-textarea">Welcome to the Text Editor!
+            <div class="word-toolbar">
+                <div class="word-tool-btn" title="New"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13Z" /></svg></div>
+                <div class="word-tool-btn" title="Save"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" /></svg></div>
+                <div class="word-tool-btn" title="Print"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M18,3H6V7H18M19,12A1,1 0 0,1 18,11A1,1 0 0,1 19,10A1,1 0 0,1 20,11A1,1 0 0,1 19,12M16,19H8V14H16M19,8H5A3,3 0 0,0 2,11V17H6V21H18V17H22V11A3,3 0 0,0 19,8Z" /></svg></div>
+                <div style="width: 1px; background: var(--border-dark); margin: 0 5px;"></div>
+                <div class="word-tool-btn" style="font-weight: bold; font-family: serif;">B</div>
+                <div class="word-tool-btn" style="font-style: italic; font-family: serif;">I</div>
+                <div class="word-tool-btn" style="text-decoration: underline; font-family: serif;">U</div>
+            </div>
+            <div class="window-content-area word-scroll-area">
+                <div class="word-page">
+                    <h1>FAIZ MUHAMMED</h1>
+                    <p class="contact-info">Leeds, UK | faizmuhammed07@outlook.com<br>uk.linkedin.com/in/faiz-muhammed | github.com/fa-iizii</p>
+                    
+                    <h2>Personal Statement</h2>
+                    <p>First Class BSc (Hons) Applied Computing graduate with hands-on experience delivering full-stack web applications and REST APIs. Final year project was a production-quality campus security platform built on a Node.js/Express REST API with JWT authentication, a MySQL database, and a real-time browser dashboard, integrated with ESP32 firmware for live IoT data. Comfortable across the stack - from database schema design through API development to responsive front-end interfaces - and confident applying software engineering principles such as MVC architecture, role-based access control, and automated data handling. Currently studying for the AWS Certified Cloud Practitioner (CLF-C02) certification.</p>
+                    
+                    <h2>Education</h2>
+                    <p><strong>BSc (Hons) Applied Computing - First Class</strong><br>University of Huddersfield, UK | 2025 - 2026</p>
+                    <ul>
+                        <li>Data-Driven AI (90%) - Grade A</li>
+                        <li>Software Architecture (86%) - Grade A</li>
+                        <li>Large-Scale Software Engineering (78%) - Grade A</li>
+                        <li>Information Architecture (74%) - Grade A</li>
+                        <li>Individual Project: Smart Campus Safety System (71%) - Grade A</li>
+                    </ul>
 
-This is a classic text editor built into f1zOS. 
-Feel free to clear this text and jot down your own notes...</textarea>
+                    <h2>Key Skills</h2>
+                    <ul>
+                        <li><strong>Languages:</strong> Python, JavaScript (Node.js), HTML5, CSS3, C/C++, PHP, SQL</li>
+                        <li><strong>Back-End:</strong> Node.js, Express.js, REST APIs, JWT, MVC, Multer, Cron</li>
+                        <li><strong>Cloud/DevOps:</strong> AWS (CLF-C02 in progress), Git, Linux fundamentals</li>
+                        <li><strong>Data & AI:</strong> Python (NumPy, Pandas, TensorFlow), Power BI</li>
+                    </ul>
+
+                    <h2>Work Experience</h2>
+                    <p><strong>Artificial Intelligence Intern (Remote)</strong><br>Unsway Online - AI Club | June 2024 - August 2024</p>
+                    <ul>
+                        <li>Contributed to AI development challenges and delivered workshops.</li>
+                        <li>Worked with cloud-based ML workflows and collaborated asynchronously.</li>
+                        <li>Awarded a Letter of Recommendation for technical contributions.</li>
+                    </ul>
+
+                    <p><strong>Event Volunteer - Technical Support</strong><br>Formula 1 Abu Dhabi Grand Prix, UAE | Nov-Dec 2023 & 2024</p>
+                    <ul>
+                        <li>Provided on-site technical support and logistics coordination for a high-profile, time-critical event.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= WINDOW: MUSIC PLAYER (f1zAmp) ================= -->
+        <div class="window" id="app-music" onmousedown="focusWindow('app-music')">
+            <div class="title-bar drag-handle">
+                <div class="title-bar-text">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z" /></svg>
+                    <span>f1zAmp Media Player</span>
+                </div>
+                <div class="title-bar-controls">
+                    <button onclick="minimizeWindow('app-music')">_</button>
+                    <button onclick="closeWindow('app-music')">X</button>
+                </div>
+            </div>
+            <div class="music-player">
+                <div class="lcd-screen">
+                    <div class="lcd-title" id="music-title">01 - f1zOS Retro Theme.wav</div>
+                    <div class="lcd-time" id="music-time">00:00</div>
+                    <div class="lcd-visualizer" id="visualizer">
+                        <!-- Visualizer bars created by JS -->
+                    </div>
+                </div>
+                <div class="music-controls">
+                    <button class="music-btn" onclick="alert('Previous track not found.')">⏮</button>
+                    <button class="music-btn" onclick="playMusic()" id="btn-play">▶</button>
+                    <button class="music-btn" onclick="stopMusic()">⏹</button>
+                    <button class="music-btn" onclick="alert('Next track not found.')">⏭</button>
+                </div>
             </div>
         </div>
 
@@ -604,15 +634,9 @@ Feel free to clear this text and jot down your own notes...</textarea>
             <div class="window-content-area" style="background: var(--window-bg); display: flex; flex-direction: column;">
                 <div class="ttt-status" id="ttt-status">Player X's Turn</div>
                 <div class="ttt-board" id="ttt-board">
-                    <div class="ttt-cell" onclick="tttMove(0)"></div>
-                    <div class="ttt-cell" onclick="tttMove(1)"></div>
-                    <div class="ttt-cell" onclick="tttMove(2)"></div>
-                    <div class="ttt-cell" onclick="tttMove(3)"></div>
-                    <div class="ttt-cell" onclick="tttMove(4)"></div>
-                    <div class="ttt-cell" onclick="tttMove(5)"></div>
-                    <div class="ttt-cell" onclick="tttMove(6)"></div>
-                    <div class="ttt-cell" onclick="tttMove(7)"></div>
-                    <div class="ttt-cell" onclick="tttMove(8)"></div>
+                    <div class="ttt-cell" onclick="tttMove(0)"></div><div class="ttt-cell" onclick="tttMove(1)"></div><div class="ttt-cell" onclick="tttMove(2)"></div>
+                    <div class="ttt-cell" onclick="tttMove(3)"></div><div class="ttt-cell" onclick="tttMove(4)"></div><div class="ttt-cell" onclick="tttMove(5)"></div>
+                    <div class="ttt-cell" onclick="tttMove(6)"></div><div class="ttt-cell" onclick="tttMove(7)"></div><div class="ttt-cell" onclick="tttMove(8)"></div>
                 </div>
                 <button class="ttt-reset" onclick="initTicTacToe()">Restart Game</button>
             </div>
@@ -627,8 +651,11 @@ Feel free to clear this text and jot down your own notes...</textarea>
             <div class="start-item" onclick="openApp('app-terminal', 'Terminal'); toggleStartMenu();">
                 <svg viewBox="0 0 24 24"><path d="M20 19V7H4V19H20M20 3H4C2.89 3 2 3.89 2 5V19C2 20.11 2.89 21 4 21H20C21.11 21 22 20.11 22 19V5C22 3.89 21.11 3 20 3M13 17V15H18V17H13M9.58 13L5.57 9H8.4L11.7 12.3C12.09 12.69 12.09 13.33 11.7 13.72L8.42 17H5.59L9.58 13Z" /></svg> Terminal
             </div>
-            <div class="start-item" onclick="openApp('app-notepad', 'Text Editor'); toggleStartMenu();">
-                <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13M6,20V4H12V10H18V20H6M8,12H16V14H8V12M8,16H16V18H8V16Z" /></svg> Text Editor
+            <div class="start-item" onclick="openApp('app-word', 'my_cv.doc'); toggleStartMenu();">
+                <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,16H13.8L12,10.6L10.2,16H8.8L6.5,9H8.1L9.6,14.6L11.3,9H12.8L14.4,14.6L15.9,9H17.5L15.2,16Z" /></svg> Word Processor
+            </div>
+            <div class="start-item" onclick="openApp('app-music', 'Music Player'); toggleStartMenu();">
+                <svg viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z" /></svg> Music Player
             </div>
             <div class="start-item" onclick="openApp('app-paint', 'Paint'); toggleStartMenu();">
                 <svg viewBox="0 0 24 24"><path d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" /></svg> Paint
@@ -662,12 +689,12 @@ Feel free to clear this text and jot down your own notes...</textarea>
         // --- BOOT SEQUENCE LOGIC ---
         const bootTextEl = document.getElementById('boot-text');
         const bootLines = [
-            "f1zOS BIOS Revision 2.0.0",
+            "f1zOS BIOS Revision 3.1.0",
             "Copyright (C) 1995-2026 Faiz Muhammed.",
             "",
-            "Testing System Memory... 640K OK",
+            "Testing System Memory... 1024K OK",
             "Detecting Primary Master... IDE Hard Drive",
-            "Detecting Primary Slave... None",
+            "Detecting Audio Drivers... Web Audio API [OK]",
             "",
             "Loading f1zOS kernel...",
             "[OK] Loaded virtual file system.",
@@ -682,8 +709,8 @@ Feel free to clear this text and jot down your own notes...</textarea>
             if (bootIndex < bootLines.length) {
                 bootTextEl.innerHTML += bootLines[bootIndex] + "<br>";
                 bootIndex++;
-                let delay = Math.random() * 200 + 50;
-                if(bootIndex === 1 || bootIndex === 7) delay = 600;
+                let delay = Math.random() * 150 + 20;
+                if(bootIndex === 1 || bootIndex === 8) delay = 400;
                 setTimeout(processBoot, delay);
             } else {
                 setTimeout(() => {
@@ -693,10 +720,11 @@ Feel free to clear this text and jot down your own notes...</textarea>
                     openApp('app-terminal', 'Terminal');
                     startTerminalTyping();
                     initPaint(); 
-                }, 400);
+                    initVisualizer();
+                }, 300);
             }
         }
-        window.onload = () => { setTimeout(processBoot, 500); };
+        window.onload = () => { setTimeout(processBoot, 400); };
 
         // --- START MENU & CLOCK LOGIC ---
         const startMenu = document.getElementById('start-menu');
@@ -734,13 +762,18 @@ Feel free to clear this text and jot down your own notes...</textarea>
             openApps.delete(appId);
             const taskBtn = document.getElementById(`task-${appId}`);
             if(taskBtn) taskBtn.remove();
+            if(appId === 'app-music') stopMusic(); // Stop music when app is fully closed
         }
         function minimizeWindow(appId) {
             document.getElementById(appId).style.display = 'none';
             const taskBtn = document.getElementById(`task-${appId}`);
             if(taskBtn) taskBtn.classList.remove('active');
         }
-        function maximizeWindow(appId) { document.getElementById(appId).classList.toggle('maximized'); }
+        function maximizeWindow(appId) { 
+            const win = document.getElementById(appId);
+            win.classList.toggle('maximized'); 
+            focusWindow(appId);
+        }
         function closeWindow(appId) { closeApp(appId); }
 
         function focusWindow(appId) {
@@ -759,7 +792,12 @@ Feel free to clear this text and jot down your own notes...</textarea>
             const tb = document.getElementById('taskbar-apps');
             const btn = document.createElement('div');
             btn.className = 'taskbar-app active'; btn.id = `task-${appId}`;
-            btn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="flex-shrink:0"><path d="M4 4h16v16H4V4m2 4v10h12V8H6z"/></svg> <span>${appName}</span>`;
+            // Use different generic icons based on app
+            let svgIcon = '<path d="M4 4h16v16H4V4m2 4v10h12V8H6z"/>';
+            if(appId === 'app-music') svgIcon = '<path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z" />';
+            if(appId === 'app-word') svgIcon = '<path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.2,16H13.8L12,10.6L10.2,16H8.8L6.5,9H8.1L9.6,14.6L11.3,9H12.8L14.4,14.6L15.9,9H17.5L15.2,16Z" />';
+            
+            btn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="flex-shrink:0">${svgIcon}</svg> <span>${appName}</span>`;
             btn.onclick = () => {
                 const win = document.getElementById(appId);
                 if (win.classList.contains('active') && win.style.display !== 'none') minimizeWindow(appId);
@@ -768,14 +806,13 @@ Feel free to clear this text and jot down your own notes...</textarea>
             tb.appendChild(btn);
         }
 
-        // --- DRAG LOGIC ---
+        // --- DRAG LOGIC (Touch Optimized) ---
         document.querySelectorAll('.drag-handle').forEach(handle => {
             let isDragging = false, startX, startY;
             const windowEl = handle.closest('.window');
             const startDrag = (e) => {
                 if(windowEl.classList.contains('maximized') || e.target.tagName === 'BUTTON') return;
-                // If on mobile (width 100%), dragging is disabled by CSS overrides, but let's block the JS just in case
-                if(window.innerWidth <= 768) return;
+                if(window.innerWidth <= 768) return; // Prevent drag on mobile fullscreen
                 
                 isDragging = true;
                 const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
@@ -793,6 +830,7 @@ Feel free to clear this text and jot down your own notes...</textarea>
             handle.addEventListener('mousedown', startDrag);
             document.addEventListener('mousemove', doDrag);
             document.addEventListener('mouseup', stopDrag);
+            // passive: true allows inner scrolling, we only preventDefault in doDrag if we are actively dragging
             handle.addEventListener('touchstart', startDrag, {passive: true});
             document.addEventListener('touchmove', doDrag, {passive: false});
             document.addEventListener('touchend', stopDrag);
@@ -831,6 +869,85 @@ Feel free to clear this text and jot down your own notes...</textarea>
             setTimeout(typeW, 200);
         }
 
+        // --- MUSIC PLAYER LOGIC (Web Audio API Synth) ---
+        let audioCtx, osc, gainNode, isPlaying = false, musicInterval, visInterval, timeElapsed = 0;
+        
+        function initVisualizer() {
+            const vis = document.getElementById('visualizer');
+            for(let i=0; i<15; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'vis-bar';
+                vis.appendChild(bar);
+            }
+        }
+
+        function updateVisualizer() {
+            const bars = document.querySelectorAll('.vis-bar');
+            bars.forEach(bar => {
+                if(isPlaying) {
+                    bar.style.height = (Math.random() * 18 + 2) + 'px';
+                } else {
+                    bar.style.height = '2px';
+                }
+            });
+            if(isPlaying) {
+                timeElapsed++;
+                let m = Math.floor(timeElapsed / 60).toString().padStart(2, '0');
+                let s = (timeElapsed % 60).toString().padStart(2, '0');
+                document.getElementById('music-time').innerText = `${m}:${s}`;
+            }
+        }
+
+        function playMusic() {
+            if(isPlaying) return;
+            document.getElementById('btn-play').classList.add('active');
+            isPlaying = true;
+            timeElapsed = 0;
+            visInterval = setInterval(updateVisualizer, 100);
+            
+            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Simple retro arpeggio sequence (C Major 7)
+            const notes = [261.63, 329.63, 392.00, 493.88, 523.25, 392.00, 329.63];
+            let noteIdx = 0;
+
+            function playNextNote() {
+                if(!isPlaying) return;
+                osc = audioCtx.createOscillator();
+                gainNode = audioCtx.createGain();
+                
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(notes[noteIdx], audioCtx.currentTime);
+                
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // very quiet
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
+                
+                noteIdx = (noteIdx + 1) % notes.length;
+            }
+            
+            playNextNote(); // Start immediately
+            musicInterval = setInterval(playNextNote, 200); // 200ms per note
+        }
+
+        function stopMusic() {
+            if(!isPlaying) return;
+            document.getElementById('btn-play').classList.remove('active');
+            isPlaying = false;
+            clearInterval(musicInterval);
+            clearInterval(visInterval);
+            updateVisualizer(); // Reset bars to flat
+            document.getElementById('music-time').innerText = "00:00";
+            if(osc) {
+                try { osc.stop(); } catch(e) {}
+            }
+        }
+
         // --- PAINT APP LOGIC ---
         const paintCanvas = document.getElementById('paint-canvas');
         const paintCtx = paintCanvas.getContext('2d');
@@ -867,12 +984,12 @@ Feel free to clear this text and jot down your own notes...</textarea>
             if(!isPainting) return;
             e.preventDefault();
             const rect = paintCanvas.getBoundingClientRect();
-            const scaleX = paintCanvas.width / rect.width;
-            const scaleY = paintCanvas.height / rect.height;
             const clientX = e.clientX || (e.touches && e.touches[0].clientX);
             const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            const x = (clientX - rect.left) * scaleX;
-            const y = (clientY - rect.top) * scaleY;
+            
+            // Allow drawing anywhere within the larger scrollable canvas area
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
 
             paintCtx.lineWidth = 4;
             paintCtx.lineCap = 'round';
@@ -956,7 +1073,6 @@ Feel free to clear this text and jot down your own notes...</textarea>
 
         canvas.addEventListener('mousedown', () => { if(!gameLoop) initSnakeGame(); });
         canvas.addEventListener('touchstart', (e) => { 
-            // Only restart if touching the canvas directly, let other UI elements work
             if(e.target === canvas) {
                 e.preventDefault(); 
                 if(!gameLoop) initSnakeGame(); 
@@ -983,38 +1099,28 @@ Feel free to clear this text and jot down your own notes...</textarea>
             const cells = document.querySelectorAll('.ttt-cell');
             cells[index].innerText = tttCurrentPlayer;
             cells[index].style.color = tttCurrentPlayer === 'X' ? '#000080' : '#ff0000';
-            
             checkTttWin();
         }
 
         function checkTttWin() {
             const winConditions = [
-                [0,1,2], [3,4,5], [6,7,8], // rows
-                [0,3,6], [1,4,7], [2,5,8], // cols
-                [0,4,8], [2,4,6] // diagonals
+                [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]
             ];
-            
             let roundWon = false;
             for(let i=0; i<winConditions.length; i++) {
                 const [a, b, c] = winConditions[i];
                 if(tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
-                    roundWon = true;
-                    break;
+                    roundWon = true; break;
                 }
             }
-            
             if(roundWon) {
                 document.getElementById('ttt-status').innerText = `Player ${tttCurrentPlayer} Wins!`;
-                tttGameActive = false;
-                return;
+                tttGameActive = false; return;
             }
-            
             if(!tttBoard.includes('')) {
                 document.getElementById('ttt-status').innerText = "It's a Draw!";
-                tttGameActive = false;
-                return;
+                tttGameActive = false; return;
             }
-            
             tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
             document.getElementById('ttt-status').innerText = `Player ${tttCurrentPlayer}'s Turn`;
         }
@@ -1044,19 +1150,15 @@ Feel free to clear this text and jot down your own notes...</textarea>
             ];
 
             let msgIndex = 0;
-            
             function showNextMessage() {
                 if (msgIndex < virusMessages.length) {
                     logs.innerHTML += virusMessages[msgIndex] + "<br>";
                     msgIndex++;
                     setTimeout(showNextMessage, 300);
                 } else {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
+                    setTimeout(() => { window.location.reload(); }, 1500);
                 }
             }
-            
             setTimeout(showNextMessage, 500);
         }
     </script>
