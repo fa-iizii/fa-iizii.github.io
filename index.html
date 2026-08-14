@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Faiz Muhammed | Software Developer</title>
 
-    <!-- HD Pixel Fonts from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-    <!-- FAVICON (Browser Tab Logo) -->
-    <!-- Option 1: Custom Pixel Art Space Invader -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 8'><path fill='%23e3b341' d='M2 0h1v1H2zM8 0h1v1H8zM3 1h1v1H3zM7 1h1v1H7zM2 2h7v1H2zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM0 4h11v1H0zM0 5h1v1H0zM2 5h7v1H2zM10 5h1v1H10zM0 6h1v1H0zM2 6h1v1H2zM8 6h1v1H8zM10 6h1v1H10zM3 7h2v1H3zM6 7h2v1H6z'/></svg>">
-    <!-- Option 2: To use your uploaded image, uncomment the line below and delete Option 1 -->
-    <!-- <link rel="icon" type="image/png" href="image_bcda7f.png"> -->
 
     <style>
-        /* --- PROFESSIONAL DEVELOPER DARK THEME --- */
+        /* --- CORE VARIABLES --- */
         :root {
-            --bg-color: #0d1117; /* Deep slate/black */
-            --bg-secondary: #161b22; /* Slightly lighter slate */
-            --text-main: #c9d1d9; /* Clean off-white text */
+            --bg-color: #0d1117; 
+            --bg-secondary: #161b22; 
+            --text-main: #c9d1d9; 
             
-            --accent-blue: #58a6ff; /* Professional crisp blue */
-            --accent-hover: #79c0ff; /* Lighter blue for interactions */
-            --accent-muted: #8b949e; /* Muted gray-blue for secondary elements */
-            --accent-gold: #e3b341; /* Professional gold for badges/headers */
+            --accent-blue: #58a6ff; 
+            --accent-hover: #79c0ff; 
+            --accent-muted: #30363d; 
+            --accent-gold: #e3b341; 
+            --accent-red: #f85149;
+            --accent-green: #2ea043;
             
             --font-head: 'Press Start 2P', cursive;
             --font-body: 'VT323', monospace;
@@ -35,12 +32,7 @@
         }
 
         /* --- GLOBAL STYLES --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-color);
@@ -49,339 +41,200 @@
             font-size: 22px;
             line-height: 1.5;
             overflow-x: hidden;
-            /* HD Pixel Art Rendering */
             -webkit-font-smoothing: none;
             image-rendering: pixelated;
         }
 
         /* --- ANIMATED PIXEL STAR BACKGROUND --- */
         .background-container {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
-            background: var(--bg-color);
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; background: var(--bg-color); overflow: hidden;
         }
         .stars {
-            width: 2px; height: 2px;
-            background: transparent;
+            width: 2px; height: 2px; background: transparent;
             box-shadow: 10vw 10vh #fff, 20vw 20vh #fff, 30vw 30vh #fff, 40vw 80vh #fff, 50vw 50vh #fff, 60vw 10vh #fff, 70vw 70vh #fff, 80vw 40vh #fff, 90vw 90vh #fff, 95vw 20vh #fff;
             animation: moveStars 60s linear infinite;
         }
         .stars2 {
-            width: 3px; height: 3px;
-            background: transparent;
+            width: 3px; height: 3px; background: transparent;
             box-shadow: 15vw 15vh var(--accent-blue), 25vw 75vh #fff, 35vw 25vh var(--accent-muted), 45vw 85vh var(--accent-blue), 55vw 45vh #fff, 65vw 65vh var(--accent-muted), 75vw 15vh var(--accent-blue), 85vw 85vh #fff;
             animation: moveStars 40s linear infinite;
         }
-        @keyframes moveStars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-100vh); }
-        }
+        @keyframes moveStars { from { transform: translateY(0); } to { transform: translateY(-100vh); } }
+        
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: linear-gradient(rgba(13, 17, 23, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            z-index: 999; pointer-events: none;
+            background-size: 100% 4px; z-index: 999; pointer-events: none;
         }
+
+        /* --- SCROLL ANIMATIONS --- */
+        .hidden-animate { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .show-animate { opacity: 1; transform: translateY(0); }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3, .nav-logo {
-            font-family: var(--font-head);
-            text-transform: uppercase;
-        }
-
-        h2 {
-            font-size: 24px;
-            color: var(--accent-gold);
-            text-shadow: 3px 3px 0px #000;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
+        h1, h2, h3, .nav-logo { font-family: var(--font-head); text-transform: uppercase; }
+        h2 { font-size: 24px; color: var(--accent-gold); text-shadow: 3px 3px 0px #000; margin-bottom: 40px; text-align: center; }
         a { color: var(--accent-blue); text-decoration: none; }
         a:hover { color: var(--accent-hover); }
 
         /* --- LAYOUT & CONTAINERS --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         section { padding: 100px 0; }
 
         /* --- NAVBAR --- */
         nav {
-            position: fixed; top: 0; width: 100%;
-            background: rgba(13, 17, 23, 0.95);
-            border-bottom: 2px solid var(--accent-muted);
-            z-index: 100;
-            padding: 15px 0;
+            position: fixed; top: 0; width: 100%; background: rgba(13, 17, 23, 0.95);
+            border-bottom: 2px solid var(--accent-muted); z-index: 100; padding: 15px 0;
+            backdrop-filter: blur(5px);
         }
-        .nav-container {
-            display: flex; justify-content: space-between; align-items: center;
-            max-width: 1000px; margin: 0 auto; padding: 0 20px;
-        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { font-size: 18px; color: var(--accent-blue); text-shadow: 2px 2px 0px #000; cursor: pointer;}
         .nav-links { display: flex; gap: 15px; }
         .nav-links a {
-            font-family: var(--font-head); font-size: 10px;
-            color: var(--text-main); padding: 8px 10px;
+            font-family: var(--font-head); font-size: 10px; color: var(--text-main); padding: 8px 10px;
             border: 2px solid transparent; transition: 0.2s;
         }
-        .nav-links a:hover {
-            border: 2px solid var(--accent-blue); color: var(--accent-hover);
-            background: rgba(88, 166, 255, 0.1);
-        }
+        .nav-links a:hover { border: 2px solid var(--accent-blue); color: var(--accent-hover); background: rgba(88, 166, 255, 0.1); }
 
         /* --- HERO SECTION --- */
-        #hero {
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            position: relative;
-        }
-        .hero-title {
-            font-size: 48px; color: #ffffff;
-            text-shadow: 4px 4px 0px var(--accent-blue), 8px 8px 0px rgba(0,0,0,0.8);
-            margin-bottom: 20px;
-            animation: float 4s ease-in-out infinite;
-        }
-        .hero-subtitle {
-            font-size: 28px; color: var(--accent-hover);
-            height: 30px; /* space for typing */
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 0px #000;
-        }
+        #hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+        .hero-title { font-size: 48px; color: #ffffff; text-shadow: 4px 4px 0px var(--accent-blue), 8px 8px 0px rgba(0,0,0,0.8); margin-bottom: 20px; animation: float 4s ease-in-out infinite; }
+        .hero-subtitle { font-size: 28px; color: var(--accent-hover); height: 30px; margin-bottom: 40px; text-shadow: 2px 2px 0px #000; }
         .cursor { display: inline-block; width: 12px; background: var(--accent-blue); animation: blink 1s infinite; }
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
+        
         .btn-start {
-            font-family: var(--font-head); font-size: 14px;
-            padding: 15px 30px; background: var(--bg-secondary); color: var(--accent-blue);
-            border: var(--pixel-border); box-shadow: var(--pixel-shadow);
-            cursor: pointer; display: inline-block; margin-top: 20px;
-            transition: all 0.1s; text-transform: uppercase;
+            font-family: var(--font-head); font-size: 14px; padding: 15px 30px; background: var(--bg-secondary); color: var(--accent-blue);
+            border: var(--pixel-border); box-shadow: var(--pixel-shadow); cursor: pointer; display: inline-block; margin-top: 20px; transition: all 0.1s; text-transform: uppercase;
         }
-        .btn-start:active {
-            box-shadow: 0px 0px 0px #000; transform: translate(6px, 6px);
-        }
-        .btn-start:hover {
-            background: var(--accent-blue); color: #000;
-            box-shadow: 6px 6px 0px rgba(0,0,0,0.8);
-        }
+        .btn-start:active { box-shadow: 0px 0px 0px #000; transform: translate(6px, 6px); }
+        .btn-start:hover { background: var(--accent-blue); color: #000; box-shadow: 6px 6px 0px rgba(0,0,0,0.8); }
 
         /* --- ABOUT / SKILLS SECTION --- */
-        .about-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-        }
-        .pixel-box {
-            background: var(--bg-secondary);
-            border: 2px solid var(--accent-muted);
-            padding: 30px;
-            box-shadow: var(--pixel-shadow);
-        }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .pixel-box { background: var(--bg-secondary); border: 2px solid var(--accent-muted); padding: 30px; box-shadow: var(--pixel-shadow); }
         .pixel-box p { margin-bottom: 15px; font-size: 24px; }
-        
         .skills-container { display: flex; flex-direction: column; gap: 15px; }
         .skill-category { font-weight: bold; color: var(--accent-gold); font-size: 24px; }
         .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px; }
-        .skill-tag {
-            background: #000; color: var(--accent-blue);
-            border: 2px solid var(--accent-blue); padding: 4px 10px;
-            font-size: 18px; box-shadow: 2px 2px 0px #000;
-        }
+        .skill-tag { background: #000; color: var(--accent-blue); border: 2px solid var(--accent-blue); padding: 4px 10px; font-size: 18px; box-shadow: 2px 2px 0px #000; transition: transform 0.2s; cursor: default;}
+        .skill-tag:hover { transform: translateY(-3px); color: var(--accent-hover); border-color: var(--accent-hover);}
 
         /* --- PROJECTS SECTION --- */
-        .project-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
-        }
-        .project-card {
-            background: var(--bg-secondary);
-            border: 4px solid var(--accent-muted);
-            padding: 25px;
-            box-shadow: var(--pixel-shadow);
-            transition: all 0.3s;
-            position: relative;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-blue);
-            box-shadow: var(--pixel-shadow-hover);
-        }
-        /* Glitch Hover Effect on Titles */
-        .project-card:hover .p-title {
-            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            color: var(--accent-hover);
-        }
-        @keyframes glitch {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
-        }
-
-        .p-badge {
-            position: absolute; top: -15px; right: 10px;
-            background: var(--accent-gold); color: #000;
-            font-family: var(--font-head); font-size: 9px;
-            padding: 5px 10px; border: 2px solid #000;
-        }
-        .p-title {
-            font-family: var(--font-head); font-size: 14px;
-            color: #fff; margin-bottom: 15px; margin-top: 10px;
-            line-height: 1.4;
-        }
+        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .project-card { background: var(--bg-secondary); border: 4px solid var(--accent-muted); padding: 25px; box-shadow: var(--pixel-shadow); transition: all 0.3s; position: relative; }
+        .project-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: var(--pixel-shadow-hover); }
+        .project-card:hover .p-title { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: var(--accent-hover); }
+        @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
+        .p-badge { position: absolute; top: -15px; right: 10px; background: var(--accent-gold); color: #000; font-family: var(--font-head); font-size: 9px; padding: 5px 10px; border: 2px solid #000; }
+        .p-title { font-family: var(--font-head); font-size: 14px; color: #fff; margin-bottom: 15px; margin-top: 10px; line-height: 1.4; }
         .p-stack { color: var(--accent-blue); margin-bottom: 15px; font-size: 20px;}
         .p-desc { margin-bottom: 20px; font-size: 20px; color: var(--text-main);}
-        .p-link {
-            font-family: var(--font-head); font-size: 10px;
-            color: var(--accent-hover); display: inline-block;
-            border-bottom: 2px solid var(--accent-hover); padding-bottom: 2px;
-            transition: all 0.2s;
-        }
+        .p-link { font-family: var(--font-head); font-size: 10px; color: var(--accent-hover); display: inline-block; border-bottom: 2px solid var(--accent-hover); padding-bottom: 2px; transition: all 0.2s; }
         .p-link:hover { background: var(--accent-hover); color: #000; }
 
-        /* --- ARCADE GAME SECTION --- */
-        #arcade {
-            background: rgba(13, 17, 23, 0.7);
-        }
-        .arcade-machine {
-            background: #111;
-            border: 4px solid var(--accent-muted);
-            border-radius: 15px 15px 0 0;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 5px 15px rgba(255,255,255,0.05);
-            max-width: 480px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
+        /* --- REALISTIC ARCADE CABINET --- */
+        #arcade { background: rgba(13, 17, 23, 0.7); border-top: 2px solid var(--accent-muted); border-bottom: 2px solid var(--accent-muted);}
+        .arcade-cabinet {
+            max-width: 450px; margin: 0 auto;
+            background: linear-gradient(to right, #111 0%, #2a2a35 10%, #2a2a35 90%, #111 100%);
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.9), inset 0 10px 20px rgba(255,255,255,0.05);
+            position: relative; border: 4px solid #000;
         }
         .arcade-marquee {
-            background: #000;
-            color: var(--accent-gold);
-            font-family: var(--font-head);
-            font-size: 22px;
-            text-align: center;
-            padding: 20px 10px;
-            border-bottom: 4px solid var(--accent-muted);
-            text-shadow: 0 0 10px var(--accent-gold);
-            box-shadow: inset 0 0 30px rgba(227, 179, 65, 0.2);
-            letter-spacing: 2px;
+            background: #000; color: var(--accent-gold); font-family: var(--font-head); font-size: 22px; text-align: center;
+            padding: 25px 10px; border-bottom: 8px solid #111; border-radius: 15px 15px 0 0;
+            text-shadow: 0 0 15px var(--accent-gold), 2px 2px 0px #000;
+            box-shadow: inset 0 0 40px rgba(227, 179, 65, 0.15); letter-spacing: 2px;
+            animation: marqueeGlow 2s infinite alternate;
         }
-        .arcade-bezel {
-            background: #1a1a24;
-            padding: 30px 40px;
-            position: relative;
-        }
+        @keyframes marqueeGlow { from { text-shadow: 0 0 10px var(--accent-gold); } to { text-shadow: 0 0 25px var(--accent-gold), 0 0 10px #fff; } }
+        
+        .arcade-bezel { background: #111; padding: 30px 40px; border-bottom: 10px solid #222; }
         .arcade-screen-container {
-            border: 15px solid #000;
-            border-radius: 15px;
-            position: relative;
-            background: #000;
-            box-shadow: 0 0 10px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,255,255,0.1);
-            overflow: hidden;
+            border: 20px solid #000; border-radius: 20px; position: relative; background: #000;
+            box-shadow: 0 0 20px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,1); overflow: hidden;
+        }
+        /* Screen Glare */
+        .arcade-screen-container::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.02) 100%);
+            pointer-events: none; z-index: 10;
         }
         .score-display {
-            position: absolute;
-            top: 15px; left: 15px;
-            font-family: var(--font-head);
-            color: #fff;
-            font-size: 12px;
-            text-shadow: 2px 2px 0px #000;
-            z-index: 10;
-            pointer-events: none;
+            position: absolute; top: 15px; left: 15px; font-family: var(--font-head); color: #fff; font-size: 10px;
+            text-shadow: 2px 2px 0px #000; z-index: 5; pointer-events: none;
         }
-        #shooter-canvas {
-            background: #000;
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 4 / 5;
-            image-rendering: pixelated;
-            display: block;
-            margin: 0 auto;
+        #arcade-canvas {
+            background: #000; width: 100%; max-width: 400px; aspect-ratio: 4 / 5;
+            image-rendering: pixelated; display: block; margin: 0 auto; cursor: crosshair;
         }
+        
+        /* Control Panel */
         .arcade-control-panel {
-            background: linear-gradient(180deg, #2d333b 0%, #161b22 100%);
-            padding: 25px 20px;
-            border-top: 4px solid var(--accent-muted);
+            background: linear-gradient(180deg, #30363d 0%, #161b22 100%);
+            padding: 30px 20px; border-top: 2px solid #555; position: relative;
+        }
+        .arcade-controls-layout {
+            display: flex; justify-content: space-between; align-items: center; max-width: 350px; margin: 0 auto;
+        }
+        /* D-PAD Style Left */
+        .d-pad-cluster { display: grid; grid-template-columns: 50px 50px 50px; grid-template-rows: 50px 50px; gap: 5px; }
+        
+        /* Realistic Sanwa Buttons */
+        .sanwa-btn {
+            background: #111; border-radius: 50%;
+            border: 4px solid #222; box-shadow: 0 4px 6px rgba(0,0,0,0.6), inset 0 -2px 5px rgba(0,0,0,0.5);
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            user-select: none; touch-action: manipulation;
             position: relative;
         }
-        .arcade-controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .sanwa-btn::after {
+            content: ''; width: 80%; height: 80%; border-radius: 50%;
+            background: var(--accent-blue); box-shadow: inset 0 2px 5px rgba(255,255,255,0.4), inset 0 -4px 5px rgba(0,0,0,0.4);
+            transition: all 0.1s;
         }
-        .arcade-btn {
-            background: #000;
-            color: var(--accent-blue);
-            border: 2px solid var(--accent-blue);
-            border-bottom: 8px solid var(--accent-blue);
-            border-radius: 5px;
-            font-family: var(--font-head);
-            padding: 15px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            user-select: none;
-            touch-action: manipulation;
-            transition: transform 0.1s, border-bottom-width 0.1s;
-        }
-        .arcade-btn:active {
-            transform: translateY(6px);
-            border-bottom-width: 2px;
-        }
-        .btn-fire {
-            color: #f85149;
-            border-color: #f85149;
-        }
-        #btn-start-game {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            background: rgba(0,0,0,0.8);
-            border: 2px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 15px 20px;
-            font-family: var(--font-head);
-            font-size: 12px;
-            cursor: pointer;
-            animation: blink 1.5s infinite;
-        }
-        #btn-start-game:hover {
-            background: var(--accent-gold);
-            color: #000;
-        }
+        .sanwa-btn:active::after { transform: translateY(2px); box-shadow: inset 0 0px 2px rgba(0,0,0,0.8); }
+        .sanwa-fire::after { background: var(--accent-red); }
+        .sanwa-action::after { background: var(--accent-green); }
+        
+        /* Button layout mapping */
+        #btn-up { grid-column: 2; grid-row: 1; } #btn-left { grid-column: 1; grid-row: 2; }
+        #btn-down { grid-column: 2; grid-row: 2; } #btn-right { grid-column: 3; grid-row: 2; }
+        
+        .action-cluster { display: flex; gap: 15px; }
+        .action-cluster .sanwa-btn { width: 60px; height: 60px; }
 
-        /* --- QUEST LOG (EXPERIENCE/EDUCATION) --- */
+        .arcade-coin-door {
+            background: #111; border-top: 6px solid #000; padding: 20px; display: flex; justify-content: center; align-items: center;
+        }
+        .coin-slot {
+            width: 60px; height: 80px; background: #222; border: 4px solid #333; border-radius: 5px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;
+            box-shadow: inset 0 5px 10px #000; transition: border-color 0.2s;
+        }
+        .coin-slot:hover { border-color: var(--accent-red); }
+        .coin-slot:active { transform: scale(0.95); }
+        .coin-hole { width: 4px; height: 30px; background: #000; box-shadow: inset 0 0 2px #000; margin-bottom: 10px;}
+        .coin-text { font-family: var(--font-head); font-size: 8px; color: #ff0000; text-shadow: 0 0 5px #ff0000; animation: blink 1.5s infinite;}
+
+        /* --- QUEST LOG (CERTIFICATES, EDUCATION, EXPERIENCE) --- */
         .log-box {
-            background: #000;
-            border: 4px solid var(--accent-muted);
-            padding: 30px;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.5), 0 0 0 4px #000 inset;
-            position: relative;
+            background: #000; border: 4px solid var(--accent-muted); padding: 30px;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.5), 0 0 0 4px #000 inset; position: relative;
         }
         .log-box::before {
-            content: attr(data-title);
-            position: absolute; top: -18px; left: 20px;
-            background: var(--bg-color); padding: 0 10px;
-            font-family: var(--font-head); font-size: 16px; color: #fff;
+            content: attr(data-title); position: absolute; top: -18px; left: 20px;
+            background: var(--bg-color); padding: 0 10px; font-family: var(--font-head); font-size: 16px; color: #fff;
         }
         .timeline-item {
-            border-left: 4px dashed var(--bg-secondary);
-            padding-left: 25px; margin-left: 10px; margin-bottom: 40px;
-            position: relative;
+            border-left: 4px dashed var(--bg-secondary); padding-left: 25px; margin-left: 10px; margin-bottom: 40px; position: relative;
         }
         .timeline-item::before {
-            content: ""; position: absolute; left: -14px; top: 0;
-            width: 20px; height: 20px; background: var(--accent-blue);
-            border: 2px solid #000;
+            content: ""; position: absolute; left: -14px; top: 0; width: 20px; height: 20px; background: var(--accent-blue); border: 2px solid #000;
         }
         .t-date { color: var(--accent-hover); font-family: var(--font-head); font-size: 10px; margin-bottom: 10px; display: block;}
         .t-title { font-size: 28px; color: var(--accent-gold); margin-bottom: 5px;}
@@ -391,17 +244,11 @@
         .t-results ul { list-style-type: square; padding-left: 20px;}
 
         /* --- FOOTER --- */
-        footer {
-            border-top: 2px solid var(--accent-muted);
-            padding: 40px 0; text-align: center;
-            background: #000;
-        }
+        footer { border-top: 2px solid var(--accent-muted); padding: 40px 0; text-align: center; background: #000; }
         .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
         .social-btn {
-            display: flex; align-items: center; gap: 10px;
-            font-family: var(--font-head); font-size: 12px;
-            color: #fff; border: 4px solid #fff; padding: 10px 20px;
-            transition: 0.2s; background: var(--bg-secondary);
+            display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 12px;
+            color: #fff; border: 4px solid #fff; padding: 10px 20px; transition: 0.2s; background: var(--bg-secondary);
         }
         .social-btn svg { width: 24px; height: 24px; fill: #fff; }
         .social-btn:hover { background: #fff; color: #000; box-shadow: 4px 4px 0px var(--accent-muted);}
@@ -409,12 +256,11 @@
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
-            section { padding: 60px 0; } /* Tighter spacing for mobile */
+            section { padding: 60px 0; }
             .hero-title { font-size: 32px; }
             .hero-subtitle { font-size: 20px; height: auto; min-height: 40px; }
             .about-grid, .project-grid { grid-template-columns: 1fr; }
             
-            /* Responsive Navigation Wrap */
             .nav-container { flex-direction: column; gap: 10px; }
             .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
             .nav-links a { font-size: 9px; padding: 6px 8px; }
@@ -424,29 +270,23 @@
             .log-box::before { font-size: 12px; top: -14px;}
             .t-title { font-size: 24px; }
             
-            /* Mobile Arcade Cabinet Scaling */
+            /* Mobile Arcade Scaling */
             .arcade-marquee { font-size: 18px; padding: 15px 10px; }
             .arcade-bezel { padding: 15px; }
             .arcade-screen-container { border-width: 8px; border-radius: 8px; }
-            .arcade-control-panel { padding: 15px 10px; }
-            .arcade-controls { gap: 10px; }
-            .arcade-btn { padding: 15px 10px; font-size: 12px; border-bottom-width: 6px; }
-            .arcade-btn:active { transform: translateY(4px); border-bottom-width: 2px; }
+            .arcade-control-panel { padding: 20px 10px; }
+            .d-pad-cluster { grid-template-columns: 40px 40px 40px; grid-template-rows: 40px 40px;}
+            .action-cluster .sanwa-btn { width: 50px; height: 50px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Retro CRT Overlay -->
     <div class="scanlines"></div>
-
-    <!-- Animated Pixel Background -->
     <div class="background-container">
-        <div class="stars"></div>
-        <div class="stars2"></div>
+        <div class="stars"></div><div class="stars2"></div>
     </div>
 
-    <!-- Navigation -->
     <nav>
         <div class="nav-container">
             <div class="nav-logo" onclick="window.scrollTo(0,0)">f1z_</div>
@@ -461,31 +301,29 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="hero">
         <div class="container">
-            <h1 class="hero-title">FAIZ MUHAMMED</h1>
-            <div class="hero-subtitle">
+            <h1 class="hero-title hidden-animate">FAIZ MUHAMMED</h1>
+            <div class="hero-subtitle hidden-animate" style="transition-delay: 0.2s;">
                 <span id="typewriter-text"></span><span class="cursor">&nbsp;</span>
             </div>
-            <a href="#projects" class="btn-start">PRESS START</a>
+            <a href="#projects" class="btn-start hidden-animate" style="transition-delay: 0.4s;">PRESS START</a>
         </div>
     </section>
 
-    <!-- About & Skills Section -->
     <section id="about">
         <div class="container">
-            <h2>> SYSTEM.INFO</h2>
+            <h2 class="hidden-animate">> SYSTEM.INFO</h2>
             <div class="about-grid">
                 
-                <div class="pixel-box">
+                <div class="pixel-box hidden-animate">
                     <p>First Class BSc (Hons) Applied Computing graduate from the University of Huddersfield.</p>
                     <p>Hands-on experience delivering full-stack web applications, cloud-connected IoT systems, and AI-driven solutions. My final year project was a production-quality campus security platform bridging hardware (ESP32) and software (Node.js APIs).</p>
                     <p>Currently studying for the AWS Certified Cloud Practitioner (CLF-C02) certification and seeking a Software Developer role.</p>
                     <p style="color: var(--accent-blue); margin-top: 20px;">[ Location: Leeds, UK ]</p>
                 </div>
 
-                <div class="pixel-box">
+                <div class="pixel-box hidden-animate" style="transition-delay: 0.2s;">
                     <div class="skills-container">
                         <div>
                             <span class="skill-category">LANGUAGES</span>
@@ -518,14 +356,12 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects">
         <div class="container">
-            <h2>> LOAD_CARTRIDGE</h2>
+            <h2 class="hidden-animate">> LOAD_CARTRIDGE</h2>
             <div class="project-grid">
 
-                <!-- Project 1 -->
-                <div class="project-card">
+                <div class="project-card hidden-animate">
                     <div class="p-badge">GRADE A (71%)</div>
                     <h3 class="p-title">Smart Campus Safety System</h3>
                     <div class="p-stack">[ Node.js | Express | MySQL | ESP32 | JWT ]</div>
@@ -533,8 +369,7 @@
                     <a href="https://github.com/fa-iizii/Smart-Campus-Safety-System" target="_blank" class="p-link">VIEW REPOSITORY ></a>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="project-card">
+                <div class="project-card hidden-animate" style="transition-delay: 0.2s;">
                     <div class="p-badge">IOT & CLOUD</div>
                     <h3 class="p-title">SmartGuard Intruder Detection</h3>
                     <div class="p-stack">[ ESP8266 | DHT11 | HC-SR04 | C++ | Blynk ]</div>
@@ -542,8 +377,7 @@
                     <a href="https://github.com/fa-iizii/SmartGuard" target="_blank" class="p-link">VIEW REPOSITORY ></a>
                 </div>
 
-                <!-- Project 3 -->
-                <div class="project-card">
+                <div class="project-card hidden-animate">
                     <div class="p-badge">EMBEDDED</div>
                     <h3 class="p-title">Mobile Bluetooth RC Car</h3>
                     <div class="p-stack">[ Arduino Nano | Bluetooth | MIT App Inventor ]</div>
@@ -551,8 +385,7 @@
                     <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank" class="p-link">VIEW REPOSITORY ></a>
                 </div>
 
-                <!-- Project 4 -->
-                <div class="project-card">
+                <div class="project-card hidden-animate" style="transition-delay: 0.2s;">
                     <div class="p-badge">SCRIPTING</div>
                     <h3 class="p-title">Python Utilities</h3>
                     <div class="p-stack">[ Python | CLI ]</div>
@@ -564,27 +397,39 @@
         </div>
     </section>
 
-    <!-- Arcade Space Shooter Game Section -->
     <section id="arcade">
         <div class="container">
-            <h2>> MINI_GAME.EXE</h2>
+            <h2 class="hidden-animate">> MULTI_ARCADE.EXE</h2>
             
-            <div class="arcade-machine">
-                <div class="arcade-marquee">f1z_ DEFENDER</div>
+            <div class="arcade-machine hidden-animate">
+                <div class="arcade-marquee">f1z_ ARCADE</div>
                 
                 <div class="arcade-bezel">
                     <div class="arcade-screen-container">
-                        <div class="score-display">1UP <span id="shooter-score" style="color: var(--accent-gold);">0000</span></div>
-                        <canvas id="shooter-canvas" width="400" height="500"></canvas>
-                        <button id="btn-start-game">INSERT COIN</button>
+                        <div class="score-display">1UP <span id="arcade-score" style="color: var(--accent-gold);">0000</span></div>
+                        <canvas id="arcade-canvas" width="400" height="500"></canvas>
                     </div>
                 </div>
 
                 <div class="arcade-control-panel">
-                    <div class="arcade-controls">
-                        <button class="arcade-btn" id="btn-left">◀</button>
-                        <button class="arcade-btn btn-fire" id="btn-shoot">FIRE</button>
-                        <button class="arcade-btn" id="btn-right">▶</button>
+                    <div class="arcade-controls-layout">
+                        <div class="d-pad-cluster">
+                            <div class="sanwa-btn" id="btn-up"></div>
+                            <div class="sanwa-btn" id="btn-left"></div>
+                            <div class="sanwa-btn" id="btn-down"></div>
+                            <div class="sanwa-btn" id="btn-right"></div>
+                        </div>
+                        <div class="action-cluster">
+                            <div class="sanwa-btn sanwa-action" id="btn-action" title="Start/Menu"></div>
+                            <div class="sanwa-btn sanwa-fire" id="btn-fire" title="Fire"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="arcade-coin-door">
+                    <div class="coin-slot" id="btn-coin" title="Insert Coin to Play">
+                        <div class="coin-hole"></div>
+                        <div class="coin-text">INSERT COIN</div>
                     </div>
                 </div>
             </div>
@@ -592,11 +437,10 @@
         </div>
     </section>
 
-    <!-- Certifications Section -->
     <section id="certifications">
         <div class="container">
-            <h2>> CERTIFICATES.DAT</h2>
-            <div class="log-box" data-title="CERTIFICATIONS">
+            <h2 class="hidden-animate">> CERTIFICATES.DAT</h2>
+            <div class="log-box hidden-animate" data-title="CERTIFICATIONS">
                 <div class="timeline-item">
                     <span class="t-date">IN PROGRESS (EXAM 2026)</span>
                     <h3 class="t-title">AWS Certified Cloud Practitioner (CLF-C02)</h3>
@@ -630,11 +474,10 @@
         </div>
     </section>
 
-    <!-- Education Section -->
     <section id="education">
         <div class="container">
-            <h2>> EDUCATION.SYS</h2>
-            <div class="log-box" data-title="EDUCATION">
+            <h2 class="hidden-animate">> EDUCATION.SYS</h2>
+            <div class="log-box hidden-animate" data-title="EDUCATION">
                 <div class="timeline-item">
                     <span class="t-date">2025 - 2026</span>
                     <h3 class="t-title">BSc (Hons) Applied Computing - First Class</h3>
@@ -662,11 +505,10 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
     <section id="experience">
         <div class="container">
-            <h2>> EXPERIENCE.LOG</h2>
-            <div class="log-box" data-title="WORK EXPERIENCE">
+            <h2 class="hidden-animate">> EXPERIENCE.LOG</h2>
+            <div class="log-box hidden-animate" data-title="WORK EXPERIENCE">
                 <div class="timeline-item">
                     <span class="t-date">JUN 2024 - AUG 2024</span>
                     <h3 class="t-title">Artificial Intelligence Intern</h3>
@@ -695,10 +537,9 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="social-links">
+            <div class="social-links hidden-animate">
                 <a href="https://github.com/fa-iizii" target="_blank" class="social-btn">
                     <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21V19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26V21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/></svg>
                     GITHUB
@@ -712,26 +553,24 @@
         </div>
     </footer>
 
-    <!-- JavaScript Base -->
     <script>
-        // --- 1. TYPING EFFECT LOGIC ---
-        const textArray = [
-            "Software Developer", 
-            "Full-Stack Engineer", 
-            "IoT Enthusiast", 
-            "AWS Cloud Explorer"
-        ];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const speed = 100;
-        const deleteSpeed = 50;
-        const pauseEnd = 2000;
-        const target = document.getElementById("typewriter-text");
+        // --- SCROLL ANIMATIONS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('show-animate');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.hidden-animate').forEach(el => observer.observe(el));
 
+        // --- TYPING EFFECT ---
+        const textArray = ["Software Developer", "Full-Stack Engineer", "IoT Enthusiast", "Cloud Explorer"];
+        let textIndex = 0, charIndex = 0, isDeleting = false;
+        const target = document.getElementById("typewriter-text");
+        
         function typeEffect() {
             const currentText = textArray[textIndex];
-            
             if (isDeleting) {
                 target.innerText = currentText.substring(0, charIndex - 1);
                 charIndex--;
@@ -739,108 +578,48 @@
                 target.innerText = currentText.substring(0, charIndex + 1);
                 charIndex++;
             }
-
-            let typeDelay = isDeleting ? deleteSpeed : speed;
-
-            if (!isDeleting && charIndex === currentText.length) {
-                typeDelay = pauseEnd;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % textArray.length;
-                typeDelay = 500;
-            }
-
+            let typeDelay = isDeleting ? 50 : 100;
+            if (!isDeleting && charIndex === currentText.length) { typeDelay = 2000; isDeleting = true; } 
+            else if (isDeleting && charIndex === 0) { isDeleting = false; textIndex = (textIndex + 1) % textArray.length; typeDelay = 500; }
             setTimeout(typeEffect, typeDelay);
         }
+        window.onload = () => { setTimeout(typeEffect, 1000); drawArcadeIdle(); };
 
-        window.onload = () => {
-            setTimeout(typeEffect, 1000);
-            drawGameIdleScreen();
-        };
-
-        // --- 2. MINI SPACE SHOOTER LOGIC ---
-        const canvas = document.getElementById('shooter-canvas');
+        // --- MULTI-ARCADE SYSTEM LOGIC ---
+        const canvas = document.getElementById('arcade-canvas');
         const ctx = canvas.getContext('2d');
-        const scoreUI = document.getElementById('shooter-score');
-        const btnStartGame = document.getElementById('btn-start-game');
-
-        let gameActive = false;
-        let score = 0;
-        let player = { x: 180, y: 430, w: 40, h: 40, speed: 6, dx: 0 };
-        let bullets = [];
-        let enemies = [];
-        let particles = [];
-        let enemyTimer = 0;
+        const scoreUI = document.getElementById('arcade-score');
+        
+        // Arcade States: 'idle', 'menu', 'shooter', 'snake', 'ttt'
+        let arcadeState = 'idle'; 
         let animId;
+        
+        // Menu Variables
+        const menuOptions = ['DEFENDER (SHOOTER)', 'SNAKE', 'TIC TAC TOE'];
+        let selectedMenu = 0;
 
-        // Arcade Colors matching the professional theme
-        const COLOR_BG = "#0d1117";
-        const COLOR_PLAYER = "#58a6ff";
-        const COLOR_BULLET = "#e3b341";
-        const COLOR_ENEMY = "#f85149";
-        const COLOR_STAR = "#8b949e";
+        // Shared Game Variables
+        let score = 0;
+        
+        // Defender Variables
+        let pDef = { x:180, y:430, w:40, h:40, speed:6, dx:0 };
+        let defBullets = [], defEnemies = [], defParticles = [], defTimer = 0;
+        
+        // Snake Variables
+        const snkGrid = 20; let snake = [], food = {}, snkDx = snkGrid, snkDy = 0, nextSnkDx = snkGrid, nextSnkDy = 0;
+        
+        // TTT Variables
+        let tttBoard = [], tttPlayer = 'X', tttActive = false;
 
-        // Parallax Stars array
+        // Arcade Colors
+        const C_BG = "#0d1117", C_P = "#58a6ff", C_E = "#f85149", C_B = "#e3b341", C_S = "#2ea043";
+
+        // Parallax Stars
         let bgStars = [];
-        for(let i=0; i<30; i++) {
-            bgStars.push({ x: Math.random() * 400, y: Math.random() * 500, speed: Math.random() * 2 + 0.5 });
-        }
-
-        function drawGameIdleScreen() {
-            if(gameActive) return;
-            ctx.fillStyle = COLOR_BG;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            drawStars();
-
-            ctx.fillStyle = COLOR_PLAYER;
-            ctx.font = '24px "Press Start 2P"';
-            ctx.textAlign = 'center';
-            ctx.fillText('f1z_ DEFENDER', canvas.width/2, canvas.height/2 - 20);
-            
-            ctx.fillStyle = '#fff';
-            ctx.font = '12px "Press Start 2P"';
-            ctx.fillText('Insert coin to play', canvas.width/2, canvas.height/2 + 30);
-            
-            animId = requestAnimationFrame(drawGameIdleScreen);
-        }
-
-        function initGame() {
-            cancelAnimationFrame(animId);
-            gameActive = true;
-            score = 0;
-            scoreUI.innerText = "0000";
-            player.x = canvas.width / 2 - player.w / 2;
-            player.dx = 0;
-            bullets = [];
-            enemies = [];
-            particles = [];
-            enemyTimer = 0;
-            btnStartGame.style.display = 'none';
-            gameLoop();
-        }
-
-        function spawnEnemy() {
-            let size = Math.random() * 20 + 20;
-            let x = Math.random() * (canvas.width - size);
-            let s = Math.random() * 2 + 1.5 + (score/500); 
-            enemies.push({ x: x, y: -size, w: size, h: size, speed: s });
-        }
-
-        function createExplosion(x, y, color) {
-            for(let i=0; i<15; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 8,
-                    vy: (Math.random() - 0.5) * 8,
-                    life: Math.random() * 20 + 10,
-                    color: color
-                });
-            }
-        }
+        for(let i=0; i<40; i++) bgStars.push({ x: Math.random()*400, y: Math.random()*500, speed: Math.random()*2+0.5 });
 
         function drawStars() {
-            ctx.fillStyle = COLOR_STAR;
+            ctx.fillStyle = "#8b949e";
             for(let i=0; i<bgStars.length; i++) {
                 let s = bgStars[i];
                 s.y += s.speed;
@@ -849,161 +628,281 @@
             }
         }
 
-        function gameLoop() {
-            if(!gameActive) return;
+        function drawArcadeIdle() {
+            if(arcadeState !== 'idle') return;
+            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
+            ctx.fillStyle = C_P; ctx.font = '24px "Press Start 2P"'; ctx.textAlign = 'center';
+            ctx.fillText('f1z_ ARCADE', canvas.width/2, canvas.height/2 - 20);
+            ctx.fillStyle = '#fff'; ctx.font = '12px "Press Start 2P"';
+            ctx.fillText('PRESS COIN TO START', canvas.width/2, canvas.height/2 + 30);
+            animId = requestAnimationFrame(drawArcadeIdle);
+        }
 
-            // Clear Background
-            ctx.fillStyle = COLOR_BG;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        function initMenu() {
+            cancelAnimationFrame(animId);
+            arcadeState = 'menu';
+            scoreUI.innerText = "MENU";
+            drawMenu();
+        }
+
+        function drawMenu() {
+            if(arcadeState !== 'menu') return;
+            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
             
-            drawStars();
-
-            // Move & Draw Player (Spaceship Sprite)
-            player.x += player.dx;
-            if(player.x < 0) player.x = 0;
-            if(player.x + player.w > canvas.width) player.x = canvas.width - player.w;
-
-            ctx.fillStyle = COLOR_PLAYER;
-            ctx.fillRect(player.x + 16, player.y, 8, 10); // Nose
-            ctx.fillRect(player.x + 8, player.y + 10, 24, 20); // Body
-            ctx.fillRect(player.x, player.y + 20, 8, 20); // Left Wing
-            ctx.fillRect(player.x + 32, player.y + 20, 8, 20); // Right Wing
+            ctx.fillStyle = C_B; ctx.font = '20px "Press Start 2P"'; ctx.textAlign = 'center';
+            ctx.fillText('SELECT GAME', canvas.width/2, 100);
             
-            // Engine Flames
-            if (Math.random() > 0.2) {
-                ctx.fillStyle = COLOR_BULLET;
-                ctx.fillRect(player.x + 12, player.y + 30, 4, Math.random()*12 + 4);
-                ctx.fillRect(player.x + 24, player.y + 30, 4, Math.random()*12 + 4);
-            }
-
-            // Bullets
-            ctx.fillStyle = COLOR_BULLET;
-            for(let i = bullets.length - 1; i >= 0; i--) {
-                let b = bullets[i];
-                b.y -= b.speed;
-                ctx.fillRect(b.x, b.y, b.w, b.h);
-                if(b.y < 0) bullets.splice(i, 1);
-            }
-
-            // Enemies
-            enemyTimer++;
-            if(enemyTimer > 45 - Math.min(score/50, 30)) { // Spawns faster as score goes up
-                spawnEnemy();
-                enemyTimer = 0;
-            }
-
-            ctx.fillStyle = COLOR_ENEMY;
-            for(let i = enemies.length - 1; i >= 0; i--) {
-                let e = enemies[i];
-                e.y += e.speed;
-                
-                // Draw Pixel Art Enemy (Space Invader Style)
-                let u = e.w / 11;
-                let v = e.h / 8;
-                ctx.fillStyle = COLOR_ENEMY;
-                ctx.fillRect(e.x + 2*u, e.y, u, v); ctx.fillRect(e.x + 8*u, e.y, u, v);
-                ctx.fillRect(e.x + 3*u, e.y+v, u, v); ctx.fillRect(e.x + 7*u, e.y+v, u, v);
-                ctx.fillRect(e.x + 2*u, e.y+2*v, 7*u, v);
-                ctx.fillRect(e.x, e.y+3*v, 3*u, v); ctx.fillRect(e.x + 4*u, e.y+3*v, 3*u, v); ctx.fillRect(e.x + 8*u, e.y+3*v, 3*u, v);
-                ctx.fillRect(e.x, e.y+4*v, 11*u, v);
-                ctx.fillRect(e.x + 2*u, e.y+5*v, u, v); ctx.fillRect(e.x + 8*u, e.y+5*v, u, v);
-                ctx.fillRect(e.x + u, e.y+6*v, 2*u, v); ctx.fillRect(e.x + 8*u, e.y+6*v, 2*u, v);
-
-                // Collision checking (Player)
-                if(e.x < player.x + player.w && e.x + e.w > player.x && e.y < player.y + player.h && e.y + e.h > player.y) {
-                    createExplosion(player.x + player.w/2, player.y + player.h/2, COLOR_PLAYER);
-                    gameOver();
-                    return; // Stop processing loop
+            ctx.font = '14px "Press Start 2P"';
+            for(let i=0; i<menuOptions.length; i++) {
+                if(i === selectedMenu) {
+                    ctx.fillStyle = C_P;
+                    ctx.fillText('▶ ' + menuOptions[i] + ' ◀', canvas.width/2, 200 + (i*60));
+                } else {
+                    ctx.fillStyle = '#fff';
+                    ctx.fillText(menuOptions[i], canvas.width/2, 200 + (i*60));
                 }
+            }
+            
+            ctx.fillStyle = '#8b949e'; ctx.font = '10px "Press Start 2P"';
+            ctx.fillText('UP/DOWN to Select | FIRE to Play', canvas.width/2, 450);
+            animId = requestAnimationFrame(drawMenu);
+        }
 
-                // Collision checking (Bullets)
-                for(let j = bullets.length - 1; j >= 0; j--) {
-                    let b = bullets[j];
-                    if(b.x < e.x + e.w && b.x + b.w > e.x && b.y < e.y + e.h && b.y + b.h > e.y) {
-                        createExplosion(e.x + e.w/2, e.y + e.h/2, COLOR_ENEMY);
-                        enemies.splice(i, 1);
-                        bullets.splice(j, 1);
-                        score += 10;
-                        scoreUI.innerText = score.toString().padStart(4, '0');
-                        break;
+        // --- DEFENDER LOGIC ---
+        function initDefender() {
+            cancelAnimationFrame(animId); arcadeState = 'shooter'; score = 0; scoreUI.innerText = "0000";
+            pDef.x = canvas.width/2 - pDef.w/2; pDef.dx = 0;
+            defBullets = []; defEnemies = []; defParticles = []; defTimer = 0;
+            loopDefender();
+        }
+        function spawnDefEnemy() {
+            let size = Math.random() * 15 + 20; let x = Math.random() * (canvas.width - size);
+            let s = Math.random() * 2 + 1.5 + (score/500); 
+            defEnemies.push({ x: x, y: -size, w: size, h: size, speed: s });
+        }
+        function createExplosion(x, y, color) {
+            for(let i=0; i<15; i++) defParticles.push({ x: x, y: y, vx: (Math.random()-0.5)*8, vy: (Math.random()-0.5)*8, life: Math.random()*20+10, color: color });
+        }
+        function loopDefender() {
+            if(arcadeState !== 'shooter') return;
+            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
+
+            pDef.x += pDef.dx;
+            if(pDef.x < 0) pDef.x = 0; if(pDef.x + pDef.w > canvas.width) pDef.x = canvas.width - pDef.w;
+
+            ctx.fillStyle = C_P;
+            ctx.fillRect(pDef.x+16, pDef.y, 8, 10); ctx.fillRect(pDef.x+8, pDef.y+10, 24, 20); ctx.fillRect(pDef.x, pDef.y+20, 8, 20); ctx.fillRect(pDef.x+32, pDef.y+20, 8, 20);
+            if (Math.random() > 0.2) { ctx.fillStyle = C_B; ctx.fillRect(pDef.x+12, pDef.y+30, 4, Math.random()*12+4); ctx.fillRect(pDef.x+24, pDef.y+30, 4, Math.random()*12+4); }
+
+            ctx.fillStyle = C_B;
+            for(let i = defBullets.length - 1; i >= 0; i--) {
+                let b = defBullets[i]; b.y -= b.speed; ctx.fillRect(b.x, b.y, b.w, b.h);
+                if(b.y < 0) defBullets.splice(i, 1);
+            }
+
+            defTimer++;
+            if(defTimer > 45 - Math.min(score/50, 30)) { spawnDefEnemy(); defTimer = 0; }
+
+            for(let i = defEnemies.length - 1; i >= 0; i--) {
+                let e = defEnemies[i]; e.y += e.speed;
+                let u = e.w/11, v = e.h/8; ctx.fillStyle = C_E;
+                ctx.fillRect(e.x+2*u, e.y, u, v); ctx.fillRect(e.x+8*u, e.y, u, v); ctx.fillRect(e.x+3*u, e.y+v, u, v); ctx.fillRect(e.x+7*u, e.y+v, u, v); ctx.fillRect(e.x+2*u, e.y+2*v, 7*u, v); ctx.fillRect(e.x, e.y+3*v, 3*u, v); ctx.fillRect(e.x+4*u, e.y+3*v, 3*u, v); ctx.fillRect(e.x+8*u, e.y+3*v, 3*u, v); ctx.fillRect(e.x, e.y+4*v, 11*u, v); ctx.fillRect(e.x+2*u, e.y+5*v, u, v); ctx.fillRect(e.x+8*u, e.y+5*v, u, v); ctx.fillRect(e.x+u, e.y+6*v, 2*u, v); ctx.fillRect(e.x+8*u, e.y+6*v, 2*u, v);
+
+                if(e.x < pDef.x+pDef.w && e.x+e.w > pDef.x && e.y < pDef.y+pDef.h && e.y+e.h > pDef.y) { createExplosion(pDef.x+pDef.w/2, pDef.y+pDef.h/2, C_P); gameOver(); return; }
+                for(let j = defBullets.length - 1; j >= 0; j--) {
+                    let b = defBullets[j];
+                    if(b.x < e.x+e.w && b.x+b.w > e.x && b.y < e.y+e.h && b.y+b.h > e.y) {
+                        createExplosion(e.x+e.w/2, e.y+e.h/2, C_E);
+                        defEnemies.splice(i, 1); defBullets.splice(j, 1); score += 10; scoreUI.innerText = score.toString().padStart(4, '0'); break;
                     }
                 }
-                
-                if(e.y > canvas.height && enemies.includes(e)) enemies.splice(i, 1);
+                if(e.y > canvas.height && defEnemies.includes(e)) defEnemies.splice(i, 1);
             }
 
-            // Particles
-            for(let i = particles.length - 1; i >= 0; i--) {
-                let p = particles[i];
-                p.x += p.vx; p.y += p.vy;
-                p.life--;
-                ctx.fillStyle = p.color;
-                ctx.fillRect(p.x, p.y, 4, 4);
-                if(p.life <= 0) particles.splice(i, 1);
+            for(let i = defParticles.length - 1; i >= 0; i--) {
+                let p = defParticles[i]; p.x += p.vx; p.y += p.vy; p.life--;
+                ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4);
+                if(p.life <= 0) defParticles.splice(i, 1);
             }
-
-            animId = requestAnimationFrame(gameLoop);
+            animId = requestAnimationFrame(loopDefender);
         }
 
-        function gameOver() {
-            gameActive = false;
-            ctx.fillStyle = 'rgba(0,0,0,0.75)';
-            ctx.fillRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = '#fff';
-            ctx.font = '30px "Press Start 2P"';
-            ctx.textAlign = 'center';
-            ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2);
+        // --- SNAKE LOGIC ---
+        function initSnake() {
+            cancelAnimationFrame(animId); arcadeState = 'snake'; score = 0; scoreUI.innerText = "0000";
+            snake = [{x:160,y:240}, {x:140,y:240}, {x:120,y:240}]; snkDx = snkGrid; snkDy = 0; nextSnkDx = snkGrid; nextSnkDy = 0;
+            spawnSnakeFood();
+            setTimeout(loopSnake, 100);
+        }
+        function spawnSnakeFood() {
+            food.x = Math.floor(Math.random() * (canvas.width / snkGrid)) * snkGrid;
+            food.y = Math.floor(Math.random() * (canvas.height / snkGrid)) * snkGrid;
+            snake.forEach(part => { if (part.x === food.x && part.y === food.y) spawnSnakeFood(); });
+        }
+        function loopSnake() {
+            if(arcadeState !== 'snake') return;
+            snkDx = nextSnkDx; snkDy = nextSnkDy;
+            const head = { x: snake[0].x + snkDx, y: snake[0].y + snkDy };
             
-            btnStartGame.style.display = 'inline-block';
-            btnStartGame.innerText = 'RESTART';
+            if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) { gameOver(); return; }
+            for(let i=0; i<snake.length; i++) { if(head.x === snake[i].x && head.y === snake[i].y) { gameOver(); return; } }
+            
+            snake.unshift(head);
+            if(head.x === food.x && head.y === food.y) { score+=10; scoreUI.innerText = score.toString().padStart(4, '0'); spawnSnakeFood(); } 
+            else { snake.pop(); }
+
+            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
+            ctx.fillStyle = C_E; ctx.fillRect(food.x, food.y, snkGrid-2, snkGrid-2);
+            snake.forEach((part, idx) => { ctx.fillStyle = idx === 0 ? C_P : C_S; ctx.fillRect(part.x, part.y, snkGrid-2, snkGrid-2); });
+            
+            setTimeout(() => { animId = requestAnimationFrame(loopSnake); }, 100);
         }
 
-        function shootBullet() {
-            if(!gameActive) return;
-            bullets.push({x: player.x + player.w/2 - 2, y: player.y, w: 4, h: 12, speed: 10});
+        // --- TIC TAC TOE LOGIC ---
+        function initTTT() {
+            cancelAnimationFrame(animId); arcadeState = 'ttt'; scoreUI.innerText = "P1: X";
+            tttBoard = ['','','','','','','','','']; tttPlayer = 'X'; tttActive = true;
+            loopTTT();
         }
+        function loopTTT() {
+            if(arcadeState !== 'ttt') return;
+            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Grid
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(150, 100); ctx.lineTo(150, 400); ctx.moveTo(250, 100); ctx.lineTo(250, 400); // Vert
+            ctx.moveTo(50, 200); ctx.lineTo(350, 200); ctx.moveTo(50, 300); ctx.lineTo(350, 300); // Horiz
+            ctx.stroke();
 
-        // --- Controls Handling ---
-
-        // Prevent window scrolling when using game keys
-        window.addEventListener('keydown', e => {
-            if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key) && gameActive) {
-                e.preventDefault();
+            // Draw X and O
+            ctx.font = '60px "Press Start 2P"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            for(let i=0; i<9; i++) {
+                let x = 100 + (i%3)*100; let y = 150 + Math.floor(i/3)*100;
+                if(tttBoard[i] === 'X') { ctx.fillStyle = C_P; ctx.fillText('X', x, y+10); }
+                if(tttBoard[i] === 'O') { ctx.fillStyle = C_E; ctx.fillText('O', x, y+10); }
             }
-            if(e.key === 'ArrowLeft') player.dx = -player.speed;
-            if(e.key === 'ArrowRight') player.dx = player.speed;
-            if(e.key === ' ') shootBullet();
-        }, { passive: false });
 
-        window.addEventListener('keyup', e => {
-            if(e.key === 'ArrowLeft' && player.dx < 0) player.dx = 0;
-            if(e.key === 'ArrowRight' && player.dx > 0) player.dx = 0;
+            if(!tttActive) {
+                ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.fillRect(0,200,400,100);
+                ctx.fillStyle = C_B; ctx.font = '20px "Press Start 2P"';
+                let txt = tttPlayer === 'DRAW' ? "IT'S A DRAW!" : `PLAYER ${tttPlayer} WINS!`;
+                ctx.fillText(txt, canvas.width/2, 240);
+                ctx.font = '10px "Press Start 2P"'; ctx.fillStyle = '#fff';
+                ctx.fillText("FIRE TO RESTART", canvas.width/2, 275);
+            }
+            animId = requestAnimationFrame(loopTTT);
+        }
+        function handleTTTClick(x, y) {
+            if(!tttActive || arcadeState !== 'ttt') return;
+            if(x < 50 || x > 350 || y < 100 || y > 400) return;
+            let col = Math.floor((x - 50) / 100);
+            let row = Math.floor((y - 100) / 100);
+            let idx = row * 3 + col;
+            
+            if(tttBoard[idx] === '') {
+                tttBoard[idx] = tttPlayer;
+                checkTTTWin();
+                if(tttActive) {
+                    tttPlayer = tttPlayer === 'X' ? 'O' : 'X';
+                    scoreUI.innerText = `P${tttPlayer==='X'?1:2}: ${tttPlayer}`;
+                }
+            }
+        }
+        function checkTTTWin() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for(let w of wins) {
+                if(tttBoard[w[0]] && tttBoard[w[0]] === tttBoard[w[1]] && tttBoard[w[0]] === tttBoard[w[2]]) {
+                    tttActive = false; return;
+                }
+            }
+            if(!tttBoard.includes('')) { tttPlayer = 'DRAW'; tttActive = false; }
+        }
+        
+        // Touch/Click mapping for Canvas (specifically for TTT)
+        canvas.addEventListener('mousedown', (e) => {
+            if(arcadeState === 'ttt') {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width; const scaleY = canvas.height / rect.height;
+                handleTTTClick((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+            }
         });
 
-        // Touch & Mouse Button Controls for Arcade (Mobile friendly)
-        const btnLeft = document.getElementById('btn-left');
-        const btnRight = document.getElementById('btn-right');
-        const btnShoot = document.getElementById('btn-shoot');
+        // --- GENERAL ARCADE LOGIC ---
+        function gameOver() {
+            arcadeState = 'gameover';
+            ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = '#fff'; ctx.font = '30px "Press Start 2P"'; ctx.textAlign = 'center';
+            ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2);
+            ctx.fillStyle = C_B; ctx.font = '12px "Press Start 2P"';
+            ctx.fillText('PRESS FIRE TO RESTART', canvas.width/2, canvas.height/2 + 40);
+        }
 
-        btnStartGame.addEventListener('click', initGame);
+        // --- HARDWARE CONTROLS (Buttons) ---
+        const btnUp = document.getElementById('btn-up'), btnDown = document.getElementById('btn-down');
+        const btnLeft = document.getElementById('btn-left'), btnRight = document.getElementById('btn-right');
+        const btnFire = document.getElementById('btn-fire'), btnAction = document.getElementById('btn-action');
+        const btnCoin = document.getElementById('btn-coin');
 
-        // Move Left
-        btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); player.dx = -player.speed; }, {passive: false});
-        btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); player.dx = 0; }, {passive: false});
-        btnLeft.addEventListener('mousedown', () => player.dx = -player.speed);
-        btnLeft.addEventListener('mouseup', () => player.dx = 0);
-        btnLeft.addEventListener('mouseleave', () => player.dx = 0);
+        // Button Actions
+        function aUp() {
+            if(arcadeState === 'menu') { selectedMenu = (selectedMenu - 1 + menuOptions.length) % menuOptions.length; }
+            if(arcadeState === 'snake' && snkDy === 0) { nextSnkDx = 0; nextSnkDy = -snkGrid; }
+        }
+        function aDown() {
+            if(arcadeState === 'menu') { selectedMenu = (selectedMenu + 1) % menuOptions.length; }
+            if(arcadeState === 'snake' && snkDy === 0) { nextSnkDx = 0; nextSnkDy = snkGrid; }
+        }
+        function aLeft(press) {
+            if(arcadeState === 'shooter') pDef.dx = press ? -pDef.speed : 0;
+            if(arcadeState === 'snake' && press && snkDx === 0) { nextSnkDx = -snkGrid; nextSnkDy = 0; }
+        }
+        function aRight(press) {
+            if(arcadeState === 'shooter') pDef.dx = press ? pDef.speed : 0;
+            if(arcadeState === 'snake' && press && snkDx === 0) { nextSnkDx = snkGrid; nextSnkDy = 0; }
+        }
+        function aFire() {
+            if(arcadeState === 'idle') initMenu();
+            else if(arcadeState === 'menu') {
+                if(selectedMenu === 0) initDefender();
+                else if(selectedMenu === 1) initSnake();
+                else if(selectedMenu === 2) initTTT();
+            }
+            else if(arcadeState === 'shooter') { defBullets.push({x: pDef.x+pDef.w/2-2, y: pDef.y, w:4, h:12, speed:10}); }
+            else if(arcadeState === 'gameover') { initMenu(); }
+            else if(arcadeState === 'ttt' && !tttActive) { initTTT(); }
+        }
 
-        // Move Right
-        btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); player.dx = player.speed; }, {passive: false});
-        btnRight.addEventListener('touchend', (e) => { e.preventDefault(); player.dx = 0; }, {passive: false});
-        btnRight.addEventListener('mousedown', () => player.dx = player.speed);
-        btnRight.addEventListener('mouseup', () => player.dx = 0);
-        btnRight.addEventListener('mouseleave', () => player.dx = 0);
+        // Coin / Menu Button
+        btnCoin.addEventListener('click', initMenu);
+        btnAction.addEventListener('mousedown', initMenu); btnAction.addEventListener('touchstart', (e)=>{e.preventDefault(); initMenu();});
 
-        // Shoot
-        btnShoot.addEventListener('touchstart', (e) => { e.preventDefault(); shootBullet(); }, {passive: false});
-        btnShoot.addEventListener('mousedown', shootBullet);
+        // Mouse/Touch Bindings
+        btnUp.addEventListener('mousedown', aUp); btnUp.addEventListener('touchstart', (e)=>{e.preventDefault(); aUp();});
+        btnDown.addEventListener('mousedown', aDown); btnDown.addEventListener('touchstart', (e)=>{e.preventDefault(); aDown();});
+        
+        btnLeft.addEventListener('mousedown', ()=>aLeft(true)); btnLeft.addEventListener('mouseup', ()=>aLeft(false)); btnLeft.addEventListener('mouseleave', ()=>aLeft(false));
+        btnLeft.addEventListener('touchstart', (e)=>{e.preventDefault(); aLeft(true);}); btnLeft.addEventListener('touchend', (e)=>{e.preventDefault(); aLeft(false);});
+        
+        btnRight.addEventListener('mousedown', ()=>aRight(true)); btnRight.addEventListener('mouseup', ()=>aRight(false)); btnRight.addEventListener('mouseleave', ()=>aRight(false));
+        btnRight.addEventListener('touchstart', (e)=>{e.preventDefault(); aRight(true);}); btnRight.addEventListener('touchend', (e)=>{e.preventDefault(); aRight(false);});
+
+        btnFire.addEventListener('mousedown', aFire); btnFire.addEventListener('touchstart', (e)=>{e.preventDefault(); aFire();});
+
+        // Keyboard Bindings
+        window.addEventListener('keydown', e => {
+            if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key) && arcadeState !== 'idle') e.preventDefault();
+            if(e.key === 'ArrowUp') aUp();
+            if(e.key === 'ArrowDown') aDown();
+            if(e.key === 'ArrowLeft') aLeft(true);
+            if(e.key === 'ArrowRight') aRight(true);
+            if(e.key === ' ') aFire();
+            if(e.key === 'Escape' || e.key === 'Backspace') initMenu();
+        }, { passive: false });
+        window.addEventListener('keyup', e => {
+            if(e.key === 'ArrowLeft') aLeft(false);
+            if(e.key === 'ArrowRight') aRight(false);
+        });
 
     </script>
 </body>
