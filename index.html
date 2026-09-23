@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Faiz Muhammed — Software Engineer</title>
+    <title>Faiz Muhammed — Adaptive Tech Innovator</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,23 +18,23 @@
 
     <style>
         :root {
-            /* Ishikawa Dark & NexStudio Slate Palettes */
-            --bg-color: #070709;
-            --surface-color: #0d0e12;
-            --surface-card: #12141a;
-            --text-main: #f5f5f7;
-            --text-muted: #848895;
-            --text-dim: #4b4f5d;
-            --accent-primary: #ffffff;
-            --accent-glow: rgba(255, 255, 255, 0.12);
-            --border-hairline: rgba(255, 255, 255, 0.1);
-            --border-highlight: rgba(255, 255, 255, 0.28);
-            --atlas-line: rgba(255, 255, 255, 0.22);
-            --active-node: #38ef7d;
+            /* Synapser Studio Inspired Dark Palette */
+            --bg-color: #1a1a1a; /* Very dark charcoal, almost black but softer */
+            --surface-color: #242423; /* Slightly lighter charcoal for surfaces */
+            --surface-card: #2c2c2b; /* Card background */
+            --text-main: #dcd8c0; /* The signature warm stone/beige from Synapser */
+            --text-muted: #8c8c8a; /* Muted version of the text for secondary info */
+            --text-dim: #535352; /* Darker graphite for subtle elements */
+            --accent-primary: #dcd8c0;
+            --accent-glow: rgba(220, 216, 192, 0.12);
+            --border-hairline: rgba(220, 216, 192, 0.15);
+            --border-highlight: rgba(220, 216, 192, 0.35);
+            --atlas-line: rgba(220, 216, 192, 0.25);
+            --active-node: #dcd8c0; 
             
             /* Glassmorphism Vars */
-            --nav-bg: rgba(13, 14, 18, 0.4);
-            --nav-border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(26, 26, 26, 0.6);
+            --nav-border: rgba(220, 216, 192, 0.1);
 
             --font-display: 'Space Grotesk', sans-serif;
             --font-body: 'Manrope', sans-serif;
@@ -43,21 +43,22 @@
         }
 
         [data-theme="light"] {
-            --bg-color: #f7f8fa;
-            --surface-color: #edeef2;
-            --surface-card: #ffffff;
-            --text-main: #0c0d0f;
-            --text-muted: #5e6370;
-            --text-dim: #9aa0b0;
-            --accent-primary: #000000;
-            --accent-glow: rgba(0, 0, 0, 0.08);
-            --border-hairline: rgba(0, 0, 0, 0.08);
-            --border-highlight: rgba(0, 0, 0, 0.25);
-            --atlas-line: rgba(0, 0, 0, 0.18);
-            --active-node: #0ea5e9;
+            /* Synapser Studio Inspired Light Palette */
+            --bg-color: #dcd8c0; /* The signature warm stone/beige as background */
+            --surface-color: #d1ccb3; /* Slightly darker stone for surfaces */
+            --surface-card: #e5e2cf; /* Lighter card background */
+            --text-main: #242423; /* Dark charcoal text */
+            --text-muted: #535352; /* The specific awwwards graphite color */
+            --text-dim: #7a7a78; /* Lighter grey for subtle text */
+            --accent-primary: #242423;
+            --accent-glow: rgba(36, 36, 35, 0.08);
+            --border-hairline: rgba(83, 83, 82, 0.2);
+            --border-highlight: rgba(83, 83, 82, 0.4);
+            --atlas-line: rgba(83, 83, 82, 0.3);
+            --active-node: #242423;
 
-            --nav-bg: rgba(237, 238, 242, 0.5);
-            --nav-border: rgba(0, 0, 0, 0.08);
+            --nav-bg: rgba(220, 216, 192, 0.6);
+            --nav-border: rgba(83, 83, 82, 0.15);
         }
 
         * {
@@ -679,8 +680,9 @@
             width: 100%;
             height: 100%;
             min-height: 280px;
-            background: #090a0d;
+            background: var(--surface-color);
             overflow: hidden;
+            perspective: 1000px; /* For 3D tilt */
         }
 
         .project-card-image img {
@@ -688,12 +690,12 @@
             height: 100%;
             object-fit: cover;
             filter: grayscale(85%) contrast(105%);
-            transition: filter 0.5s var(--ease-out), transform 0.6s var(--ease-out);
+            transition: filter 0.5s var(--ease-out), transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
         }
 
         .project-card:hover .project-card-image img {
             filter: grayscale(0%) contrast(100%);
-            transform: scale(1.04);
         }
 
         .image-hud-badge {
@@ -708,6 +710,7 @@
             font-family: var(--font-mono);
             font-size: 0.68rem;
             backdrop-filter: blur(8px);
+            z-index: 5;
         }
 
         .project-card-content {
@@ -735,9 +738,9 @@
         .project-status-badge {
             font-family: var(--font-mono);
             font-size: 0.65rem;
-            color: var(--active-node);
-            background: rgba(56, 239, 125, 0.1);
-            border: 1px solid rgba(56, 239, 125, 0.25);
+            color: var(--text-main);
+            background: var(--bg-color);
+            border: 1px solid var(--border-highlight);
             padding: 2px 8px;
             border-radius: 999px;
         }
@@ -931,8 +934,8 @@
         #arcade-overlay {
             position: absolute;
             inset: 70px 24px 24px 24px;
-            background: rgba(7, 7, 9, 0.88);
-            backdrop-filter: blur(8px);
+            background: rgba(7, 7, 9, 0.75);
+            backdrop-filter: blur(12px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -961,6 +964,107 @@
             font-family: var(--font-mono);
             font-size: 0.75rem;
             color: var(--text-muted);
+        }
+
+        /* --- Floating Contact Node --- */
+        .floating-contact-node {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .contact-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-hairline);
+            padding: 16px;
+            border-radius: 12px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.95);
+            transform-origin: bottom right;
+            transition: all 0.4s var(--ease-out);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .floating-contact-node.is-open .contact-menu {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0) scale(1);
+        }
+
+        .contact-link {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: var(--surface-color);
+            border: 1px solid transparent;
+            transition: all 0.25s var(--ease-out);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .contact-link:hover {
+            color: var(--text-main);
+            background: var(--surface-card);
+            border-color: var(--border-hairline);
+        }
+
+        .contact-trigger {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--nav-bg);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            transition: all 0.3s var(--ease-out);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-trigger:hover {
+            background: var(--surface-color);
+            transform: scale(1.05);
+        }
+
+        .contact-trigger svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.4s var(--ease-out);
+        }
+
+        .floating-contact-node.is-open .contact-trigger svg {
+            transform: rotate(45deg);
+        }
+        
+        .contact-link-arrow {
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.25s var(--ease-out);
+        }
+        
+        .contact-link:hover .contact-link-arrow {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         @media (max-width: 992px) {
@@ -994,6 +1098,10 @@
             }
             .metrics-strip {
                 grid-template-columns: 1fr;
+            }
+            .floating-contact-node {
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -1046,7 +1154,7 @@
                     <span class="title-accent">Reliable Architecture.</span>
                 </h1>
                 <p class="hero-desc gs-reveal">
-                    First Class Applied Computing graduate & software engineer. Integrating resilient full-stack architectures (Node.js, Express, REST APIs) with cloud telemetry and hardware-level IoT edge devices.
+                    First Class Applied Computing graduate & adaptive tech innovator. Integrating resilient full-stack architectures (Node.js, Express, REST APIs) with cloud telemetry, ML pipelines, and hardware-level IoT edge devices.
                 </p>
 
                 <div class="metrics-strip gs-reveal">
@@ -1143,7 +1251,7 @@
                             Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL with JWT security and real-time alerts.
                         </div>
                     </div>
-                    <a href="#work" class="dossier-action-btn" id="dossier-link">INSPECT ARTIFACT ↓</a>
+                    <a href="#work" class="dossier-action-btn btn-audio-hover" id="dossier-link">INSPECT ARTIFACT ↓</a>
                 </div>
             </div>
         </section>
@@ -1156,10 +1264,10 @@
 
             <!-- Category Filter Controls -->
             <div class="filter-controls gs-reveal">
-                <button class="filter-btn active" data-filter="all">ALL [04]</button>
-                <button class="filter-btn" data-filter="fullstack">FULL-STACK & APIS</button>
-                <button class="filter-btn" data-filter="iot">IoT & EMBEDDED</button>
-                <button class="filter-btn" data-filter="ai">AI & AUTOMATION</button>
+                <button class="filter-btn active btn-audio-hover" data-filter="all">ALL [04]</button>
+                <button class="filter-btn btn-audio-hover" data-filter="fullstack">FULL-STACK & APIS</button>
+                <button class="filter-btn btn-audio-hover" data-filter="iot">IoT & EMBEDDED</button>
+                <button class="filter-btn btn-audio-hover" data-filter="ai">AI & AUTOMATION</button>
             </div>
 
             <!-- Bento Project Grid -->
@@ -1167,16 +1275,16 @@
                 
                 <!-- Project 01: Smart Campus Safety System -->
                 <div class="project-card featured-large gs-reveal" data-category="fullstack iot">
-                    <div class="project-card-image">
+                    <div class="project-card-image tilt-card">
                         <span class="image-hud-badge">SYS: NODE_ESP32_V1</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/campus.png" -->
-                        <img src="https://placehold.co/1200x800/12141a/848895?text=Smart+Campus+System" alt="Smart Campus Safety System" onerror="this.src='https://placehold.co/1200x800/12141a/848895?text=Smart+Campus+System'">
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
+                        <img src="images/campus.png" alt="Smart Campus Safety System" onerror="this.src='https://placehold.co/1200x800/dcd8c0/242423?text=Add+campus.png'">
                     </div>
                     <div class="project-card-content">
                         <div>
                             <div class="project-card-meta">
-                                <span class="project-stack-tag">Node.js · Express · MySQL · ESP32 · JWT</span>
-                                <span class="project-status-badge">PRODUCTION GRADE</span>
+                                <span class="project-stack-tag">Node.js · Express · MySQL · ESP32</span>
+                                <span class="project-status-badge">GRADE A (71%)</span>
                             </div>
                             <h3 class="project-card-title">Smart Campus Safety System</h3>
                             <p class="project-card-summary">
@@ -1184,7 +1292,7 @@
                             </p>
                         </div>
                         <div class="project-action-row">
-                            <a href="https://github.com/fa-iizii/Smart-Campus-Safety-System" target="_blank" class="btn-inspect">
+                            <a href="https://github.com/fa-iizii/Smart-Campus-Safety-System" target="_blank" class="btn-inspect btn-audio-hover">
                                 <span>VIEW SOURCE CODE</span>
                                 <span>↗</span>
                             </a>
@@ -1194,10 +1302,10 @@
 
                 <!-- Project 02: SmartGuard Detection -->
                 <div class="project-card medium-span gs-reveal" data-category="iot">
-                    <div class="project-card-image">
+                    <div class="project-card-image tilt-card">
                         <span class="image-hud-badge">SYS: ESP8266_BLYNK</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/smartguard.jpg" -->
-                        <img src="https://placehold.co/800x500/12141a/848895?text=SmartGuard+IoT" alt="SmartGuard Detection System" onerror="this.src='https://placehold.co/800x500/12141a/848895?text=SmartGuard+IoT'">
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
+                        <img src="images/smartguard.jpg" alt="SmartGuard Detection System" onerror="this.src='https://placehold.co/800x500/dcd8c0/242423?text=Add+smartguard.jpg'">
                     </div>
                     <div class="project-card-content">
                         <div>
@@ -1211,7 +1319,7 @@
                             </p>
                         </div>
                         <div class="project-action-row">
-                            <a href="https://github.com/fa-iizii/SmartGuard" target="_blank" class="btn-inspect">
+                            <a href="https://github.com/fa-iizii/SmartGuard" target="_blank" class="btn-inspect btn-audio-hover">
                                 <span>VIEW ON GITHUB</span>
                                 <span>↗</span>
                             </a>
@@ -1221,15 +1329,15 @@
 
                 <!-- Project 03: Mobile Bluetooth RC Car -->
                 <div class="project-card medium-span gs-reveal" data-category="iot">
-                    <div class="project-card-image">
+                    <div class="project-card-image tilt-card">
                         <span class="image-hud-badge">SYS: ARDUINO_BT_PWM</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/rc-car.jpg" -->
-                        <img src="https://placehold.co/800x500/12141a/848895?text=Bluetooth+RC+Vehicle" alt="Bluetooth RC Car" onerror="this.src='https://placehold.co/800x500/12141a/848895?text=Bluetooth+RC+Vehicle'">
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
+                        <img src="images/rc-car.jpg" alt="Bluetooth RC Car" onerror="this.src='https://placehold.co/800x500/dcd8c0/242423?text=Add+rc-car.jpg'">
                     </div>
                     <div class="project-card-content">
                         <div>
                             <div class="project-card-meta">
-                                <span class="project-stack-tag">Arduino Nano · C++ · Bluetooth RF · Android</span>
+                                <span class="project-stack-tag">Arduino Nano · C++ · Bluetooth RF</span>
                                 <span class="project-status-badge">HARDWARE LAB</span>
                             </div>
                             <h3 class="project-card-title">Autonomous & Remote RC Car</h3>
@@ -1238,7 +1346,7 @@
                             </p>
                         </div>
                         <div class="project-action-row">
-                            <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank" class="btn-inspect">
+                            <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank" class="btn-inspect btn-audio-hover">
                                 <span>VIEW HARDWARE REPO</span>
                                 <span>↗</span>
                             </a>
@@ -1248,15 +1356,15 @@
 
                 <!-- Project 04: Python Utilities & Automation -->
                 <div class="project-card featured-large gs-reveal" data-category="ai">
-                    <div class="project-card-image">
+                    <div class="project-card-image tilt-card">
                         <span class="image-hud-badge">SYS: PY_CLI_SUITE</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/python.png" -->
-                        <img src="https://placehold.co/1200x800/12141a/848895?text=Python+Automation" alt="Python Scripting Suite" onerror="this.src='https://placehold.co/1200x800/12141a/848895?text=Python+Automation'">
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
+                        <img src="images/python.png" alt="Python Scripting Suite" onerror="this.src='https://placehold.co/1200x800/dcd8c0/242423?text=Add+python.png'">
                     </div>
                     <div class="project-card-content">
                         <div>
                             <div class="project-card-meta">
-                                <span class="project-stack-tag">Python 3 · Cryptography · File Automation · CLI</span>
+                                <span class="project-stack-tag">Python 3 · Cryptography · File Automation</span>
                                 <span class="project-status-badge">OPEN SOURCE</span>
                             </div>
                             <h3 class="project-card-title">Python Utilities & Security Engine</h3>
@@ -1265,7 +1373,7 @@
                             </p>
                         </div>
                         <div class="project-action-row">
-                            <a href="https://github.com/fa-iizii/Python-Projects" target="_blank" class="btn-inspect">
+                            <a href="https://github.com/fa-iizii/Python-Projects" target="_blank" class="btn-inspect btn-audio-hover">
                                 <span>EXPLORE SCRIPTS</span>
                                 <span>↗</span>
                             </a>
@@ -1361,19 +1469,19 @@
                 </div>
 
                 <div class="metric-card">
-                    <span class="project-status-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1);">VERIFIED</span>
+                    <span class="project-status-badge" style="border-color: var(--text-main); background: var(--accent-glow);">VERIFIED</span>
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Machine Learning with Python</h4>
                     <p class="timeline-period" style="margin-top: 4px;">Anaconda Professional Certificate</p>
                 </div>
 
                 <div class="metric-card">
-                    <span class="project-status-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1);">VERIFIED</span>
+                    <span class="project-status-badge" style="border-color: var(--text-main); background: var(--accent-glow);">VERIFIED</span>
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Microsoft Security Essentials</h4>
                     <p class="timeline-period" style="margin-top: 4px;">Microsoft / NASBA (GRC & AI Sec)</p>
                 </div>
 
                 <div class="metric-card">
-                    <span class="project-status-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1);">VERIFIED</span>
+                    <span class="project-status-badge" style="border-color: var(--text-main); background: var(--accent-glow);">VERIFIED</span>
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Cisco Packet Tracer</h4>
                     <p class="timeline-period" style="margin-top: 4px;">Cisco Networking Academy</p>
                 </div>
@@ -1394,10 +1502,10 @@
                 </div>
 
                 <div id="arcade-overlay">
-                    <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+                    <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-main); text-align: center;">
                         PADDLE KINEMATICS
                     </p>
-                    <button id="btn-start-arcade" class="dossier-action-btn" style="padding: 12px 28px; font-size: 0.85rem;">
+                    <button id="btn-start-arcade" class="dossier-action-btn btn-audio-hover" style="padding: 12px 28px; font-size: 0.85rem;">
                         INSERT COIN TO ENGAGE
                     </button>
                 </div>
@@ -1414,17 +1522,42 @@
     <footer class="studio-footer">
         <div class="container footer-grid">
             <div class="footer-mono-label">
-                FAIZ MUHAMMED · FULL-STACK & IOT ENGINEER · MANCHESTER, UK
+                FAIZ MUHAMMED · ADAPTIVE TECH INNOVATOR · MANCHESTER, UK
             </div>
             <div style="display: flex; gap: 20px;">
                 <a href="https://github.com/fa-iizii" target="_blank" class="footer-mono-label btn-audio-hover" style="text-decoration: underline; color: var(--text-main);">GITHUB</a>
                 <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" class="footer-mono-label btn-audio-hover" style="text-decoration: underline; color: var(--text-main);">LINKEDIN</a>
             </div>
             <div class="footer-mono-label" style="color: var(--text-dim);">
-                © 2026 FA-IIZII. ARCHITECTURE INSPIRED BY ISHIKAWA & NEXSTUDIO.
+                © 2026 FA-IIZII. ARCHITECTURE INSPIRED BY SYNAPSER STUDIO.
             </div>
         </div>
     </footer>
+
+    <!-- Floating Contact Node -->
+    <div class="floating-contact-node" id="floating-contact">
+        <div class="contact-menu">
+            <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); margin-bottom: 8px; padding-left: 4px;">SECURE COMM LINK</div>
+            <a href="mailto:faizmuhammed07@outlook.com" class="contact-link btn-audio-hover">
+                <span>EMAIL</span>
+                <span class="contact-link-arrow">↗</span>
+            </a>
+            <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" class="contact-link btn-audio-hover">
+                <span>LINKEDIN</span>
+                <span class="contact-link-arrow">↗</span>
+            </a>
+            <a href="https://github.com/fa-iizii" target="_blank" class="contact-link btn-audio-hover">
+                <span>GITHUB</span>
+                <span class="contact-link-arrow">↗</span>
+            </a>
+        </div>
+        <button class="contact-trigger btn-audio-hover" id="contact-trigger-btn" aria-label="Toggle Contact Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+    </div>
 
     <script>
         // Custom Cursor Logic
@@ -1449,6 +1582,26 @@
         }
         animateCursor();
 
+        // 3D Tilt Effect on Images
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        tiltCards.forEach(card => {
+            const img = card.querySelector('img');
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10; // Max tilt deg
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                img.style.transform = `scale(1.05) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                img.style.transform = `scale(1) perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+            });
+        });
+
         // Add hover effects to interactive elements
         const interactiveElements = document.querySelectorAll('a, button, .milestone-station, .filter-btn, .ground-track-container, .theme-pill, .brand-logo');
         interactiveElements.forEach(el => {
@@ -1458,7 +1611,7 @@
 
         // Audio System
         let audioCtx = null;
-        let isAudioEnabled = true; // Enabled by default as requested
+        let isAudioEnabled = true;
 
         function initAudio() {
             if (!audioCtx) {
@@ -1470,7 +1623,6 @@
             }
         }
 
-        // Unlock audio context on first interaction (Browser autoplay policy workaround)
         const unlockAudio = () => {
             initAudio();
             document.removeEventListener('click', unlockAudio);
@@ -1499,9 +1651,7 @@
                 gain.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + duration);
-            } catch (err) {
-                // Ignore silent audio context errors
-            }
+            } catch (err) {}
         }
 
         const audioToggleBtn = document.getElementById('btn-audio-toggle');
@@ -1512,9 +1662,26 @@
             if (isAudioEnabled) playAtlasBlip(600, 0.08);
         });
 
-        // Add audio hover to nav links and buttons
-        document.querySelectorAll('.nav-item, .filter-btn, .btn-inspect, .btn-audio-hover').forEach(el => {
+        document.querySelectorAll('.btn-audio-hover').forEach(el => {
             el.addEventListener('mouseenter', () => playAtlasBlip(800, 0.02, 'triangle'));
+        });
+
+        // Floating Contact Node Logic
+        const contactNode = document.getElementById('floating-contact');
+        const contactTrigger = document.getElementById('contact-trigger-btn');
+
+        contactTrigger.addEventListener('click', () => {
+            initAudio();
+            contactNode.classList.toggle('is-open');
+            playAtlasBlip(contactNode.classList.contains('is-open') ? 600 : 400, 0.05, 'sine');
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!contactNode.contains(e.target) && contactNode.classList.contains('is-open')) {
+                contactNode.classList.remove('is-open');
+                playAtlasBlip(400, 0.05, 'sine');
+            }
         });
 
         // Lenis Smooth Scrolling Configured for ultra-smoothness
@@ -1535,7 +1702,6 @@
         // GSAP ScrollTrigger Integration
         gsap.registerPlugin(ScrollTrigger);
         
-        // Setup GSAP reveals
         const revealElements = document.querySelectorAll('.gs-reveal');
         revealElements.forEach((el) => {
             gsap.fromTo(el, 
@@ -1571,36 +1737,36 @@
         const milestones = [
             {
                 step: "01/05",
-                title: "01 // Smart Campus Safety System (Flagship Project)",
-                desc: "Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL with JWT authentication and real-time alerts.",
+                title: "01 // Smart Campus Safety System (Flagship)",
+                desc: "Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL with JWT security.",
                 posPercent: 10,
                 targetId: "work"
             },
             {
                 step: "02/05",
-                title: "02 // SmartGuard Intrusion Detection System",
-                desc: "Cloud-connected security node built on ESP8266 and embedded C++, parsing temperature, humidity, and PIR motion interrupts directly to Blynk IoT.",
+                title: "02 // SmartGuard Intrusion Detection",
+                desc: "Cloud-connected security node built on ESP8266 and embedded C++, parsing temperature, humidity, and PIR motion interrupts.",
                 posPercent: 30,
                 targetId: "work"
             },
             {
                 step: "03/05",
                 title: "03 // Artificial Intelligence Internship",
-                desc: "Unsway Online AI Club: delivered ML pipelines and cloud automation workflows within an agile international team; awarded official recommendation.",
+                desc: "Unsway Online AI Club: delivered ML pipelines and cloud automation workflows within an agile international team.",
                 posPercent: 50,
                 targetId: "trajectory"
             },
             {
                 step: "04/05",
-                title: "04 // BSc (Hons) Applied Computing — First Class",
-                desc: "Graduated with First Class Honours from the University of Huddersfield, scoring 90% in Data-Driven AI and 86% in Software Architecture.",
+                title: "04 // BSc (Hons) Applied Computing — 1st Class",
+                desc: "Graduated with First Class Honours from the University of Huddersfield, scoring 90% in Data-Driven AI.",
                 posPercent: 70,
                 targetId: "trajectory"
             },
             {
                 step: "05/05",
-                title: "05 // AWS Cloud & Microsoft Security Accreditations",
-                desc: "Specialized in cloud governance, risk management (GRC), and AI-driven security operations through Microsoft, Anaconda, and Cisco programs.",
+                title: "05 // Cloud & Security Accreditations",
+                desc: "Specialized in cloud governance and AI-driven security operations through Microsoft, Anaconda, and Cisco programs.",
                 posPercent: 90,
                 targetId: "credentials"
             }
@@ -1624,20 +1790,15 @@
                 node.classList.toggle('active', i === index);
             });
 
-            // Trigger walking CSS animation
             traveler.classList.add('is-walking');
             traveler.style.left = milestones[index].posPercent + '%';
 
-            // Stop walking animation after transition completes
-            setTimeout(() => {
-                traveler.classList.remove('is-walking');
-            }, 300);
+            setTimeout(() => { traveler.classList.remove('is-walking'); }, 300);
 
             const m = milestones[index];
             dossierTitle.innerText = m.title;
             dossierText.innerText = m.desc;
             
-            // Smoothly change the dossier content with GSAP
             gsap.fromTo([dossierTitle, dossierText], 
                 { opacity: 0, y: 10 }, 
                 { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1 }
@@ -1649,7 +1810,6 @@
             if (playSound) playAtlasBlip(320 + index * 60, 0.05);
         }
 
-        // Setup click listeners for milestone nodes
         stationNodes.forEach((node) => {
             node.addEventListener('click', () => {
                 const idx = parseInt(node.getAttribute('data-index'));
@@ -1657,11 +1817,8 @@
             });
         });
 
-        // Keyboard Controls (A/D or Arrows) for the Atlas
         window.addEventListener('keydown', (e) => {
             if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
-            
-            // Only capture arrows if user is looking at the top half of the page
             if (window.scrollY > window.innerHeight) return;
 
             if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
@@ -1671,19 +1828,12 @@
             }
         });
 
-        // Touch & Drag on Atlas Ground Track for mobile
         let trackStartX = 0;
-        groundTrack.addEventListener('touchstart', (e) => {
-            trackStartX = e.touches[0].clientX;
-        }, { passive: true });
-
+        groundTrack.addEventListener('touchstart', (e) => { trackStartX = e.touches[0].clientX; }, { passive: true });
         groundTrack.addEventListener('touchend', (e) => {
             const diff = e.changedTouches[0].clientX - trackStartX;
-            if (diff < -40 && currentMilestone < milestones.length - 1) {
-                setMilestone(currentMilestone + 1);
-            } else if (diff > 40 && currentMilestone > 0) {
-                setMilestone(currentMilestone - 1);
-            }
+            if (diff < -40 && currentMilestone < milestones.length - 1) setMilestone(currentMilestone + 1);
+            else if (diff > 40 && currentMilestone > 0) setMilestone(currentMilestone - 1);
         });
 
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1691,14 +1841,12 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Update active state
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 playAtlasBlip(440, 0.04);
 
                 const filter = btn.getAttribute('data-filter');
                 
-                // Animate out, filter, then animate in
                 gsap.to(projectCards, {
                     opacity: 0,
                     y: 20,
@@ -1712,9 +1860,8 @@
                                 card.style.display = 'none';
                             }
                         });
-                        ScrollTrigger.refresh(); // Refresh layout
+                        ScrollTrigger.refresh();
                         
-                        // Animate visible cards back in
                         const visibleCards = Array.from(projectCards).filter(c => c.style.display !== 'none');
                         gsap.to(visibleCards, {
                             opacity: 1,
@@ -1728,23 +1875,23 @@
             });
         });
 
+        // Interactive WebGL Matrix (Born Digital Style)
         let scene, camera, renderer, particles;
-        const GRID_SIZE = 55; // Number of dots per row/col
-        const DOT_SPACING = 30;
+        const GRID_SIZE = 64; 
+        const DOT_SPACING = 35;
 
         function initThreeScene() {
             const canvas = document.getElementById('webgl-canvas');
             scene = new THREE.Scene();
             
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 3000);
-            camera.position.set(0, 400, 800);
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 4000);
+            camera.position.set(0, 500, 1000);
             camera.lookAt(0, 0, 0);
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create circular dot texture for Born Digital style
             const dotCanvas = document.createElement('canvas');
             dotCanvas.width = 64; dotCanvas.height = 64;
             const context = dotCanvas.getContext('2d');
@@ -1761,9 +1908,9 @@
             let i = 0, j = 0;
             for (let ix = 0; ix < GRID_SIZE; ix++) {
                 for (let iy = 0; iy < GRID_SIZE; iy++) {
-                    positions[i] = ix * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); // x
-                    positions[i + 1] = 0; // y (will be animated)
-                    positions[i + 2] = iy * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); // z
+                    positions[i] = ix * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); 
+                    positions[i + 1] = 0; 
+                    positions[i + 2] = iy * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); 
                     scales[j] = 1;
                     i += 3; j++;
                 }
@@ -1773,29 +1920,25 @@
             geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
 
             const material = new THREE.PointsMaterial({
-                size: 6,
+                size: 8,
                 map: dotTexture,
                 transparent: true,
-                opacity: 0.4,
-                color: 0x848895, // Muted grey initially
-                depthWrite: false
+                opacity: 0.25,
+                color: 0x8c8c8a,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
             });
 
             particles = new THREE.Points(geometry, material);
             scene.add(particles);
 
-            // Add subtle fog for depth
-            scene.fog = new THREE.FogExp2(0x070709, 0.0015);
+            scene.fog = new THREE.FogExp2(0x1a1a1a, 0.001);
 
-            // Interaction variables
             let mouseX = 0;
             let mouseY = 0;
-            let targetX = 0;
-            let targetY = 0;
             const windowHalfX = window.innerWidth / 2;
             const windowHalfY = window.innerHeight / 2;
 
-            // 3D Raycasting setup for Grid interaction
             const raycaster = new THREE.Raycaster();
             const mouse3D = new THREE.Vector2(-1000, -1000);
             const hitPlane = new THREE.Mesh(
@@ -1806,27 +1949,24 @@
             scene.add(hitPlane);
 
             document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX - windowHalfX) * 0.05;
-                mouseY = (event.clientY - windowHalfY) * 0.05;
+                mouseX = (event.clientX - windowHalfX) * 0.1;
+                mouseY = (event.clientY - windowHalfY) * 0.1;
                 
-                // Normalized device coordinates for the Raycaster
                 mouse3D.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse3D.y = -(event.clientY / window.innerHeight) * 2 + 1;
             });
 
             let count = 0;
+            let scrollY = 0;
+            lenis.on('scroll', (e) => { scrollY = e.animatedScroll; });
 
             function animate() {
                 requestAnimationFrame(animate);
 
-                // Smoothly interpolate camera target based on mouse
-                targetX = mouseX * 0.1;
-                targetY = mouseY * 0.1;
-                camera.position.x += (mouseX - camera.position.x) * 0.02;
-                camera.position.y += (-mouseY + 400 - camera.position.y) * 0.02;
+                camera.position.x += (mouseX - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY + 400 - (scrollY * 0.2) - camera.position.y) * 0.05;
                 camera.lookAt(scene.position);
 
-                // Update Raycaster to find intersection with invisible plane
                 raycaster.setFromCamera(mouse3D, camera);
                 const intersects = raycaster.intersectObject(hitPlane);
                 const hit = intersects.length > 0 ? intersects[0].point : null;
@@ -1837,32 +1977,27 @@
                 let i = 0, j = 0;
                 for (let ix = 0; ix < GRID_SIZE; ix++) {
                     for (let iy = 0; iy < GRID_SIZE; iy++) {
-                        // Create harmonic wave effect
-                        let yBase = (Math.sin((ix + count) * 0.3) * 50) +
-                                    (Math.sin((iy + count) * 0.5) * 50);
+                        let yBase = (Math.sin((ix + count) * 0.2) * 40) +
+                                    (Math.sin((iy + count) * 0.3) * 40);
 
-                        // Scale dots based on wave height
-                        let scaleBase = (Math.sin((ix + count) * 0.3) + 1) * 3 +
-                                        (Math.sin((iy + count) * 0.5) + 1) * 3;
+                        let scaleBase = (Math.sin((ix + count) * 0.2) + 1) * 2 +
+                                        (Math.sin((iy + count) * 0.3) + 1) * 2;
 
-                        // Magnetic Cursor interaction: Lift the grid towards the mouse
                         if (hit) {
                             let dx = positions[i] - hit.x;
                             let dz = positions[i + 2] - hit.z;
                             let dist = Math.sqrt(dx * dx + dz * dz);
                             
-                            if (dist < 280) {
-                                let force = (280 - dist) / 280;
-                                // Easing curve for a fluid, organic magnetic pull
+                            if (dist < 350) {
+                                let force = (350 - dist) / 350;
                                 let easeForce = force * force * (3 - 2 * force); 
-                                yBase += easeForce * 130; 
-                                scaleBase += easeForce * 9;
+                                yBase += easeForce * 180; 
+                                scaleBase += easeForce * 8;
                             }
                         }
 
                         positions[i + 1] = yBase;
                         scales[j] = scaleBase;
-
                         i += 3; j++;
                     }
                 }
@@ -1870,7 +2005,7 @@
                 particles.geometry.attributes.position.needsUpdate = true;
                 particles.geometry.attributes.scale.needsUpdate = true;
 
-                count += 0.03;
+                count += 0.02;
                 renderer.render(scene, camera);
             }
             animate();
@@ -1886,11 +2021,13 @@
         function updateThreeColors() {
             if (!particles || !scene.fog) return;
             
-            const targetColor = isDarkMode ? 0x848895 : 0x4b4f5d;
-            const targetFog = isDarkMode ? 0x070709 : 0xf7f8fa;
-            const targetOpacity = isDarkMode ? 0.4 : 0.6;
+            const targetColor = isDarkMode ? 0x8c8c8a : 0x535352;
+            const targetFog = isDarkMode ? 0x1a1a1a : 0xdcd8c0;
+            const targetOpacity = isDarkMode ? 0.25 : 0.4;
+            const blendMode = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
 
-            // Animate Three.js colors using GSAP for smooth transition
+            particles.material.blending = blendMode;
+
             gsap.to(particles.material.color, {
                 r: new THREE.Color(targetColor).r,
                 g: new THREE.Color(targetColor).g,
@@ -1906,6 +2043,7 @@
             gsap.to(particles.material, { opacity: targetOpacity, duration: 0.5 });
         }
 
+        // Pong Terminal Logic
         const pongCanvas = document.getElementById('pong-canvas');
         const pCtx = pongCanvas.getContext('2d');
         const scoreReadout = document.getElementById('game-score-readout');
@@ -1932,7 +2070,7 @@
         });
 
         pongCanvas.addEventListener('touchmove', (e) => {
-            if (isArcadeRunning) e.preventDefault(); // Prevent scrolling while playing
+            if (isArcadeRunning) e.preventDefault();
             const rect = pongCanvas.getBoundingClientRect();
             mouseY = e.touches[0].clientY - rect.top - pad.h / 2;
         }, { passive: false });
@@ -1945,13 +2083,12 @@
         }
 
         startBtn.addEventListener('click', () => {
-            initAudio(); // Ensure audio context is ready
+            initAudio();
             startOverlay.style.display = 'none';
             isArcadeRunning = true;
             resetPongBall();
             playAtlasBlip(640, 0.1);
             
-            // Scroll game into full view on mobile
             if(window.innerWidth < 768) {
                 lenis.scrollTo(document.getElementById('terminal'), {offset: -60});
             }
@@ -1960,17 +2097,15 @@
         function runPongLoop() {
             pCtx.clearRect(0, 0, pongCanvas.width, pongCanvas.height);
 
-            // Center dash line
             pCtx.setLineDash([6, 8]);
             pCtx.beginPath();
             pCtx.moveTo(pongCanvas.width / 2, 0);
             pCtx.lineTo(pongCanvas.width / 2, pongCanvas.height);
-            pCtx.strokeStyle = isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            pCtx.strokeStyle = isDarkMode ? 'rgba(220, 216, 192, 0.15)' : 'rgba(36, 36, 35, 0.15)';
             pCtx.stroke();
             pCtx.setLineDash([]);
 
-            // Draw paddles & ball
-            pCtx.fillStyle = isDarkMode ? '#ffffff' : '#0c0d0f';
+            pCtx.fillStyle = isDarkMode ? '#dcd8c0' : '#242423';
             pCtx.fillRect(16, p1.y, pad.w, pad.h);
             pCtx.fillRect(pongCanvas.width - 24, pAi.y, pad.w, pad.h);
 
@@ -1979,12 +2114,10 @@
             pCtx.fill();
 
             if (isArcadeRunning) {
-                // Player movement easing
                 p1.y += (mouseY - p1.y) * 0.2;
                 if (p1.y < 0) p1.y = 0;
                 if (p1.y + pad.h > pongCanvas.height) p1.y = pongCanvas.height - pad.h;
 
-                // AI smooth tracking (with intentional delay/imperfection)
                 const aiCenter = pAi.y + pad.h / 2;
                 if (aiCenter < pongBall.y - 12) pAi.y += pad.speed * 0.65;
                 else if (aiCenter > pongBall.y + 12) pAi.y -= pad.speed * 0.65;
@@ -1994,24 +2127,21 @@
                 pongBall.x += pongBall.vx;
                 pongBall.y += pongBall.vy;
 
-                // Wall bounce
                 if (pongBall.y - pongBall.r < 0 || pongBall.y + pongBall.r > pongCanvas.height) {
                     pongBall.vy *= -1;
                     playAtlasBlip(300, 0.02);
                 }
 
-                // Paddle collision checks
                 const hitP1 = pongBall.vx < 0 && pongBall.x - pongBall.r <= 24 && pongBall.y >= p1.y && pongBall.y <= p1.y + pad.h;
                 const hitAI = pongBall.vx > 0 && pongBall.x + pongBall.r >= pongCanvas.width - 24 && pongBall.y >= pAi.y && pongBall.y <= pAi.y + pad.h;
 
                 if (hitP1 || hitAI) {
-                    pongBall.vx *= -1.05; // Slightly increase speed on hit
+                    pongBall.vx *= -1.05;
                     const paddleCenter = hitP1 ? (p1.y + pad.h / 2) : (pAi.y + pad.h / 2);
                     pongBall.vy = (pongBall.y - paddleCenter) * 0.18;
                     playAtlasBlip(550, 0.04);
                 }
 
-                // Scoring
                 if (pongBall.x < 0) {
                     pAi.score++;
                     updateScoreUI();
@@ -2024,7 +2154,6 @@
                     resetPongBall();
                 }
             }
-
             requestAnimationFrame(runPongLoop);
         }
         
@@ -2032,9 +2161,7 @@
             scoreReadout.innerText = `PLAYER: ${p1.score.toString().padStart(2, '0')} | SYS_AI: ${pAi.score.toString().padStart(2, '0')}`;
         }
         
-        // Start game loop
         runPongLoop();
-
     </script>
 </body>
 </html>
