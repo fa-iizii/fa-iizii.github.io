@@ -3,906 +3,2037 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Faiz Muhammed | Software Developer</title>
+    <title>Faiz Muhammed — Software Engineer</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Space Grotesk for architectural titles, JetBrains Mono for atlas telemetry, Manrope for high-legibility body -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 8'><path fill='%23e3b341' d='M2 0h1v1H2zM8 0h1v1H8zM3 1h1v1H3zM7 1h1v1H7zM2 2h7v1H2zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM0 4h11v1H0zM0 5h1v1H0zM2 5h7v1H2zM10 5h1v1H10zM0 6h1v1H0zM2 6h1v1H2zM8 6h1v1H8zM10 6h1v1H10zM3 7h2v1H3zM6 7h2v1H6z'/></svg>">
+    <!-- External Animation & 3D Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.32/dist/lenis.min.js"></script>
 
     <style>
-        /* --- CORE VARIABLES --- */
         :root {
-            --bg-color: #0d1117; 
-            --bg-secondary: #161b22; 
-            --text-main: #c9d1d9; 
+            /* Ishikawa Dark & NexStudio Slate Palettes */
+            --bg-color: #070709;
+            --surface-color: #0d0e12;
+            --surface-card: #12141a;
+            --text-main: #f5f5f7;
+            --text-muted: #848895;
+            --text-dim: #4b4f5d;
+            --accent-primary: #ffffff;
+            --accent-glow: rgba(255, 255, 255, 0.12);
+            --border-hairline: rgba(255, 255, 255, 0.1);
+            --border-highlight: rgba(255, 255, 255, 0.28);
+            --atlas-line: rgba(255, 255, 255, 0.22);
+            --active-node: #38ef7d;
             
-            --accent-blue: #58a6ff; 
-            --accent-hover: #79c0ff; 
-            --accent-muted: #30363d; 
-            --accent-gold: #e3b341; 
-            --accent-red: #f85149;
-            --accent-green: #2ea043;
-            
-            --font-head: 'Press Start 2P', cursive;
-            --font-body: 'VT323', monospace;
-            
-            --pixel-border: 4px solid var(--accent-blue);
-            --pixel-shadow: 6px 6px 0px rgba(0, 0, 0, 0.8);
-            --pixel-shadow-hover: 10px 10px 0px rgba(88, 166, 255, 0.15);
+            /* Glassmorphism Vars */
+            --nav-bg: rgba(13, 14, 18, 0.4);
+            --nav-border: rgba(255, 255, 255, 0.08);
+
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Manrope', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* --- GLOBAL STYLES --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        [data-theme="light"] {
+            --bg-color: #f7f8fa;
+            --surface-color: #edeef2;
+            --surface-card: #ffffff;
+            --text-main: #0c0d0f;
+            --text-muted: #5e6370;
+            --text-dim: #9aa0b0;
+            --accent-primary: #000000;
+            --accent-glow: rgba(0, 0, 0, 0.08);
+            --border-hairline: rgba(0, 0, 0, 0.08);
+            --border-highlight: rgba(0, 0, 0, 0.25);
+            --atlas-line: rgba(0, 0, 0, 0.18);
+            --active-node: #0ea5e9;
+
+            --nav-bg: rgba(237, 238, 242, 0.5);
+            --nav-border: rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            cursor: none !important; /* Hide default cursor */
+        }
+
+        /* Custom Cursor Elements */
+        .custom-cursor-dot, .custom-cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        .custom-cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-main);
+            transition: transform 0.2s var(--ease-out);
+        }
+
+        .custom-cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--text-muted);
+            transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), border-color 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
+        }
+
+        body.cursor-hover .custom-cursor-dot {
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        body.cursor-hover .custom-cursor-ring {
+            width: 50px;
+            height: 50px;
+            border-color: var(--text-main);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+        }
+
+        [data-theme="light"] body.cursor-hover .custom-cursor-ring {
+            background: rgba(0, 0, 0, 0.05);
+        }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: var(--font-body);
-            font-size: 22px;
-            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            -webkit-font-smoothing: none;
-            image-rendering: pixelated;
+            transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
         }
 
-        /* --- ANIMATED PIXEL STAR BACKGROUND --- */
-        .background-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1; background: var(--bg-color); overflow: hidden;
-        }
-        .stars {
-            width: 2px; height: 2px; background: transparent;
-            box-shadow: 10vw 10vh #fff, 20vw 20vh #fff, 30vw 30vh #fff, 40vw 80vh #fff, 50vw 50vh #fff, 60vw 10vh #fff, 70vw 70vh #fff, 80vw 40vh #fff, 90vw 90vh #fff, 95vw 20vh #fff;
-            animation: moveStars 60s linear infinite;
-        }
-        .stars2 {
-            width: 3px; height: 3px; background: transparent;
-            box-shadow: 15vw 15vh var(--accent-blue), 25vw 75vh #fff, 35vw 25vh var(--accent-muted), 45vw 85vh var(--accent-blue), 55vw 45vh #fff, 65vw 65vh var(--accent-muted), 75vw 15vh var(--accent-blue), 85vw 85vh #fff;
-            animation: moveStars 40s linear infinite;
-        }
-        @keyframes moveStars { from { transform: translateY(0); } to { transform: translateY(-100vh); } }
-        
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(13, 17, 23, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px; z-index: 999; pointer-events: none;
+        /* Smooth scroll container fixes */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+        /* Architectural background grid lines */
+        .bg-grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                linear-gradient(to right, var(--border-hairline) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--border-hairline) 1px, transparent 1px);
+            background-size: 72px 72px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
         }
 
-        /* --- SCROLL ANIMATIONS --- */
-        .hidden-animate { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .show-animate { opacity: 1; transform: translateY(0); }
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3, .nav-logo { font-family: var(--font-head); text-transform: uppercase; }
-        h2 { font-size: 24px; color: var(--accent-gold); text-shadow: 3px 3px 0px #000; margin-bottom: 40px; text-align: center; }
-        a { color: var(--accent-blue); text-decoration: none; }
-        a:hover { color: var(--accent-hover); }
+        .container {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 4vw;
+            position: relative;
+            z-index: 10;
+        }
 
-        /* --- LAYOUT & CONTAINERS --- */
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-        section { padding: 100px 0; }
+        .telemetry-hud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-hairline);
+            background: rgba(7, 7, 9, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+        }
 
-        /* --- NAVBAR --- */
-        nav {
-            position: fixed; top: 0; width: 100%; background: rgba(13, 17, 23, 0.95);
-            border-bottom: 2px solid var(--accent-muted); z-index: 100; padding: 15px 0;
-            backdrop-filter: blur(5px);
+        .hud-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-        .nav-logo { font-size: 18px; color: var(--accent-blue); text-shadow: 2px 2px 0px #000; cursor: pointer;}
-        .nav-links { display: flex; gap: 15px; }
-        .nav-links a {
-            font-family: var(--font-head); font-size: 10px; color: var(--text-main); padding: 8px 10px;
-            border: 2px solid transparent; transition: 0.2s;
-        }
-        .nav-links a:hover { border: 2px solid var(--accent-blue); color: var(--accent-hover); background: rgba(88, 166, 255, 0.1); }
 
-        /* --- HERO SECTION --- */
-        #hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
-        .hero-title { font-size: 48px; color: #ffffff; text-shadow: 4px 4px 0px var(--accent-blue), 8px 8px 0px rgba(0,0,0,0.8); margin-bottom: 20px; animation: float 4s ease-in-out infinite; }
-        .hero-subtitle { font-size: 28px; color: var(--accent-hover); height: 30px; margin-bottom: 40px; text-shadow: 2px 2px 0px #000; }
-        .cursor { display: inline-block; width: 12px; background: var(--accent-blue); animation: blink 1s infinite; }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        
-        .btn-start {
-            font-family: var(--font-head); font-size: 14px; padding: 15px 30px; background: var(--bg-secondary); color: var(--accent-blue);
-            border: var(--pixel-border); box-shadow: var(--pixel-shadow); cursor: pointer; display: inline-block; margin-top: 20px; transition: all 0.1s; text-transform: uppercase;
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--active-node);
+            display: inline-block;
+            box-shadow: 0 0 10px var(--active-node);
+            animation: pulseDot 2.2s infinite;
         }
-        .btn-start:active { box-shadow: 0px 0px 0px #000; transform: translate(6px, 6px); }
-        .btn-start:hover { background: var(--accent-blue); color: #000; box-shadow: 6px 6px 0px rgba(0,0,0,0.8); }
 
-        /* --- ABOUT / SKILLS SECTION --- */
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .pixel-box { background: var(--bg-secondary); border: 2px solid var(--accent-muted); padding: 30px; box-shadow: var(--pixel-shadow); }
-        .pixel-box p { margin-bottom: 15px; font-size: 24px; }
-        .skills-container { display: flex; flex-direction: column; gap: 15px; }
-        .skill-category { font-weight: bold; color: var(--accent-gold); font-size: 24px; }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px; }
-        .skill-tag { background: #000; color: var(--accent-blue); border: 2px solid var(--accent-blue); padding: 4px 10px; font-size: 18px; box-shadow: 2px 2px 0px #000; transition: transform 0.2s; cursor: default;}
-        .skill-tag:hover { transform: translateY(-3px); color: var(--accent-hover); border-color: var(--accent-hover);}
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
 
-        /* --- PROJECTS SECTION --- */
-        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .project-card { background: var(--bg-secondary); border: 4px solid var(--accent-muted); padding: 25px; box-shadow: var(--pixel-shadow); transition: all 0.3s; position: relative; }
-        .project-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: var(--pixel-shadow-hover); }
-        .project-card:hover .p-title { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: var(--accent-hover); }
-        @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
-        .p-badge { position: absolute; top: -15px; right: 10px; background: var(--accent-gold); color: #000; font-family: var(--font-head); font-size: 9px; padding: 5px 10px; border: 2px solid #000; }
-        .p-title { font-family: var(--font-head); font-size: 14px; color: #fff; margin-bottom: 15px; margin-top: 10px; line-height: 1.4; }
-        .p-stack { color: var(--accent-blue); margin-bottom: 15px; font-size: 20px;}
-        .p-desc { margin-bottom: 20px; font-size: 20px; color: var(--text-main);}
-        .p-link { font-family: var(--font-head); font-size: 10px; color: var(--accent-hover); display: inline-block; border-bottom: 2px solid var(--accent-hover); padding-bottom: 2px; transition: all 0.2s; }
-        .p-link:hover { background: var(--accent-hover); color: #000; }
+        .audio-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-hairline);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .audio-toggle-btn:hover {
+            border-color: var(--text-main);
+        }
 
-        /* --- REALISTIC ARCADE CABINET --- */
-        #arcade { background: rgba(13, 17, 23, 0.7); border-top: 2px solid var(--accent-muted); border-bottom: 2px solid var(--accent-muted);}
-        .arcade-cabinet {
-            max-width: 450px; margin: 0 auto;
-            background: linear-gradient(to right, #111 0%, #2a2a35 10%, #2a2a35 90%, #111 100%);
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.9), inset 0 10px 20px rgba(255,255,255,0.05);
-            position: relative; border: 4px solid #000;
+        /* Glassmorphic Nav */
+        nav.studio-nav {
+            position: fixed;
+            top: 52px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 18px;
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            border-radius: 999px;
+            z-index: 999;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            width: min(92vw, 860px);
+            transition: background 0.4s, border-color 0.4s;
         }
-        .arcade-marquee {
-            background: #000; color: var(--accent-gold); font-family: var(--font-head); font-size: 22px; text-align: center;
-            padding: 25px 10px; border-bottom: 8px solid #111; border-radius: 15px 15px 0 0;
-            text-shadow: 0 0 15px var(--accent-gold), 2px 2px 0px #000;
-            box-shadow: inset 0 0 40px rgba(227, 179, 65, 0.15); letter-spacing: 2px;
-            animation: marqueeGlow 2s infinite alternate;
+
+        .brand-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
         }
-        @keyframes marqueeGlow { from { text-shadow: 0 0 10px var(--accent-gold); } to { text-shadow: 0 0 25px var(--accent-gold), 0 0 10px #fff; } }
-        
-        .arcade-bezel { background: #111; padding: 30px 40px; border-bottom: 10px solid #222; }
-        .arcade-screen-container {
-            border: 20px solid #000; border-radius: 20px; position: relative; background: #000;
-            box-shadow: 0 0 20px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,1); overflow: hidden;
+
+        .brand-badge {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-muted);
         }
-        /* Screen Glare */
-        .arcade-screen-container::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.02) 100%);
-            pointer-events: none; z-index: 10;
+
+        .nav-links-menu {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .score-display {
-            position: absolute; top: 15px; left: 15px; font-family: var(--font-head); color: #fff; font-size: 10px;
-            text-shadow: 2px 2px 0px #000; z-index: 5; pointer-events: none;
+
+        .nav-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 999px;
+            transition: all 0.25s var(--ease-out);
         }
-        #arcade-canvas {
-            background: #000; width: 100%; max-width: 400px; aspect-ratio: 4 / 5;
-            image-rendering: pixelated; display: block; margin: 0 auto; cursor: crosshair;
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-main);
+            background: var(--surface-card);
         }
-        
-        /* Control Panel */
-        .arcade-control-panel {
-            background: linear-gradient(180deg, #30363d 0%, #161b22 100%);
-            padding: 30px 20px; border-top: 2px solid #555; position: relative;
+
+        /* Theme switch pill */
+        .theme-pill {
+            width: 44px;
+            height: 24px;
+            border-radius: 999px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 3px;
         }
-        .arcade-controls-layout {
-            display: flex; justify-content: space-between; align-items: center; max-width: 350px; margin: 0 auto;
+        .theme-pill-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--text-main);
+            transition: transform 0.3s var(--ease-out);
         }
-        /* D-PAD Style Left */
-        .d-pad-cluster { display: grid; grid-template-columns: 50px 50px 50px; grid-template-rows: 50px 50px; gap: 5px; }
-        
-        /* Realistic Sanwa Buttons */
-        .sanwa-btn {
-            background: #111; border-radius: 50%;
-            border: 4px solid #222; box-shadow: 0 4px 6px rgba(0,0,0,0.6), inset 0 -2px 5px rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
-            user-select: none; touch-action: manipulation;
+        [data-theme="light"] .theme-pill-thumb {
+            transform: translateX(20px);
+        }
+
+        section.hero-stage {
+            min-height: 100vh;
+            padding-top: 130px;
+            padding-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hero-header-area {
+            max-width: 980px;
+            margin-top: 20px;
+        }
+
+        .act-tag {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .act-tag::before {
+            content: '';
+            width: 18px;
+            height: 1px;
+            background: var(--text-muted);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.035em;
+            color: var(--text-main);
+            margin-bottom: 24px;
+        }
+
+        .hero-title .title-accent {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+            line-height: 1.65;
+            color: var(--text-muted);
+            max-width: 740px;
+            margin-bottom: 32px;
+        }
+
+        .metrics-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 12px;
+            padding: 16px 20px;
+            transition: border-color 0.25s;
+        }
+        .metric-card:hover {
+            border-color: var(--border-highlight);
+        }
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+        .metric-label {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        .walkable-atlas-world {
+            position: relative;
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 16px;
+            padding: 30px 24px 20px 24px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .atlas-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-hairline);
+            padding-bottom: 14px;
+            margin-bottom: 25px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
+
+        .atlas-title-text {
+            color: var(--text-main);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .atlas-instruction-keys {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .key-badge {
+            background: var(--surface-color);
+            border: 1px solid var(--border-hairline);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.68rem;
+            color: var(--text-main);
+            box-shadow: 0 2px 0 var(--border-hairline);
+        }
+
+        /* The Ground Track */
+        .ground-track-container {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            touch-action: pan-y;
+            cursor: grab;
+        }
+        .ground-track-container:active {
+            cursor: grabbing;
+        }
+
+        .ground-horizontal-line {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--atlas-line);
+        }
+
+        /* Ground milestones */
+        .milestone-station {
+            position: absolute;
+            bottom: 24px;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 5;
+            transition: transform 0.2s;
+        }
+        .milestone-station:hover {
+            transform: translateX(-50%) translateY(-3px);
+        }
+
+        .milestone-node {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 2px solid var(--text-muted);
+            margin-bottom: -7px;
+            transition: all 0.3s;
+        }
+        .milestone-station.active .milestone-node {
+            background: var(--text-main);
+            border-color: var(--text-main);
+            transform: scale(1.3);
+            box-shadow: 0 0 14px rgba(255,255,255,0.7);
+        }
+
+        .milestone-label {
+            position: absolute;
+            bottom: 22px;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            white-space: nowrap;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .milestone-station.active .milestone-label {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* The Animated Walking Traveler (Robot) */
+        .atlas-traveler {
+            position: absolute;
+            bottom: 25px;
+            left: 5%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 48px;
+            z-index: 10;
+            pointer-events: none;
+            transition: left 0.15s ease-out;
+        }
+
+        .traveler-svg {
+            width: 100%;
+            height: 100%;
+            color: var(--text-main);
+        }
+
+        .leg-l { transform-origin: 12px 34px; }
+        .leg-r { transform-origin: 20px 34px; }
+        .arm-l { transform-origin: 8px 23px; }
+        .arm-r { transform-origin: 24px 23px; }
+
+        .is-walking .leg-l { animation: step1 0.35s infinite alternate ease-in-out; }
+        .is-walking .leg-r { animation: step2 0.35s infinite alternate ease-in-out; }
+        .is-walking .arm-l { animation: step2 0.35s infinite alternate ease-in-out; }
+        .is-walking .arm-r { animation: step1 0.35s infinite alternate ease-in-out; }
+
+        @keyframes step1 { from { transform: rotate(-35deg); } to { transform: rotate(35deg); } }
+        @keyframes step2 { from { transform: rotate(35deg); } to { transform: rotate(-35deg); } }
+
+        /* Discovery Dossier Drawer */
+        .atlas-telemetry-dossier {
+            background: var(--surface-color);
+            border: 1px solid var(--border-hairline);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 15px;
+            font-family: var(--font-mono);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dossier-heading {
+            font-size: 0.88rem;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        .dossier-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            max-width: 650px;
+            line-height: 1.5;
+        }
+
+        .dossier-action-btn {
+            background: var(--text-main);
+            color: var(--bg-color);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .dossier-action-btn:hover {
+            opacity: 0.88;
+        }
+
+        section {
+            padding: 110px 0;
             position: relative;
         }
-        .sanwa-btn::after {
-            content: ''; width: 80%; height: 80%; border-radius: 50%;
-            background: var(--accent-blue); box-shadow: inset 0 2px 5px rgba(255,255,255,0.4), inset 0 -4px 5px rgba(0,0,0,0.4);
-            transition: all 0.1s;
-        }
-        .sanwa-btn:active::after { transform: translateY(2px); box-shadow: inset 0 0px 2px rgba(0,0,0,0.8); }
-        .sanwa-fire::after { background: var(--accent-red); }
-        .sanwa-action::after { background: var(--accent-green); }
-        
-        /* Button layout mapping */
-        #btn-up { grid-column: 2; grid-row: 1; } #btn-left { grid-column: 1; grid-row: 2; }
-        #btn-down { grid-column: 2; grid-row: 2; } #btn-right { grid-column: 3; grid-row: 2; }
-        
-        .action-cluster { display: flex; gap: 15px; }
-        .action-cluster .sanwa-btn { width: 60px; height: 60px; }
 
-        .arcade-coin-door {
-            background: #111; border-top: 6px solid #000; padding: 20px; display: flex; justify-content: center; align-items: center;
+        .section-header-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border-hairline);
+            padding-bottom: 24px;
         }
-        .coin-slot {
-            width: 60px; height: 80px; background: #222; border: 4px solid #333; border-radius: 5px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;
-            box-shadow: inset 0 5px 10px #000; transition: border-color 0.2s;
-        }
-        .coin-slot:hover { border-color: var(--accent-red); }
-        .coin-slot:active { transform: scale(0.95); }
-        .coin-hole { width: 4px; height: 30px; background: #000; box-shadow: inset 0 0 2px #000; margin-bottom: 10px;}
-        .coin-text { font-family: var(--font-head); font-size: 8px; color: #ff0000; text-shadow: 0 0 5px #ff0000; animation: blink 1.5s infinite;}
 
-        /* --- QUEST LOG (CERTIFICATES, EDUCATION, EXPERIENCE) --- */
-        .log-box {
-            background: #000; border: 4px solid var(--accent-muted); padding: 30px;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.5), 0 0 0 4px #000 inset; position: relative;
+        .section-index-tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
         }
-        .log-box::before {
-            content: attr(data-title); position: absolute; top: -18px; left: 20px;
-            background: var(--bg-color); padding: 0 10px; font-family: var(--font-head); font-size: 16px; color: #fff;
-        }
-        .timeline-item {
-            border-left: 4px dashed var(--bg-secondary); padding-left: 25px; margin-left: 10px; margin-bottom: 40px; position: relative;
-        }
-        .timeline-item::before {
-            content: ""; position: absolute; left: -14px; top: 0; width: 20px; height: 20px; background: var(--accent-blue); border: 2px solid #000;
-        }
-        .t-date { color: var(--accent-hover); font-family: var(--font-head); font-size: 10px; margin-bottom: 10px; display: block;}
-        .t-title { font-size: 28px; color: var(--accent-gold); margin-bottom: 5px;}
-        .t-org { font-size: 22px; color: #fff; margin-bottom: 15px;}
-        .t-details { font-size: 20px; }
-        .t-results { margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.05); border: 2px solid var(--bg-secondary); display: inline-block;}
-        .t-results ul { list-style-type: square; padding-left: 20px;}
 
-        /* --- FOOTER --- */
-        footer { border-top: 2px solid var(--accent-muted); padding: 40px 0; text-align: center; background: #000; }
-        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
-        .social-btn {
-            display: flex; align-items: center; gap: 10px; font-family: var(--font-head); font-size: 12px;
-            color: #fff; border: 4px solid #fff; padding: 10px 20px; transition: 0.2s; background: var(--bg-secondary);
+        .section-display-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
         }
-        .social-btn svg { width: 24px; height: 24px; fill: #fff; }
-        .social-btn:hover { background: #fff; color: #000; box-shadow: 4px 4px 0px var(--accent-muted);}
-        .social-btn:hover svg { fill: #000; }
 
-        /* --- RESPONSIVE DESIGN --- */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 36px;
+        }
+
+        .filter-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-out);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            color: var(--text-main);
+            border-color: var(--text-main);
+            background: var(--surface-color);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-4px);
+        }
+
+        .project-card.featured-large {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+        }
+
+        .project-card.medium-span {
+            grid-column: span 6;
+        }
+
+        .project-card-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 280px;
+            background: #090a0d;
+            overflow: hidden;
+        }
+
+        .project-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(85%) contrast(105%);
+            transition: filter 0.5s var(--ease-out), transform 0.6s var(--ease-out);
+        }
+
+        .project-card:hover .project-card-image img {
+            filter: grayscale(0%) contrast(100%);
+            transform: scale(1.04);
+        }
+
+        .image-hud-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(7, 7, 9, 0.8);
+            border: 1px solid var(--border-hairline);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .project-card-content {
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .project-stack-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .project-status-badge {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--active-node);
+            background: rgba(56, 239, 125, 0.1);
+            border: 1px solid rgba(56, 239, 125, 0.25);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .project-card-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+            margin-bottom: 14px;
+        }
+
+        .project-card-summary {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 26px;
+        }
+
+        .project-action-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: auto;
+        }
+
+        .btn-inspect {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--border-hairline);
+            background: var(--surface-color);
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+
+        .btn-inspect:hover {
+            border-color: var(--text-main);
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        .cv-matrix-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .cv-column-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            padding: 36px;
+        }
+
+        .cv-column-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cv-column-title::before {
+            content: '●';
+            color: var(--text-main);
+            font-size: 0.7rem;
+        }
+
+        .timeline-entry {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 36px;
+        }
+        .timeline-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-main);
+        }
+
+        .timeline-entry::after {
+            content: '';
+            position: absolute;
+            left: 3.5px;
+            top: 20px;
+            width: 1px;
+            height: calc(100% + 22px);
+            background: var(--border-hairline);
+        }
+        .timeline-entry:last-child::after {
+            display: none;
+        }
+
+        .timeline-period {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .timeline-role {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .timeline-org {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .timeline-detail {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .timeline-detail ul {
+            list-style: none;
+            margin-top: 8px;
+        }
+        .timeline-detail li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 5px;
+        }
+        .timeline-detail li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: var(--text-dim);
+        }
+
+        .arcade-container {
+            background: var(--surface-card);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-top-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-hairline);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        #pong-canvas {
+            width: 100%;
+            height: 380px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-hairline);
+            border-radius: 12px;
+            display: block;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        #arcade-overlay {
+            position: absolute;
+            inset: 70px 24px 24px 24px;
+            background: rgba(7, 7, 9, 0.88);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            border-radius: 12px;
+            z-index: 20;
+        }
+
+        footer.studio-footer {
+            border-top: 1px solid var(--border-hairline);
+            padding: 60px 0 40px 0;
+            margin-top: 60px;
+            background: var(--surface-color);
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-mono-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 992px) {
+            .project-card.featured-large {
+                grid-template-columns: 1fr;
+            }
+            .project-card.medium-span {
+                grid-column: span 12;
+            }
+            .cv-matrix-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
-            section { padding: 60px 0; }
-            .hero-title { font-size: 32px; }
-            .hero-subtitle { font-size: 20px; height: auto; min-height: 40px; }
-            .about-grid, .project-grid { grid-template-columns: 1fr; }
-            
-            .nav-container { flex-direction: column; gap: 10px; }
-            .nav-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-            .nav-links a { font-size: 9px; padding: 6px 8px; }
-            
-            h2 { font-size: 18px; }
-            .pixel-box p { font-size: 20px; }
-            .log-box::before { font-size: 12px; top: -14px;}
-            .t-title { font-size: 24px; }
-            
-            /* Mobile Arcade Scaling */
-            .arcade-marquee { font-size: 18px; padding: 15px 10px; }
-            .arcade-bezel { padding: 15px; }
-            .arcade-screen-container { border-width: 8px; border-radius: 8px; }
-            .arcade-control-panel { padding: 20px 10px; }
-            .d-pad-cluster { grid-template-columns: 40px 40px 40px; grid-template-rows: 40px 40px;}
-            .action-cluster .sanwa-btn { width: 50px; height: 50px; }
+            nav.studio-nav {
+                width: calc(100vw - 32px);
+                top: 48px;
+            }
+            .nav-links-menu {
+                display: none;
+            }
+            .telemetry-hud .hud-coords {
+                display: none;
+            }
+            .atlas-instruction-keys {
+                display: none;
+            }
+            #pong-canvas {
+                height: 280px;
+            }
+            .metrics-strip {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="scanlines"></div>
-    <div class="background-container">
-        <div class="stars"></div><div class="stars2"></div>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor-dot"></div>
+    <div class="custom-cursor-ring"></div>
+
+    <!-- Architectural Grid Canvas & Particles -->
+    <div class="bg-grid-overlay"></div>
+    <canvas id="webgl-canvas"></canvas>
+
+    <div class="telemetry-hud">
+        <div class="hud-group">
+            <span class="status-dot"></span>
+            <span>FAIZ.M</span>
+            <span class="hud-coords" style="color: var(--text-dim);">[ MCR, UK ]</span>
+        </div>
+        <div class="hud-group">
+            <span id="telemetry-step-counter" style="color: var(--text-muted);">MILESTONE: [01/05]</span>
+            <button id="btn-audio-toggle" class="audio-toggle-btn" title="Toggle Synthesizer Feedback">AUDIO: ON</button>
+        </div>
     </div>
 
-    <nav>
-        <div class="nav-container">
-            <div class="nav-logo" onclick="window.scrollTo(0,0)">f1z_</div>
-            <div class="nav-links">
-                <a href="#about">ABOUT</a>
-                <a href="#projects">PROJECTS</a>
-                <a href="#arcade">ARCADE</a>
-                <a href="#certifications">CERTS</a>
-                <a href="#education">EDU</a>
-                <a href="#experience">EXP</a>
-            </div>
+    <nav class="studio-nav">
+        <a href="#" class="brand-logo" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;">
+            Faiz Muhammed
+            <span class="brand-badge">ATLAS v4.0</span>
+        </a>
+        <div class="nav-links-menu">
+            <a href="#atlas-walk" class="nav-item active">01. Atlas</a>
+            <a href="#work" class="nav-item">02. Works</a>
+            <a href="#trajectory" class="nav-item">03. Trajectory</a>
+            <a href="#credentials" class="nav-item">04. Certs</a>
+            <a href="#terminal" class="nav-item">05. Terminal</a>
+        </div>
+        <div class="theme-pill" id="theme-toggle-btn" title="Switch Day/Night Contrast">
+            <div class="theme-pill-thumb"></div>
         </div>
     </nav>
 
-    <section id="hero">
-        <div class="container">
-            <h1 class="hero-title hidden-animate">FAIZ MUHAMMED</h1>
-            <div class="hero-subtitle hidden-animate" style="transition-delay: 0.2s;">
-                <span id="typewriter-text"></span><span class="cursor">&nbsp;</span>
-            </div>
-            <a href="#projects" class="btn-start hidden-animate" style="transition-delay: 0.4s;">PRESS START</a>
-        </div>
-    </section>
+    <main>
+        <section class="hero-stage container" id="atlas-walk">
+            <div class="hero-header-area">
+                <div class="act-tag">OVERVIEW</div>
+                <h1 class="hero-title gs-reveal">
+                    Adaptive Systems. <br>
+                    <span class="title-accent">Reliable Architecture.</span>
+                </h1>
+                <p class="hero-desc gs-reveal">
+                    First Class Applied Computing graduate & software engineer. Integrating resilient full-stack architectures (Node.js, Express, REST APIs) with cloud telemetry and hardware-level IoT edge devices.
+                </p>
 
-    <section id="about">
-        <div class="container">
-            <h2 class="hidden-animate">> SYSTEM.INFO</h2>
-            <div class="about-grid">
+                <div class="metrics-strip gs-reveal">
+                    <div class="metric-card">
+                        <div class="metric-value">1st Class</div>
+                        <div class="metric-label">BSc Applied Computing (Honours)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">90%</div>
+                        <div class="metric-label">Data-Driven AI Project Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">04+</div>
+                        <div class="metric-label">Flagship Production Systems</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">AWS / ML</div>
+                        <div class="metric-label">Cloud & Security Certifications</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ishikawa Inspired Walkable Atlas Ground Line -->
+            <div class="walkable-atlas-world gs-reveal">
+                <div class="atlas-header-bar">
+                    <div class="atlas-title-text">
+                        <span>TIMELINE</span>
+                    </div>
+                    <div class="atlas-instruction-keys">
+                        <span>NAVIGATE:</span>
+                        <span class="key-badge">A</span>
+                        <span class="key-badge">D</span>
+                        <span>OR</span>
+                        <span class="key-badge">←</span>
+                        <span class="key-badge">→</span>
+                        <span>/ DRAG & TAP</span>
+                    </div>
+                </div>
+
+                <!-- Ground Horizon Track -->
+                <div class="ground-track-container" id="ground-track">
+                    <div class="ground-horizontal-line"></div>
+
+                    <!-- Traveler SVG (Minimalist Robot) -->
+                    <div class="atlas-traveler" id="atlas-traveler">
+                        <svg class="traveler-svg" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Antenna -->
+                            <line x1="16" y1="2" x2="16" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="16" cy="2" r="1.5" fill="currentColor"/>
+                            <!-- Head -->
+                            <rect x="10" y="8" width="12" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <!-- Eyes -->
+                            <circle cx="13" cy="13" r="1.5" fill="currentColor"/>
+                            <circle cx="19" cy="13" r="1.5" fill="currentColor"/>
+                            <!-- Body -->
+                            <rect x="8" y="20" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <!-- Arms -->
+                            <line class="arm-l" x1="8" y1="23" x2="2" y2="30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <line class="arm-r" x1="24" y1="23" x2="30" y2="30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <!-- Legs -->
+                            <line class="leg-l" x1="12" y1="34" x2="12" y2="46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                            <line class="leg-r" x1="20" y1="34" x2="20" y2="46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                    <!-- Stations -->
+                    <div class="milestone-station active" data-index="0" style="left: 10%;">
+                        <div class="milestone-label">01 // SMART CAMPUS</div>
+                        <div class="milestone-node"></div>
+                    </div>
+                    <div class="milestone-station" data-index="1" style="left: 30%;">
+                        <div class="milestone-label">02 // SMARTGUARD IoT</div>
+                        <div class="milestone-node"></div>
+                    </div>
+                    <div class="milestone-station" data-index="2" style="left: 50%;">
+                        <div class="milestone-label">03 // AI INTERNSHIP</div>
+                        <div class="milestone-node"></div>
+                    </div>
+                    <div class="milestone-station" data-index="3" style="left: 70%;">
+                        <div class="milestone-label">04 // HUDDERSFIELD 1ST</div>
+                        <div class="milestone-node"></div>
+                    </div>
+                    <div class="milestone-station" data-index="4" style="left: 90%;">
+                        <div class="milestone-label">05 // CLOUD & SEC</div>
+                        <div class="milestone-node"></div>
+                    </div>
+                </div>
+
+                <!-- Telemetry Dossier Drawer -->
+                <div class="atlas-telemetry-dossier" id="atlas-dossier">
+                    <div>
+                        <div class="dossier-heading" id="dossier-title">01 // Smart Campus Safety System (Flagship)</div>
+                        <div class="dossier-desc" id="dossier-text">
+                            Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL with JWT security and real-time alerts.
+                        </div>
+                    </div>
+                    <a href="#work" class="dossier-action-btn" id="dossier-link">INSPECT ARTIFACT ↓</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="work">
+            <div class="section-header-box gs-reveal">
+                <span class="section-index-tag">01 // WORK</span>
+                <h2 class="section-display-title">Selected Projects</h2>
+            </div>
+
+            <!-- Category Filter Controls -->
+            <div class="filter-controls gs-reveal">
+                <button class="filter-btn active" data-filter="all">ALL [04]</button>
+                <button class="filter-btn" data-filter="fullstack">FULL-STACK & APIS</button>
+                <button class="filter-btn" data-filter="iot">IoT & EMBEDDED</button>
+                <button class="filter-btn" data-filter="ai">AI & AUTOMATION</button>
+            </div>
+
+            <!-- Bento Project Grid -->
+            <div class="projects-grid">
                 
-                <div class="pixel-box hidden-animate">
-                    <p>First Class BSc (Hons) Applied Computing graduate from the University of Huddersfield.</p>
-                    <p>Hands-on experience delivering full-stack web applications, cloud-connected IoT systems, and AI-driven solutions. My final year project was a production-quality campus security platform bridging hardware (ESP32) and software (Node.js APIs).</p>
-                    <p>Currently studying for the AWS Certified Cloud Practitioner (CLF-C02) certification and seeking a Software Developer role.</p>
-                    <p style="color: var(--accent-blue); margin-top: 20px;">[ Location: Leeds, UK ]</p>
-                </div>
-
-                <div class="pixel-box hidden-animate" style="transition-delay: 0.2s;">
-                    <div class="skills-container">
+                <!-- Project 01: Smart Campus Safety System -->
+                <div class="project-card featured-large gs-reveal" data-category="fullstack iot">
+                    <div class="project-card-image">
+                        <span class="image-hud-badge">SYS: NODE_ESP32_V1</span>
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/campus.png" -->
+                        <img src="https://placehold.co/1200x800/12141a/848895?text=Smart+Campus+System" alt="Smart Campus Safety System" onerror="this.src='https://placehold.co/1200x800/12141a/848895?text=Smart+Campus+System'">
+                    </div>
+                    <div class="project-card-content">
                         <div>
-                            <span class="skill-category">LANGUAGES</span>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Python</span><span class="skill-tag">JavaScript (Node.js)</span>
-                                <span class="skill-tag">C/C++</span><span class="skill-tag">HTML5/CSS3</span>
-                                <span class="skill-tag">PHP</span><span class="skill-tag">SQL</span>
+                            <div class="project-card-meta">
+                                <span class="project-stack-tag">Node.js · Express · MySQL · ESP32 · JWT</span>
+                                <span class="project-status-badge">PRODUCTION GRADE</span>
                             </div>
+                            <h3 class="project-card-title">Smart Campus Safety System</h3>
+                            <p class="project-card-summary">
+                                An integrated client-server architecture receiving live sensor streams from ESP32 microcontrollers. Features authenticated role-based endpoints, real-time fire and air anomaly detection, secure photo verification with Multer, and automated log lifecycles.
+                            </p>
                         </div>
+                        <div class="project-action-row">
+                            <a href="https://github.com/fa-iizii/Smart-Campus-Safety-System" target="_blank" class="btn-inspect">
+                                <span>VIEW SOURCE CODE</span>
+                                <span>↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 02: SmartGuard Detection -->
+                <div class="project-card medium-span gs-reveal" data-category="iot">
+                    <div class="project-card-image">
+                        <span class="image-hud-badge">SYS: ESP8266_BLYNK</span>
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/smartguard.jpg" -->
+                        <img src="https://placehold.co/800x500/12141a/848895?text=SmartGuard+IoT" alt="SmartGuard Detection System" onerror="this.src='https://placehold.co/800x500/12141a/848895?text=SmartGuard+IoT'">
+                    </div>
+                    <div class="project-card-content">
                         <div>
-                            <span class="skill-category">BACKEND & CLOUD</span>
-                            <div class="skill-tags">
-                                <span class="skill-tag">Express.js</span><span class="skill-tag">REST APIs</span>
-                                <span class="skill-tag">JWT</span><span class="skill-tag">MySQL</span>
-                                <span class="skill-tag">AWS Cloud</span><span class="skill-tag">Linux</span>
+                            <div class="project-card-meta">
+                                <span class="project-stack-tag">ESP8266 · C++ · DHT11 · Blynk IoT</span>
+                                <span class="project-status-badge">DEPLOYED</span>
                             </div>
+                            <h3 class="project-card-title">SmartGuard Detection</h3>
+                            <p class="project-card-summary">
+                                Cloud-synced telemetry hub integrating temperature, humidity, and PIR motion sensing. Written in embedded C++ for microsecond sensor polling and instant mobile cloud push alerts.
+                            </p>
                         </div>
+                        <div class="project-action-row">
+                            <a href="https://github.com/fa-iizii/SmartGuard" target="_blank" class="btn-inspect">
+                                <span>VIEW ON GITHUB</span>
+                                <span>↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 03: Mobile Bluetooth RC Car -->
+                <div class="project-card medium-span gs-reveal" data-category="iot">
+                    <div class="project-card-image">
+                        <span class="image-hud-badge">SYS: ARDUINO_BT_PWM</span>
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/rc-car.jpg" -->
+                        <img src="https://placehold.co/800x500/12141a/848895?text=Bluetooth+RC+Vehicle" alt="Bluetooth RC Car" onerror="this.src='https://placehold.co/800x500/12141a/848895?text=Bluetooth+RC+Vehicle'">
+                    </div>
+                    <div class="project-card-content">
                         <div>
-                            <span class="skill-category">HARDWARE & AI</span>
-                            <div class="skill-tags">
-                                <span class="skill-tag">ESP32/8266</span><span class="skill-tag">Arduino Nano</span>
-                                <span class="skill-tag">IoT Sensors</span><span class="skill-tag">TensorFlow</span>
-                                <span class="skill-tag">Pandas</span>
+                            <div class="project-card-meta">
+                                <span class="project-stack-tag">Arduino Nano · C++ · Bluetooth RF · Android</span>
+                                <span class="project-status-badge">HARDWARE LAB</span>
                             </div>
+                            <h3 class="project-card-title">Autonomous & Remote RC Car</h3>
+                            <p class="project-card-summary">
+                                Motor-driver controlled dual H-bridge robotic vehicle pairing serial HC-05 Bluetooth packets with responsive Android direction controls.
+                            </p>
+                        </div>
+                        <div class="project-action-row">
+                            <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank" class="btn-inspect">
+                                <span>VIEW HARDWARE REPO</span>
+                                <span>↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 04: Python Utilities & Automation -->
+                <div class="project-card featured-large gs-reveal" data-category="ai">
+                    <div class="project-card-image">
+                        <span class="image-hud-badge">SYS: PY_CLI_SUITE</span>
+                        <!-- HOW TO ADD YOUR IMAGE: Replace the link below with your actual image path, e.g., src="images/python.png" -->
+                        <img src="https://placehold.co/1200x800/12141a/848895?text=Python+Automation" alt="Python Scripting Suite" onerror="this.src='https://placehold.co/1200x800/12141a/848895?text=Python+Automation'">
+                    </div>
+                    <div class="project-card-content">
+                        <div>
+                            <div class="project-card-meta">
+                                <span class="project-stack-tag">Python 3 · Cryptography · File Automation · CLI</span>
+                                <span class="project-status-badge">OPEN SOURCE</span>
+                            </div>
+                            <h3 class="project-card-title">Python Utilities & Security Engine</h3>
+                            <p class="project-card-summary">
+                                Modular CLI tools including password cryptographic entropy generation, structured string validation, automated parsing of file pipelines, and data handling libraries.
+                            </p>
+                        </div>
+                        <div class="project-action-row">
+                            <a href="https://github.com/fa-iizii/Python-Projects" target="_blank" class="btn-inspect">
+                                <span>EXPLORE SCRIPTS</span>
+                                <span>↗</span>
+                            </a>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="projects">
-        <div class="container">
-            <h2 class="hidden-animate">> LOAD_CARTRIDGE</h2>
-            <div class="project-grid">
-
-                <div class="project-card hidden-animate">
-                    <div class="p-badge">GRADE A (71%)</div>
-                    <h3 class="p-title">Smart Campus Safety System</h3>
-                    <div class="p-stack">[ Node.js | Express | MySQL | ESP32 | JWT ]</div>
-                    <p class="p-desc">Designed and built a centralised full-stack campus security platform integrating real-time IoT sensor monitoring with an incident reporting portal. Features API-key-protected device endpoints, Multer image uploads, and automated cron jobs.</p>
-                    <a href="https://github.com/fa-iizii/Smart-Campus-Safety-System" target="_blank" class="p-link">VIEW REPOSITORY ></a>
-                </div>
-
-                <div class="project-card hidden-animate" style="transition-delay: 0.2s;">
-                    <div class="p-badge">IOT & CLOUD</div>
-                    <h3 class="p-title">SmartGuard Intruder Detection</h3>
-                    <div class="p-stack">[ ESP8266 | DHT11 | HC-SR04 | C++ | Blynk ]</div>
-                    <p class="p-desc">Built a working IoT prototype using ultrasonic motion and environmental sensors to detect intruders. Integrated Blynk cloud platform for real-time mobile push notifications and historical data logging.</p>
-                    <a href="https://github.com/fa-iizii/SmartGuard" target="_blank" class="p-link">VIEW REPOSITORY ></a>
-                </div>
-
-                <div class="project-card hidden-animate">
-                    <div class="p-badge">EMBEDDED</div>
-                    <h3 class="p-title">Mobile Bluetooth RC Car</h3>
-                    <div class="p-stack">[ Arduino Nano | Bluetooth | MIT App Inventor ]</div>
-                    <p class="p-desc">Developed a Bluetooth-controlled robot car utilizing an Arduino Nano, accompanied by a custom-built Android app demonstrating embedded systems integration.</p>
-                    <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank" class="p-link">VIEW REPOSITORY ></a>
-                </div>
-
-                <div class="project-card hidden-animate" style="transition-delay: 0.2s;">
-                    <div class="p-badge">SCRIPTING</div>
-                    <h3 class="p-title">Python Utilities</h3>
-                    <div class="p-stack">[ Python | CLI ]</div>
-                    <p class="p-desc">Built a configurable Password Generator applying input validation, string manipulation, and randomisation logic, alongside ongoing automation scripts.</p>
-                    <a href="https://github.com/fa-iizii/Python-Projects" target="_blank" class="p-link">VIEW REPOSITORY ></a>
-                </div>
-
+        <section class="container" id="trajectory">
+            <div class="section-header-box gs-reveal">
+                <span class="section-index-tag">02 // EXPERIENCE</span>
+                <h2 class="section-display-title">Experience & Education</h2>
             </div>
-        </div>
-    </section>
 
-    <section id="arcade">
-        <div class="container">
-            <h2 class="hidden-animate">> MULTI_ARCADE.EXE</h2>
-            
-            <div class="arcade-machine hidden-animate">
-                <div class="arcade-marquee">f1z_ ARCADE</div>
-                
-                <div class="arcade-bezel">
-                    <div class="arcade-screen-container">
-                        <div class="score-display">1UP <span id="arcade-score" style="color: var(--accent-gold);">0000</span></div>
-                        <canvas id="arcade-canvas" width="400" height="500"></canvas>
-                    </div>
-                </div>
+            <div class="cv-matrix-container">
+                <!-- Column 1: Industry Experience -->
+                <div class="cv-column-card gs-reveal">
+                    <div class="cv-column-title">Field & Industry Experience</div>
 
-                <div class="arcade-control-panel">
-                    <div class="arcade-controls-layout">
-                        <div class="d-pad-cluster">
-                            <div class="sanwa-btn" id="btn-up"></div>
-                            <div class="sanwa-btn" id="btn-left"></div>
-                            <div class="sanwa-btn" id="btn-down"></div>
-                            <div class="sanwa-btn" id="btn-right"></div>
+                    <div class="timeline-entry">
+                        <div class="timeline-period">JUN 2024 — AUG 2024</div>
+                        <div class="timeline-role">Artificial Intelligence Intern</div>
+                        <div class="timeline-org">Unsway Online — AI Club (Remote)</div>
+                        <div class="timeline-detail">
+                            Collaborated on machine learning model iterations and cloud-based automated datasets. Received an official Letter of Recommendation for technical initiative and delivery speed.
                         </div>
-                        <div class="action-cluster">
-                            <div class="sanwa-btn sanwa-action" id="btn-action" title="Start/Menu"></div>
-                            <div class="sanwa-btn sanwa-fire" id="btn-fire" title="Fire"></div>
+                    </div>
+
+                    <div class="timeline-entry">
+                        <div class="timeline-period">NOV 2023 & NOV 2024</div>
+                        <div class="timeline-role">Guest Services Team Lead & Usher</div>
+                        <div class="timeline-org">Formula 1 Abu Dhabi Grand Prix (UAE)</div>
+                        <div class="timeline-detail">
+                            Promoted to Team Lead to coordinate guest resolution flows, live crowd telemetry, and operational ticketing support in a fast-paced international event.
+                        </div>
+                    </div>
+
+                    <div class="timeline-entry">
+                        <div class="timeline-period">SEP 2022 — AUG 2023</div>
+                        <div class="timeline-role">Sales & Systems Assistant</div>
+                        <div class="timeline-org">Threads School Uniform Store (Abu Dhabi)</div>
+                        <div class="timeline-detail">
+                            Operated inventory and POS transactions for over 300 customers daily. Awarded Best Employee for Customer Support and Problem Resolution.
                         </div>
                     </div>
                 </div>
-                
-                <div class="arcade-coin-door">
-                    <div class="coin-slot" id="btn-coin" title="Insert Coin to Play">
-                        <div class="coin-hole"></div>
-                        <div class="coin-text">INSERT COIN</div>
+
+                <!-- Column 2: Education & Academic Records -->
+                <div class="cv-column-card gs-reveal" style="transition-delay: 0.15s;">
+                    <div class="cv-column-title">Academic Credentials</div>
+
+                    <div class="timeline-entry">
+                        <div class="timeline-period">2025 — 2026 // COMPLETED</div>
+                        <div class="timeline-role">BSc (Hons) Applied Computing</div>
+                        <div class="timeline-org">University of Huddersfield, United Kingdom</div>
+                        <div class="timeline-detail">
+                            <strong>Awarded First Class Honours.</strong>
+                            <ul>
+                                <li>Data-Driven AI (90%)</li>
+                                <li>Software Architecture (86%)</li>
+                                <li>Large-Scale Software Engineering (78%)</li>
+                                <li>Information Architecture (74%)</li>
+                                <li>Individual Engineering Project (71%)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-entry">
+                        <div class="timeline-period">2023 — 2024 // COMPLETED</div>
+                        <div class="timeline-role">BTEC Level 5 HND in Computing</div>
+                        <div class="timeline-org">UKCBC, Dubai</div>
+                        <div class="timeline-detail">
+                            Awarded Merit profile with Distinctions in Computing Research Project and UX/UI Architecture.
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-        </div>
-    </section>
+        <section class="container" id="credentials">
+            <div class="section-header-box gs-reveal">
+                <span class="section-index-tag">03 // CERTIFICATIONS</span>
+                <h2 class="section-display-title">Certifications & Standards</h2>
+            </div>
 
-    <section id="certifications">
-        <div class="container">
-            <h2 class="hidden-animate">> CERTIFICATES.DAT</h2>
-            <div class="log-box hidden-animate" data-title="CERTIFICATIONS">
-                <div class="timeline-item">
-                    <span class="t-date">IN PROGRESS (EXAM 2026)</span>
-                    <h3 class="t-title">AWS Certified Cloud Practitioner (CLF-C02)</h3>
-                    <div class="t-org">Amazon Web Services</div>
+            <div class="metrics-strip gs-reveal">
+                <div class="metric-card">
+                    <span class="project-status-badge">IN PROGRESS</span>
+                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">AWS Cloud Practitioner</h4>
+                    <p class="timeline-period" style="margin-top: 4px;">CLF-C02 · Amazon Web Services</p>
                 </div>
-                <div class="timeline-item">
-                    <span class="t-date">NOV 2025</span>
-                    <h3 class="t-title">Machine Learning with Python Professional Certificate</h3>
-                    <div class="t-org">Anaconda</div>
-                    <div class="t-details">Skills: Python (Programming Language), Scikit-Learn, and related ML tools.</div>
+
+                <div class="metric-card">
+                    <span class="project-status-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1);">VERIFIED</span>
+                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Machine Learning with Python</h4>
+                    <p class="timeline-period" style="margin-top: 4px;">Anaconda Professional Certificate</p>
                 </div>
-                <div class="timeline-item">
-                    <span class="t-date">NOV 2025</span>
-                    <h3 class="t-title">Microsoft Security Essentials Professional Certificate</h3>
-                    <div class="t-org">Microsoft</div>
-                    <div class="t-details">Skills: Governance, Risk Management, and Compliance (GRC), Microsoft Security.</div>
+
+                <div class="metric-card">
+                    <span class="project-status-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1);">VERIFIED</span>
+                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Microsoft Security Essentials</h4>
+                    <p class="timeline-period" style="margin-top: 4px;">Microsoft / NASBA (GRC & AI Sec)</p>
                 </div>
-                <div class="timeline-item">
-                    <span class="t-date">NOV 2025</span>
-                    <h3 class="t-title">Microsoft Security Essentials: Concepts, Solutions, and AI-Powered Protection</h3>
-                    <div class="t-org">National Association of State Boards of Accountancy (NASBA)</div>
-                    <div class="t-details">Skills: Governance, Risk Management, and Compliance (GRC), Microsoft Security.</div>
-                </div>
-                <div class="timeline-item" style="border-left: none; margin-bottom: 0;">
-                    <span class="t-date">COMPLETED</span>
-                    <h3 class="t-title">Cisco Packet Tracer Lab</h3>
-                    <div class="t-org">Cisco Networking Academy</div>
-                    <div class="t-details">Completed comprehensive lab work on network configuration, LAN setup, and security protocols.</div>
+
+                <div class="metric-card">
+                    <span class="project-status-badge" style="color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1);">VERIFIED</span>
+                    <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Cisco Packet Tracer</h4>
+                    <p class="timeline-period" style="margin-top: 4px;">Cisco Networking Academy</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="education">
-        <div class="container">
-            <h2 class="hidden-animate">> EDUCATION.SYS</h2>
-            <div class="log-box hidden-animate" data-title="EDUCATION">
-                <div class="timeline-item">
-                    <span class="t-date">2025 - 2026</span>
-                    <h3 class="t-title">BSc (Hons) Applied Computing - First Class</h3>
-                    <div class="t-org">University of Huddersfield, UK</div>
-                    <div class="t-results">
-                        <span style="color:var(--accent-gold); font-family:var(--font-head); font-size:10px;">KEY MODULES (ALL GRADE A):</span>
-                        <ul>
-                            <li>Data-Driven Artificial Intelligence</li>
-                            <li>Software Architecture</li>
-                            <li>Large-Scale Software Engineering</li>
-                            <li>Information Architecture</li>
-                            <li>Individual Project: Smart Campus Safety System</li>
-                        </ul>
-                    </div>
+        <section class="container" id="terminal">
+            <div class="section-header-box gs-reveal">
+                <span class="section-index-tag">04 // TERMINAL</span>
+                <h2 class="section-display-title">Neural Pong Terminal</h2>
+            </div>
+
+            <div class="arcade-container gs-reveal">
+                <div class="terminal-top-hud">
+                    <span>PONG_V2</span>
+                    <span id="game-score-readout">PLAYER: 00 | SYS_AI: 00</span>
+                    <span style="color: var(--active-node);">STATUS: STANDBY</span>
                 </div>
-                <div class="timeline-item" style="border-left: none; margin-bottom: 0;">
-                    <span class="t-date">2023 - 2024</span>
-                    <h3 class="t-title">BTEC Level 5 HND in Computing - Merit</h3>
-                    <div class="t-org">UK College of Business and Computing, Dubai</div>
-                    <div class="t-details">
-                        Distinctions in Computing Research Project and UX/UI Design. Merits in Security, Website Design, Architecture, Games Development, and IoT.
-                    </div>
+
+                <div id="arcade-overlay">
+                    <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+                        PADDLE KINEMATICS
+                    </p>
+                    <button id="btn-start-arcade" class="dossier-action-btn" style="padding: 12px 28px; font-size: 0.85rem;">
+                        INSERT COIN TO ENGAGE
+                    </button>
+                </div>
+
+                <canvas id="pong-canvas"></canvas>
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
+                    TRACKPAD / MOUSE / TOUCH VERTICAL SWIPE TO DEFEND NODE
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience">
-        <div class="container">
-            <h2 class="hidden-animate">> EXPERIENCE.LOG</h2>
-            <div class="log-box hidden-animate" data-title="WORK EXPERIENCE">
-                <div class="timeline-item">
-                    <span class="t-date">JUN 2024 - AUG 2024</span>
-                    <h3 class="t-title">Artificial Intelligence Intern</h3>
-                    <div class="t-org">Unsway Online - AI Club (Remote)</div>
-                    <div class="t-details">
-                        Contributed to AI development challenges and delivered workshops, building practical skills in machine learning and data automation. Worked with cloud-based ML workflows across a fully remote international team. Awarded a Letter of Recommendation for technical contributions.
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <span class="t-date">NOV-DEC 2023 & 2024</span>
-                    <h3 class="t-title">Technical Support - Event Volunteer</h3>
-                    <div class="t-org">Formula 1 Abu Dhabi Grand Prix, UAE</div>
-                    <div class="t-details">
-                        Provided on-site technical support and logistics coordination. Demonstrated the ability to perform under pressure in a fast-paced, high-profile, time-critical environment.
-                    </div>
-                </div>
-                <div class="timeline-item" style="border-left: none; margin-bottom: 0;">
-                    <span class="t-date">2022 - 2023</span>
-                    <h3 class="t-title">Sales Assistant (Part-time)</h3>
-                    <div class="t-org">Threads School Uniform Store, Abu Dhabi</div>
-                    <div class="t-details">
-                        Operated POS systems and served 300+ customers daily during peak periods, developing strong client communication, organization, and problem-solving skills.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <footer>
-        <div class="container">
-            <div class="social-links hidden-animate">
-                <a href="https://github.com/fa-iizii" target="_blank" class="social-btn">
-                    <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21V19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26V21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/></svg>
-                    GITHUB
-                </a>
-                <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" class="social-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z"/></svg>
-                    LINKEDIN
-                </a>
+    <footer class="studio-footer">
+        <div class="container footer-grid">
+            <div class="footer-mono-label">
+                FAIZ MUHAMMED · FULL-STACK & IOT ENGINEER · MANCHESTER, UK
             </div>
-            <p style="font-size: 16px; color: #888;">© Faiz Muhammed. Built with HTML, CSS & JavaScript.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="https://github.com/fa-iizii" target="_blank" class="footer-mono-label btn-audio-hover" style="text-decoration: underline; color: var(--text-main);">GITHUB</a>
+                <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" class="footer-mono-label btn-audio-hover" style="text-decoration: underline; color: var(--text-main);">LINKEDIN</a>
+            </div>
+            <div class="footer-mono-label" style="color: var(--text-dim);">
+                © 2026 FA-IIZII. ARCHITECTURE INSPIRED BY ISHIKAWA & NEXSTUDIO.
+            </div>
         </div>
     </footer>
 
     <script>
-        // --- SCROLL ANIMATIONS ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('show-animate');
-                }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.hidden-animate').forEach(el => observer.observe(el));
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.custom-cursor-dot');
+        const cursorRing = document.querySelector('.custom-cursor-ring');
+        let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
+        let ringX = cursorX, ringY = cursorY;
 
-        // --- TYPING EFFECT ---
-        const textArray = ["Software Developer", "Full-Stack Engineer", "IoT Enthusiast", "Cloud Explorer"];
-        let textIndex = 0, charIndex = 0, isDeleting = false;
-        const target = document.getElementById("typewriter-text");
-        
-        function typeEffect() {
-            const currentText = textArray[textIndex];
-            if (isDeleting) {
-                target.innerText = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                target.innerText = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            let typeDelay = isDeleting ? 50 : 100;
-            if (!isDeleting && charIndex === currentText.length) { typeDelay = 2000; isDeleting = true; } 
-            else if (isDeleting && charIndex === 0) { isDeleting = false; textIndex = (textIndex + 1) % textArray.length; typeDelay = 500; }
-            setTimeout(typeEffect, typeDelay);
+        window.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            cursorDot.style.left = cursorX + 'px';
+            cursorDot.style.top = cursorY + 'px';
+        });
+
+        function animateCursor() {
+            ringX += (cursorX - ringX) * 0.15;
+            ringY += (cursorY - ringY) * 0.15;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            requestAnimationFrame(animateCursor);
         }
-        window.onload = () => { setTimeout(typeEffect, 1000); drawArcadeIdle(); };
+        animateCursor();
 
-        // --- MULTI-ARCADE SYSTEM LOGIC ---
-        const canvas = document.getElementById('arcade-canvas');
-        const ctx = canvas.getContext('2d');
-        const scoreUI = document.getElementById('arcade-score');
-        
-        // Arcade States: 'idle', 'menu', 'shooter', 'snake', 'ttt'
-        let arcadeState = 'idle'; 
-        let animId;
-        
-        // Menu Variables
-        const menuOptions = ['DEFENDER (SHOOTER)', 'SNAKE', 'TIC TAC TOE'];
-        let selectedMenu = 0;
+        // Add hover effects to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .milestone-station, .filter-btn, .ground-track-container, .theme-pill, .brand-logo');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
 
-        // Shared Game Variables
-        let score = 0;
-        
-        // Defender Variables
-        let pDef = { x:180, y:430, w:40, h:40, speed:6, dx:0 };
-        let defBullets = [], defEnemies = [], defParticles = [], defTimer = 0;
-        
-        // Snake Variables
-        const snkGrid = 20; let snake = [], food = {}, snkDx = snkGrid, snkDy = 0, nextSnkDx = snkGrid, nextSnkDy = 0;
-        
-        // TTT Variables
-        let tttBoard = [], tttPlayer = 'X', tttActive = false;
+        // Audio System
+        let audioCtx = null;
+        let isAudioEnabled = true; // Enabled by default as requested
 
-        // Arcade Colors
-        const C_BG = "#0d1117", C_P = "#58a6ff", C_E = "#f85149", C_B = "#e3b341", C_S = "#2ea043";
-
-        // Parallax Stars
-        let bgStars = [];
-        for(let i=0; i<40; i++) bgStars.push({ x: Math.random()*400, y: Math.random()*500, speed: Math.random()*2+0.5 });
-
-        function drawStars() {
-            ctx.fillStyle = "#8b949e";
-            for(let i=0; i<bgStars.length; i++) {
-                let s = bgStars[i];
-                s.y += s.speed;
-                if(s.y > canvas.height) s.y = 0;
-                ctx.fillRect(s.x, s.y, 2, 2);
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) audioCtx = new AudioContextClass();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
             }
         }
 
-        function drawArcadeIdle() {
-            if(arcadeState !== 'idle') return;
-            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
-            ctx.fillStyle = C_P; ctx.font = '24px "Press Start 2P"'; ctx.textAlign = 'center';
-            ctx.fillText('f1z_ ARCADE', canvas.width/2, canvas.height/2 - 20);
-            ctx.fillStyle = '#fff'; ctx.font = '12px "Press Start 2P"';
-            ctx.fillText('PRESS COIN TO START', canvas.width/2, canvas.height/2 + 30);
-            animId = requestAnimationFrame(drawArcadeIdle);
-        }
+        // Unlock audio context on first interaction (Browser autoplay policy workaround)
+        const unlockAudio = () => {
+            initAudio();
+            document.removeEventListener('click', unlockAudio);
+            document.removeEventListener('keydown', unlockAudio);
+            document.removeEventListener('touchstart', unlockAudio);
+            document.removeEventListener('scroll', unlockAudio);
+        };
+        document.addEventListener('click', unlockAudio);
+        document.addEventListener('keydown', unlockAudio);
+        document.addEventListener('touchstart', unlockAudio);
+        document.addEventListener('scroll', unlockAudio);
 
-        function initMenu() {
-            cancelAnimationFrame(animId);
-            arcadeState = 'menu';
-            scoreUI.innerText = "MENU";
-            drawMenu();
-        }
+        function playAtlasBlip(freq = 480, duration = 0.05, type = 'sine') {
+            if (!isAudioEnabled || !audioCtx) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(freq * 0.5, audioCtx.currentTime + duration);
 
-        function drawMenu() {
-            if(arcadeState !== 'menu') return;
-            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
-            
-            ctx.fillStyle = C_B; ctx.font = '20px "Press Start 2P"'; ctx.textAlign = 'center';
-            ctx.fillText('SELECT GAME', canvas.width/2, 100);
-            
-            ctx.font = '14px "Press Start 2P"';
-            for(let i=0; i<menuOptions.length; i++) {
-                if(i === selectedMenu) {
-                    ctx.fillStyle = C_P;
-                    ctx.fillText('▶ ' + menuOptions[i] + ' ◀', canvas.width/2, 200 + (i*60));
-                } else {
-                    ctx.fillStyle = '#fff';
-                    ctx.fillText(menuOptions[i], canvas.width/2, 200 + (i*60));
-                }
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (err) {
+                // Ignore silent audio context errors
             }
-            
-            ctx.fillStyle = '#8b949e'; ctx.font = '10px "Press Start 2P"';
-            ctx.fillText('UP/DOWN to Select | FIRE to Play', canvas.width/2, 450);
-            animId = requestAnimationFrame(drawMenu);
         }
 
-        // --- DEFENDER LOGIC ---
-        function initDefender() {
-            cancelAnimationFrame(animId); arcadeState = 'shooter'; score = 0; scoreUI.innerText = "0000";
-            pDef.x = canvas.width/2 - pDef.w/2; pDef.dx = 0;
-            defBullets = []; defEnemies = []; defParticles = []; defTimer = 0;
-            loopDefender();
+        const audioToggleBtn = document.getElementById('btn-audio-toggle');
+        audioToggleBtn.addEventListener('click', () => {
+            initAudio();
+            isAudioEnabled = !isAudioEnabled;
+            audioToggleBtn.innerText = isAudioEnabled ? 'AUDIO: ON' : 'AUDIO: OFF';
+            if (isAudioEnabled) playAtlasBlip(600, 0.08);
+        });
+
+        // Add audio hover to nav links and buttons
+        document.querySelectorAll('.nav-item, .filter-btn, .btn-inspect, .btn-audio-hover').forEach(el => {
+            el.addEventListener('mouseenter', () => playAtlasBlip(800, 0.02, 'triangle'));
+        });
+
+        // Lenis Smooth Scrolling Configured for ultra-smoothness
+        const lenis = new Lenis({
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            smoothTouch: true,
+            touchMultiplier: 2
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
         }
-        function spawnDefEnemy() {
-            let size = Math.random() * 15 + 20; let x = Math.random() * (canvas.width - size);
-            let s = Math.random() * 2 + 1.5 + (score/500); 
-            defEnemies.push({ x: x, y: -size, w: size, h: size, speed: s });
-        }
-        function createExplosion(x, y, color) {
-            for(let i=0; i<15; i++) defParticles.push({ x: x, y: y, vx: (Math.random()-0.5)*8, vy: (Math.random()-0.5)*8, life: Math.random()*20+10, color: color });
-        }
-        function loopDefender() {
-            if(arcadeState !== 'shooter') return;
-            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
+        requestAnimationFrame(raf);
 
-            pDef.x += pDef.dx;
-            if(pDef.x < 0) pDef.x = 0; if(pDef.x + pDef.w > canvas.width) pDef.x = canvas.width - pDef.w;
-
-            ctx.fillStyle = C_P;
-            ctx.fillRect(pDef.x+16, pDef.y, 8, 10); ctx.fillRect(pDef.x+8, pDef.y+10, 24, 20); ctx.fillRect(pDef.x, pDef.y+20, 8, 20); ctx.fillRect(pDef.x+32, pDef.y+20, 8, 20);
-            if (Math.random() > 0.2) { ctx.fillStyle = C_B; ctx.fillRect(pDef.x+12, pDef.y+30, 4, Math.random()*12+4); ctx.fillRect(pDef.x+24, pDef.y+30, 4, Math.random()*12+4); }
-
-            ctx.fillStyle = C_B;
-            for(let i = defBullets.length - 1; i >= 0; i--) {
-                let b = defBullets[i]; b.y -= b.speed; ctx.fillRect(b.x, b.y, b.w, b.h);
-                if(b.y < 0) defBullets.splice(i, 1);
-            }
-
-            defTimer++;
-            if(defTimer > 45 - Math.min(score/50, 30)) { spawnDefEnemy(); defTimer = 0; }
-
-            for(let i = defEnemies.length - 1; i >= 0; i--) {
-                let e = defEnemies[i]; e.y += e.speed;
-                let u = e.w/11, v = e.h/8; ctx.fillStyle = C_E;
-                ctx.fillRect(e.x+2*u, e.y, u, v); ctx.fillRect(e.x+8*u, e.y, u, v); ctx.fillRect(e.x+3*u, e.y+v, u, v); ctx.fillRect(e.x+7*u, e.y+v, u, v); ctx.fillRect(e.x+2*u, e.y+2*v, 7*u, v); ctx.fillRect(e.x, e.y+3*v, 3*u, v); ctx.fillRect(e.x+4*u, e.y+3*v, 3*u, v); ctx.fillRect(e.x+8*u, e.y+3*v, 3*u, v); ctx.fillRect(e.x, e.y+4*v, 11*u, v); ctx.fillRect(e.x+2*u, e.y+5*v, u, v); ctx.fillRect(e.x+8*u, e.y+5*v, u, v); ctx.fillRect(e.x+u, e.y+6*v, 2*u, v); ctx.fillRect(e.x+8*u, e.y+6*v, 2*u, v);
-
-                if(e.x < pDef.x+pDef.w && e.x+e.w > pDef.x && e.y < pDef.y+pDef.h && e.y+e.h > pDef.y) { createExplosion(pDef.x+pDef.w/2, pDef.y+pDef.h/2, C_P); gameOver(); return; }
-                for(let j = defBullets.length - 1; j >= 0; j--) {
-                    let b = defBullets[j];
-                    if(b.x < e.x+e.w && b.x+b.w > e.x && b.y < e.y+e.h && b.y+b.h > e.y) {
-                        createExplosion(e.x+e.w/2, e.y+e.h/2, C_E);
-                        defEnemies.splice(i, 1); defBullets.splice(j, 1); score += 10; scoreUI.innerText = score.toString().padStart(4, '0'); break;
+        // GSAP ScrollTrigger Integration
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Setup GSAP reveals
+        const revealElements = document.querySelectorAll('.gs-reveal');
+        revealElements.forEach((el) => {
+            gsap.fromTo(el, 
+                { autoAlpha: 0, y: 40 },
+                { 
+                    autoAlpha: 1, 
+                    y: 0, 
+                    duration: 1, 
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
                     }
                 }
-                if(e.y > canvas.height && defEnemies.includes(e)) defEnemies.splice(i, 1);
-            }
+            );
+        });
 
-            for(let i = defParticles.length - 1; i >= 0; i--) {
-                let p = defParticles[i]; p.x += p.vx; p.y += p.vy; p.life--;
-                ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 4, 4);
-                if(p.life <= 0) defParticles.splice(i, 1);
-            }
-            animId = requestAnimationFrame(loopDefender);
-        }
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        let isDarkMode = true;
 
-        // --- SNAKE LOGIC ---
-        function initSnake() {
-            cancelAnimationFrame(animId); arcadeState = 'snake'; score = 0; scoreUI.innerText = "0000";
-            snake = [{x:160,y:240}, {x:140,y:240}, {x:120,y:240}]; snkDx = snkGrid; snkDy = 0; nextSnkDx = snkGrid; nextSnkDy = 0;
-            spawnSnakeFood();
-            setTimeout(loopSnake, 100);
-        }
-        function spawnSnakeFood() {
-            food.x = Math.floor(Math.random() * (canvas.width / snkGrid)) * snkGrid;
-            food.y = Math.floor(Math.random() * (canvas.height / snkGrid)) * snkGrid;
-            snake.forEach(part => { if (part.x === food.x && part.y === food.y) spawnSnakeFood(); });
-        }
-        function loopSnake() {
-            if(arcadeState !== 'snake') return;
-            snkDx = nextSnkDx; snkDy = nextSnkDy;
-            const head = { x: snake[0].x + snkDx, y: snake[0].y + snkDy };
+        themeBtn.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+            playAtlasBlip(520, 0.06);
+            updateThreeColors();
+        });
+
+        const milestones = [
+            {
+                step: "01/05",
+                title: "01 // Smart Campus Safety System (Flagship Project)",
+                desc: "Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL with JWT authentication and real-time alerts.",
+                posPercent: 10,
+                targetId: "work"
+            },
+            {
+                step: "02/05",
+                title: "02 // SmartGuard Intrusion Detection System",
+                desc: "Cloud-connected security node built on ESP8266 and embedded C++, parsing temperature, humidity, and PIR motion interrupts directly to Blynk IoT.",
+                posPercent: 30,
+                targetId: "work"
+            },
+            {
+                step: "03/05",
+                title: "03 // Artificial Intelligence Internship",
+                desc: "Unsway Online AI Club: delivered ML pipelines and cloud automation workflows within an agile international team; awarded official recommendation.",
+                posPercent: 50,
+                targetId: "trajectory"
+            },
+            {
+                step: "04/05",
+                title: "04 // BSc (Hons) Applied Computing — First Class",
+                desc: "Graduated with First Class Honours from the University of Huddersfield, scoring 90% in Data-Driven AI and 86% in Software Architecture.",
+                posPercent: 70,
+                targetId: "trajectory"
+            },
+            {
+                step: "05/05",
+                title: "05 // AWS Cloud & Microsoft Security Accreditations",
+                desc: "Specialized in cloud governance, risk management (GRC), and AI-driven security operations through Microsoft, Anaconda, and Cisco programs.",
+                posPercent: 90,
+                targetId: "credentials"
+            }
+        ];
+
+        let currentMilestone = 0;
+        const traveler = document.getElementById('atlas-traveler');
+        const stationNodes = document.querySelectorAll('.milestone-station');
+        const dossierTitle = document.getElementById('dossier-title');
+        const dossierText = document.getElementById('dossier-text');
+        const dossierLink = document.getElementById('dossier-link');
+        const stepCounter = document.getElementById('telemetry-step-counter');
+        const groundTrack = document.getElementById('ground-track');
+
+        function setMilestone(index, playSound = true) {
+            if (index < 0) index = 0;
+            if (index >= milestones.length) index = milestones.length - 1;
+            currentMilestone = index;
+
+            stationNodes.forEach((node, i) => {
+                node.classList.toggle('active', i === index);
+            });
+
+            // Trigger walking CSS animation
+            traveler.classList.add('is-walking');
+            traveler.style.left = milestones[index].posPercent + '%';
+
+            // Stop walking animation after transition completes
+            setTimeout(() => {
+                traveler.classList.remove('is-walking');
+            }, 300);
+
+            const m = milestones[index];
+            dossierTitle.innerText = m.title;
+            dossierText.innerText = m.desc;
             
-            if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) { gameOver(); return; }
-            for(let i=0; i<snake.length; i++) { if(head.x === snake[i].x && head.y === snake[i].y) { gameOver(); return; } }
-            
-            snake.unshift(head);
-            if(head.x === food.x && head.y === food.y) { score+=10; scoreUI.innerText = score.toString().padStart(4, '0'); spawnSnakeFood(); } 
-            else { snake.pop(); }
+            // Smoothly change the dossier content with GSAP
+            gsap.fromTo([dossierTitle, dossierText], 
+                { opacity: 0, y: 10 }, 
+                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1 }
+            );
 
-            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height); drawStars();
-            ctx.fillStyle = C_E; ctx.fillRect(food.x, food.y, snkGrid-2, snkGrid-2);
-            snake.forEach((part, idx) => { ctx.fillStyle = idx === 0 ? C_P : C_S; ctx.fillRect(part.x, part.y, snkGrid-2, snkGrid-2); });
-            
-            setTimeout(() => { animId = requestAnimationFrame(loopSnake); }, 100);
+            dossierLink.href = '#' + m.targetId;
+            stepCounter.innerText = `MILESTONE: [${m.step}]`;
+
+            if (playSound) playAtlasBlip(320 + index * 60, 0.05);
         }
 
-        // --- TIC TAC TOE LOGIC ---
-        function initTTT() {
-            cancelAnimationFrame(animId); arcadeState = 'ttt'; scoreUI.innerText = "P1: X";
-            tttBoard = ['','','','','','','','','']; tttPlayer = 'X'; tttActive = true;
-            loopTTT();
-        }
-        function loopTTT() {
-            if(arcadeState !== 'ttt') return;
-            ctx.fillStyle = C_BG; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw Grid
-            ctx.strokeStyle = '#fff'; ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.moveTo(150, 100); ctx.lineTo(150, 400); ctx.moveTo(250, 100); ctx.lineTo(250, 400); // Vert
-            ctx.moveTo(50, 200); ctx.lineTo(350, 200); ctx.moveTo(50, 300); ctx.lineTo(350, 300); // Horiz
-            ctx.stroke();
+        // Setup click listeners for milestone nodes
+        stationNodes.forEach((node) => {
+            node.addEventListener('click', () => {
+                const idx = parseInt(node.getAttribute('data-index'));
+                setMilestone(idx);
+            });
+        });
 
-            // Draw X and O
-            ctx.font = '60px "Press Start 2P"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            for(let i=0; i<9; i++) {
-                let x = 100 + (i%3)*100; let y = 150 + Math.floor(i/3)*100;
-                if(tttBoard[i] === 'X') { ctx.fillStyle = C_P; ctx.fillText('X', x, y+10); }
-                if(tttBoard[i] === 'O') { ctx.fillStyle = C_E; ctx.fillText('O', x, y+10); }
-            }
-
-            if(!tttActive) {
-                ctx.fillStyle = 'rgba(0,0,0,0.8)'; ctx.fillRect(0,200,400,100);
-                ctx.fillStyle = C_B; ctx.font = '20px "Press Start 2P"';
-                let txt = tttPlayer === 'DRAW' ? "IT'S A DRAW!" : `PLAYER ${tttPlayer} WINS!`;
-                ctx.fillText(txt, canvas.width/2, 240);
-                ctx.font = '10px "Press Start 2P"'; ctx.fillStyle = '#fff';
-                ctx.fillText("FIRE TO RESTART", canvas.width/2, 275);
-            }
-            animId = requestAnimationFrame(loopTTT);
-        }
-        function handleTTTClick(x, y) {
-            if(!tttActive || arcadeState !== 'ttt') return;
-            if(x < 50 || x > 350 || y < 100 || y > 400) return;
-            let col = Math.floor((x - 50) / 100);
-            let row = Math.floor((y - 100) / 100);
-            let idx = row * 3 + col;
+        // Keyboard Controls (A/D or Arrows) for the Atlas
+        window.addEventListener('keydown', (e) => {
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             
-            if(tttBoard[idx] === '') {
-                tttBoard[idx] = tttPlayer;
-                checkTTTWin();
-                if(tttActive) {
-                    tttPlayer = tttPlayer === 'X' ? 'O' : 'X';
-                    scoreUI.innerText = `P${tttPlayer==='X'?1:2}: ${tttPlayer}`;
-                }
-            }
-        }
-        function checkTTTWin() {
-            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-            for(let w of wins) {
-                if(tttBoard[w[0]] && tttBoard[w[0]] === tttBoard[w[1]] && tttBoard[w[0]] === tttBoard[w[2]]) {
-                    tttActive = false; return;
-                }
-            }
-            if(!tttBoard.includes('')) { tttPlayer = 'DRAW'; tttActive = false; }
-        }
-        
-        // Touch/Click mapping for Canvas (specifically for TTT)
-        canvas.addEventListener('mousedown', (e) => {
-            if(arcadeState === 'ttt') {
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width; const scaleY = canvas.height / rect.height;
-                handleTTTClick((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+            // Only capture arrows if user is looking at the top half of the page
+            if (window.scrollY > window.innerHeight) return;
+
+            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+                if (currentMilestone < milestones.length - 1) setMilestone(currentMilestone + 1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+                if (currentMilestone > 0) setMilestone(currentMilestone - 1);
             }
         });
 
-        // --- GENERAL ARCADE LOGIC ---
-        function gameOver() {
-            arcadeState = 'gameover';
-            ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = '#fff'; ctx.font = '30px "Press Start 2P"'; ctx.textAlign = 'center';
-            ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2);
-            ctx.fillStyle = C_B; ctx.font = '12px "Press Start 2P"';
-            ctx.fillText('PRESS FIRE TO RESTART', canvas.width/2, canvas.height/2 + 40);
-        }
+        // Touch & Drag on Atlas Ground Track for mobile
+        let trackStartX = 0;
+        groundTrack.addEventListener('touchstart', (e) => {
+            trackStartX = e.touches[0].clientX;
+        }, { passive: true });
 
-        // --- HARDWARE CONTROLS (Buttons) ---
-        const btnUp = document.getElementById('btn-up'), btnDown = document.getElementById('btn-down');
-        const btnLeft = document.getElementById('btn-left'), btnRight = document.getElementById('btn-right');
-        const btnFire = document.getElementById('btn-fire'), btnAction = document.getElementById('btn-action');
-        const btnCoin = document.getElementById('btn-coin');
-
-        // Button Actions
-        function aUp() {
-            if(arcadeState === 'menu') { selectedMenu = (selectedMenu - 1 + menuOptions.length) % menuOptions.length; }
-            if(arcadeState === 'snake' && snkDy === 0) { nextSnkDx = 0; nextSnkDy = -snkGrid; }
-        }
-        function aDown() {
-            if(arcadeState === 'menu') { selectedMenu = (selectedMenu + 1) % menuOptions.length; }
-            if(arcadeState === 'snake' && snkDy === 0) { nextSnkDx = 0; nextSnkDy = snkGrid; }
-        }
-        function aLeft(press) {
-            if(arcadeState === 'shooter') pDef.dx = press ? -pDef.speed : 0;
-            if(arcadeState === 'snake' && press && snkDx === 0) { nextSnkDx = -snkGrid; nextSnkDy = 0; }
-        }
-        function aRight(press) {
-            if(arcadeState === 'shooter') pDef.dx = press ? pDef.speed : 0;
-            if(arcadeState === 'snake' && press && snkDx === 0) { nextSnkDx = snkGrid; nextSnkDy = 0; }
-        }
-        function aFire() {
-            if(arcadeState === 'idle') initMenu();
-            else if(arcadeState === 'menu') {
-                if(selectedMenu === 0) initDefender();
-                else if(selectedMenu === 1) initSnake();
-                else if(selectedMenu === 2) initTTT();
+        groundTrack.addEventListener('touchend', (e) => {
+            const diff = e.changedTouches[0].clientX - trackStartX;
+            if (diff < -40 && currentMilestone < milestones.length - 1) {
+                setMilestone(currentMilestone + 1);
+            } else if (diff > 40 && currentMilestone > 0) {
+                setMilestone(currentMilestone - 1);
             }
-            else if(arcadeState === 'shooter') { defBullets.push({x: pDef.x+pDef.w/2-2, y: pDef.y, w:4, h:12, speed:10}); }
-            else if(arcadeState === 'gameover') { initMenu(); }
-            else if(arcadeState === 'ttt' && !tttActive) { initTTT(); }
+        });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                playAtlasBlip(440, 0.04);
+
+                const filter = btn.getAttribute('data-filter');
+                
+                // Animate out, filter, then animate in
+                gsap.to(projectCards, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.3,
+                    onComplete: () => {
+                        projectCards.forEach(card => {
+                            const categories = card.getAttribute('data-category').split(' ');
+                            if (filter === 'all' || categories.includes(filter)) {
+                                card.style.display = card.classList.contains('featured-large') ? 'grid' : 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                        ScrollTrigger.refresh(); // Refresh layout
+                        
+                        // Animate visible cards back in
+                        const visibleCards = Array.from(projectCards).filter(c => c.style.display !== 'none');
+                        gsap.to(visibleCards, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.4,
+                            stagger: 0.1,
+                            ease: "power2.out"
+                        });
+                    }
+                });
+            });
+        });
+
+        let scene, camera, renderer, particles;
+        const GRID_SIZE = 55; // Number of dots per row/col
+        const DOT_SPACING = 30;
+
+        function initThreeScene() {
+            const canvas = document.getElementById('webgl-canvas');
+            scene = new THREE.Scene();
+            
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 3000);
+            camera.position.set(0, 400, 800);
+            camera.lookAt(0, 0, 0);
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create circular dot texture for Born Digital style
+            const dotCanvas = document.createElement('canvas');
+            dotCanvas.width = 64; dotCanvas.height = 64;
+            const context = dotCanvas.getContext('2d');
+            context.beginPath();
+            context.arc(32, 32, 28, 0, Math.PI * 2, false);
+            context.fillStyle = '#ffffff';
+            context.fill();
+            const dotTexture = new THREE.CanvasTexture(dotCanvas);
+
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(GRID_SIZE * GRID_SIZE * 3);
+            const scales = new Float32Array(GRID_SIZE * GRID_SIZE);
+
+            let i = 0, j = 0;
+            for (let ix = 0; ix < GRID_SIZE; ix++) {
+                for (let iy = 0; iy < GRID_SIZE; iy++) {
+                    positions[i] = ix * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); // x
+                    positions[i + 1] = 0; // y (will be animated)
+                    positions[i + 2] = iy * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); // z
+                    scales[j] = 1;
+                    i += 3; j++;
+                }
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+
+            const material = new THREE.PointsMaterial({
+                size: 6,
+                map: dotTexture,
+                transparent: true,
+                opacity: 0.4,
+                color: 0x848895, // Muted grey initially
+                depthWrite: false
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Add subtle fog for depth
+            scene.fog = new THREE.FogExp2(0x070709, 0.0015);
+
+            // Interaction variables
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            // 3D Raycasting setup for Grid interaction
+            const raycaster = new THREE.Raycaster();
+            const mouse3D = new THREE.Vector2(-1000, -1000);
+            const hitPlane = new THREE.Mesh(
+                new THREE.PlaneGeometry(10000, 10000),
+                new THREE.MeshBasicMaterial({ visible: false })
+            );
+            hitPlane.rotation.x = -Math.PI / 2;
+            scene.add(hitPlane);
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX) * 0.05;
+                mouseY = (event.clientY - windowHalfY) * 0.05;
+                
+                // Normalized device coordinates for the Raycaster
+                mouse3D.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse3D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            let count = 0;
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Smoothly interpolate camera target based on mouse
+                targetX = mouseX * 0.1;
+                targetY = mouseY * 0.1;
+                camera.position.x += (mouseX - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY + 400 - camera.position.y) * 0.02;
+                camera.lookAt(scene.position);
+
+                // Update Raycaster to find intersection with invisible plane
+                raycaster.setFromCamera(mouse3D, camera);
+                const intersects = raycaster.intersectObject(hitPlane);
+                const hit = intersects.length > 0 ? intersects[0].point : null;
+
+                const positions = particles.geometry.attributes.position.array;
+                const scales = particles.geometry.attributes.scale.array;
+
+                let i = 0, j = 0;
+                for (let ix = 0; ix < GRID_SIZE; ix++) {
+                    for (let iy = 0; iy < GRID_SIZE; iy++) {
+                        // Create harmonic wave effect
+                        let yBase = (Math.sin((ix + count) * 0.3) * 50) +
+                                    (Math.sin((iy + count) * 0.5) * 50);
+
+                        // Scale dots based on wave height
+                        let scaleBase = (Math.sin((ix + count) * 0.3) + 1) * 3 +
+                                        (Math.sin((iy + count) * 0.5) + 1) * 3;
+
+                        // Magnetic Cursor interaction: Lift the grid towards the mouse
+                        if (hit) {
+                            let dx = positions[i] - hit.x;
+                            let dz = positions[i + 2] - hit.z;
+                            let dist = Math.sqrt(dx * dx + dz * dz);
+                            
+                            if (dist < 280) {
+                                let force = (280 - dist) / 280;
+                                // Easing curve for a fluid, organic magnetic pull
+                                let easeForce = force * force * (3 - 2 * force); 
+                                yBase += easeForce * 130; 
+                                scaleBase += easeForce * 9;
+                            }
+                        }
+
+                        positions[i + 1] = yBase;
+                        scales[j] = scaleBase;
+
+                        i += 3; j++;
+                    }
+                }
+
+                particles.geometry.attributes.position.needsUpdate = true;
+                particles.geometry.attributes.scale.needsUpdate = true;
+
+                count += 0.03;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        initThreeScene();
+
+        function updateThreeColors() {
+            if (!particles || !scene.fog) return;
+            
+            const targetColor = isDarkMode ? 0x848895 : 0x4b4f5d;
+            const targetFog = isDarkMode ? 0x070709 : 0xf7f8fa;
+            const targetOpacity = isDarkMode ? 0.4 : 0.6;
+
+            // Animate Three.js colors using GSAP for smooth transition
+            gsap.to(particles.material.color, {
+                r: new THREE.Color(targetColor).r,
+                g: new THREE.Color(targetColor).g,
+                b: new THREE.Color(targetColor).b,
+                duration: 0.5
+            });
+            gsap.to(scene.fog.color, {
+                r: new THREE.Color(targetFog).r,
+                g: new THREE.Color(targetFog).g,
+                b: new THREE.Color(targetFog).b,
+                duration: 0.5
+            });
+            gsap.to(particles.material, { opacity: targetOpacity, duration: 0.5 });
         }
 
-        // Coin / Menu Button
-        btnCoin.addEventListener('click', initMenu);
-        btnAction.addEventListener('mousedown', initMenu); btnAction.addEventListener('touchstart', (e)=>{e.preventDefault(); initMenu();});
+        const pongCanvas = document.getElementById('pong-canvas');
+        const pCtx = pongCanvas.getContext('2d');
+        const scoreReadout = document.getElementById('game-score-readout');
+        const startOverlay = document.getElementById('arcade-overlay');
+        const startBtn = document.getElementById('btn-start-arcade');
 
-        // Mouse/Touch Bindings
-        btnUp.addEventListener('mousedown', aUp); btnUp.addEventListener('touchstart', (e)=>{e.preventDefault(); aUp();});
-        btnDown.addEventListener('mousedown', aDown); btnDown.addEventListener('touchstart', (e)=>{e.preventDefault(); aDown();});
-        
-        btnLeft.addEventListener('mousedown', ()=>aLeft(true)); btnLeft.addEventListener('mouseup', ()=>aLeft(false)); btnLeft.addEventListener('mouseleave', ()=>aLeft(false));
-        btnLeft.addEventListener('touchstart', (e)=>{e.preventDefault(); aLeft(true);}); btnLeft.addEventListener('touchend', (e)=>{e.preventDefault(); aLeft(false);});
-        
-        btnRight.addEventListener('mousedown', ()=>aRight(true)); btnRight.addEventListener('mouseup', ()=>aRight(false)); btnRight.addEventListener('mouseleave', ()=>aRight(false));
-        btnRight.addEventListener('touchstart', (e)=>{e.preventDefault(); aRight(true);}); btnRight.addEventListener('touchend', (e)=>{e.preventDefault(); aRight(false);});
+        let isArcadeRunning = false;
+        function fitPong() {
+            pongCanvas.width = pongCanvas.clientWidth;
+            pongCanvas.height = window.innerWidth < 768 ? 280 : 380;
+        }
+        fitPong();
+        window.addEventListener('resize', fitPong);
 
-        btnFire.addEventListener('mousedown', aFire); btnFire.addEventListener('touchstart', (e)=>{e.preventDefault(); aFire();});
+        const pad = { w: 8, h: 70, speed: 7 };
+        let p1 = { y: 150, score: 0 };
+        let pAi = { y: 150, score: 0 };
+        let pongBall = { x: 200, y: 150, r: 5, vx: 5, vy: 4, speed: 6 };
 
-        // Keyboard Bindings
-        window.addEventListener('keydown', e => {
-            if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key) && arcadeState !== 'idle') e.preventDefault();
-            if(e.key === 'ArrowUp') aUp();
-            if(e.key === 'ArrowDown') aDown();
-            if(e.key === 'ArrowLeft') aLeft(true);
-            if(e.key === 'ArrowRight') aRight(true);
-            if(e.key === ' ') aFire();
-            if(e.key === 'Escape' || e.key === 'Backspace') initMenu();
+        let mouseY = p1.y;
+        pongCanvas.addEventListener('mousemove', (e) => {
+            const rect = pongCanvas.getBoundingClientRect();
+            mouseY = e.clientY - rect.top - pad.h / 2;
+        });
+
+        pongCanvas.addEventListener('touchmove', (e) => {
+            if (isArcadeRunning) e.preventDefault(); // Prevent scrolling while playing
+            const rect = pongCanvas.getBoundingClientRect();
+            mouseY = e.touches[0].clientY - rect.top - pad.h / 2;
         }, { passive: false });
-        window.addEventListener('keyup', e => {
-            if(e.key === 'ArrowLeft') aLeft(false);
-            if(e.key === 'ArrowRight') aRight(false);
+
+        function resetPongBall() {
+            pongBall.x = pongCanvas.width / 2;
+            pongBall.y = pongCanvas.height / 2;
+            pongBall.vx = (Math.random() > 0.5 ? 1 : -1) * pongBall.speed;
+            pongBall.vy = (Math.random() * 2 - 1) * pongBall.speed;
+        }
+
+        startBtn.addEventListener('click', () => {
+            initAudio(); // Ensure audio context is ready
+            startOverlay.style.display = 'none';
+            isArcadeRunning = true;
+            resetPongBall();
+            playAtlasBlip(640, 0.1);
+            
+            // Scroll game into full view on mobile
+            if(window.innerWidth < 768) {
+                lenis.scrollTo(document.getElementById('terminal'), {offset: -60});
+            }
         });
+
+        function runPongLoop() {
+            pCtx.clearRect(0, 0, pongCanvas.width, pongCanvas.height);
+
+            // Center dash line
+            pCtx.setLineDash([6, 8]);
+            pCtx.beginPath();
+            pCtx.moveTo(pongCanvas.width / 2, 0);
+            pCtx.lineTo(pongCanvas.width / 2, pongCanvas.height);
+            pCtx.strokeStyle = isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            pCtx.stroke();
+            pCtx.setLineDash([]);
+
+            // Draw paddles & ball
+            pCtx.fillStyle = isDarkMode ? '#ffffff' : '#0c0d0f';
+            pCtx.fillRect(16, p1.y, pad.w, pad.h);
+            pCtx.fillRect(pongCanvas.width - 24, pAi.y, pad.w, pad.h);
+
+            pCtx.beginPath();
+            pCtx.arc(pongBall.x, pongBall.y, pongBall.r, 0, Math.PI * 2);
+            pCtx.fill();
+
+            if (isArcadeRunning) {
+                // Player movement easing
+                p1.y += (mouseY - p1.y) * 0.2;
+                if (p1.y < 0) p1.y = 0;
+                if (p1.y + pad.h > pongCanvas.height) p1.y = pongCanvas.height - pad.h;
+
+                // AI smooth tracking (with intentional delay/imperfection)
+                const aiCenter = pAi.y + pad.h / 2;
+                if (aiCenter < pongBall.y - 12) pAi.y += pad.speed * 0.65;
+                else if (aiCenter > pongBall.y + 12) pAi.y -= pad.speed * 0.65;
+                if (pAi.y < 0) pAi.y = 0;
+                if (pAi.y + pad.h > pongCanvas.height) pAi.y = pongCanvas.height - pad.h;
+
+                pongBall.x += pongBall.vx;
+                pongBall.y += pongBall.vy;
+
+                // Wall bounce
+                if (pongBall.y - pongBall.r < 0 || pongBall.y + pongBall.r > pongCanvas.height) {
+                    pongBall.vy *= -1;
+                    playAtlasBlip(300, 0.02);
+                }
+
+                // Paddle collision checks
+                const hitP1 = pongBall.vx < 0 && pongBall.x - pongBall.r <= 24 && pongBall.y >= p1.y && pongBall.y <= p1.y + pad.h;
+                const hitAI = pongBall.vx > 0 && pongBall.x + pongBall.r >= pongCanvas.width - 24 && pongBall.y >= pAi.y && pongBall.y <= pAi.y + pad.h;
+
+                if (hitP1 || hitAI) {
+                    pongBall.vx *= -1.05; // Slightly increase speed on hit
+                    const paddleCenter = hitP1 ? (p1.y + pad.h / 2) : (pAi.y + pad.h / 2);
+                    pongBall.vy = (pongBall.y - paddleCenter) * 0.18;
+                    playAtlasBlip(550, 0.04);
+                }
+
+                // Scoring
+                if (pongBall.x < 0) {
+                    pAi.score++;
+                    updateScoreUI();
+                    playAtlasBlip(200, 0.1, 'sawtooth');
+                    resetPongBall();
+                } else if (pongBall.x > pongCanvas.width) {
+                    p1.score++;
+                    updateScoreUI();
+                    playAtlasBlip(800, 0.1);
+                    resetPongBall();
+                }
+            }
+
+            requestAnimationFrame(runPongLoop);
+        }
+        
+        function updateScoreUI() {
+            scoreReadout.innerText = `PLAYER: ${p1.score.toString().padStart(2, '0')} | SYS_AI: ${pAi.score.toString().padStart(2, '0')}`;
+        }
+        
+        // Start game loop
+        runPongLoop();
 
     </script>
 </body>
