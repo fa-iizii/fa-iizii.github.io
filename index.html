@@ -7,34 +7,30 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Space Grotesk for architectural titles, JetBrains Mono for atlas telemetry, Manrope for high-legibility body -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- External Animation & 3D Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.32/dist/lenis.min.js"></script>
 
     <style>
+        /* LIGHT THEME (DEFAULT) */
         :root {
-            /* Synapser Studio Inspired Dark Palette */
-            --bg-color: #1a1a1a; /* Very dark charcoal, almost black but softer */
-            --surface-color: #242423; /* Slightly lighter charcoal for surfaces */
-            --surface-card: #2c2c2b; /* Card background */
-            --text-main: #dcd8c0; /* The signature warm stone/beige from Synapser */
-            --text-muted: #8c8c8a; /* Muted version of the text for secondary info */
-            --text-dim: #535352; /* Darker graphite for subtle elements */
-            --accent-primary: #dcd8c0;
-            --accent-glow: rgba(220, 216, 192, 0.12);
-            --border-hairline: rgba(220, 216, 192, 0.15);
-            --border-highlight: rgba(220, 216, 192, 0.35);
-            --atlas-line: rgba(220, 216, 192, 0.25);
-            --active-node: #dcd8c0; 
-            
-            /* Glassmorphism Vars */
-            --nav-bg: rgba(26, 26, 26, 0.6);
-            --nav-border: rgba(220, 216, 192, 0.1);
+            --bg-color: #dcd8c0; 
+            --surface-color: #d1ccb3; 
+            --surface-card: #e5e2cf; 
+            --text-main: #242423; 
+            --text-muted: #535352; 
+            --text-dim: #7a7a78; 
+            --accent-primary: #242423;
+            --accent-glow: rgba(36, 36, 35, 0.08);
+            --border-hairline: rgba(83, 83, 82, 0.2);
+            --border-highlight: rgba(83, 83, 82, 0.4);
+            --atlas-line: rgba(83, 83, 82, 0.3);
+            --active-node: #242423;
+            --nav-bg: rgba(220, 216, 192, 0.6);
+            --nav-border: rgba(83, 83, 82, 0.15);
 
             --font-display: 'Space Grotesk', sans-serif;
             --font-body: 'Manrope', sans-serif;
@@ -42,1067 +38,297 @@
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        [data-theme="light"] {
-            /* Synapser Studio Inspired Light Palette */
-            --bg-color: #dcd8c0; /* The signature warm stone/beige as background */
-            --surface-color: #d1ccb3; /* Slightly darker stone for surfaces */
-            --surface-card: #e5e2cf; /* Lighter card background */
-            --text-main: #242423; /* Dark charcoal text */
-            --text-muted: #535352; /* The specific awwwards graphite color */
-            --text-dim: #7a7a78; /* Lighter grey for subtle text */
-            --accent-primary: #242423;
-            --accent-glow: rgba(36, 36, 35, 0.08);
-            --border-hairline: rgba(83, 83, 82, 0.2);
-            --border-highlight: rgba(83, 83, 82, 0.4);
-            --atlas-line: rgba(83, 83, 82, 0.3);
-            --active-node: #242423;
-
-            --nav-bg: rgba(220, 216, 192, 0.6);
-            --nav-border: rgba(83, 83, 82, 0.15);
+        /* DARK THEME */
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a; 
+            --surface-color: #242423; 
+            --surface-card: #2c2c2b; 
+            --text-main: #dcd8c0; 
+            --text-muted: #8c8c8a; 
+            --text-dim: #535352; 
+            --accent-primary: #dcd8c0;
+            --accent-glow: rgba(220, 216, 192, 0.12);
+            --border-hairline: rgba(220, 216, 192, 0.15);
+            --border-highlight: rgba(220, 216, 192, 0.35);
+            --atlas-line: rgba(220, 216, 192, 0.25);
+            --active-node: #dcd8c0; 
+            --nav-bg: rgba(26, 26, 26, 0.6);
+            --nav-border: rgba(220, 216, 192, 0.1);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-            cursor: none !important; /* Hide default cursor */
+            margin: 0; padding: 0; box-sizing: border-box;
+            user-select: none; cursor: none !important;
         }
 
         /* Custom Cursor Elements */
         .custom-cursor-dot, .custom-cursor-ring {
-            position: fixed;
-            top: 0; left: 0;
+            position: fixed; top: 0; left: 0;
             transform: translate(-50%, -50%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
+            border-radius: 50%; pointer-events: none; z-index: 10000;
         }
-
         .custom-cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--text-main);
+            width: 6px; height: 6px; background: var(--text-main);
             transition: transform 0.2s var(--ease-out);
         }
-
         .custom-cursor-ring {
-            width: 36px;
-            height: 36px;
-            border: 1px solid var(--text-muted);
+            width: 36px; height: 36px; border: 1px solid var(--text-muted);
             transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), border-color 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
         }
 
-        body.cursor-hover .custom-cursor-dot {
-            transform: translate(-50%, -50%) scale(0);
-        }
-
+        body.cursor-hover .custom-cursor-dot { transform: translate(-50%, -50%) scale(0); }
         body.cursor-hover .custom-cursor-ring {
-            width: 50px;
-            height: 50px;
-            border-color: var(--text-main);
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(2px);
+            width: 50px; height: 50px; border-color: var(--text-main);
+            background: rgba(0, 0, 0, 0.05); backdrop-filter: blur(2px);
         }
-
-        [data-theme="light"] body.cursor-hover .custom-cursor-ring {
-            background: rgba(0, 0, 0, 0.05);
+        [data-theme="dark"] body.cursor-hover .custom-cursor-ring {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+            background-color: var(--bg-color); color: var(--text-main);
+            font-family: var(--font-body); -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
         }
 
-        /* Smooth scroll container fixes */
+        /* Smooth scroll config */
         html.lenis { height: auto; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
-        /* Architectural background grid lines */
         .bg-grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-image: 
                 linear-gradient(to right, var(--border-hairline) 1px, transparent 1px),
                 linear-gradient(to bottom, var(--border-hairline) 1px, transparent 1px);
-            background-size: 72px 72px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.6;
+            background-size: 72px 72px; pointer-events: none; z-index: 0; opacity: 0.6;
         }
 
         #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1; pointer-events: none;
         }
 
         .container {
-            max-width: 1360px;
-            margin: 0 auto;
-            padding: 0 4vw;
-            position: relative;
-            z-index: 10;
+            max-width: 1360px; margin: 0 auto; padding: 0 4vw;
+            position: relative; z-index: 10;
         }
+
+        /* Boot Screen */
+        .boot-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-color); z-index: 99999;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 40px;
+            font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-main);
+        }
+        .boot-log { opacity: 0; transform: translateY(10px); }
 
         .telemetry-hud {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            padding: 12px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-hairline);
-            background: rgba(7, 7, 9, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; width: 100vw; padding: 12px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em;
+            color: var(--text-muted); border-bottom: 1px solid var(--border-hairline);
+            background: rgba(220, 216, 192, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000;
         }
+        [data-theme="dark"] .telemetry-hud { background: rgba(7, 7, 9, 0.75); }
 
-        .hud-group {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
+        .hud-group { display: flex; gap: 20px; align-items: center; }
         .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--active-node);
-            display: inline-block;
-            box-shadow: 0 0 10px var(--active-node);
+            width: 7px; height: 7px; border-radius: 50%; background: var(--active-node);
+            display: inline-block; box-shadow: 0 0 10px var(--active-node);
             animation: pulseDot 2.2s infinite;
         }
-
         @keyframes pulseDot {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(0.85); }
         }
 
         .audio-toggle-btn {
-            background: transparent;
-            border: 1px solid var(--border-hairline);
-            color: var(--text-main);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: transparent; border: 1px solid var(--border-hairline);
+            color: var(--text-main); padding: 4px 10px; border-radius: 4px;
+            font-family: var(--font-mono); font-size: 0.68rem; cursor: pointer; transition: all 0.2s;
         }
-        .audio-toggle-btn:hover {
-            border-color: var(--text-main);
-        }
+        .audio-toggle-btn:hover { border-color: var(--text-main); }
 
         /* Glassmorphic Nav */
         nav.studio-nav {
-            position: fixed;
-            top: 52px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 18px;
-            background: var(--nav-bg);
-            border: 1px solid var(--nav-border);
-            border-radius: 999px;
-            z-index: 999;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            width: min(92vw, 860px);
-            transition: background 0.4s, border-color 0.4s;
+            position: fixed; top: 52px; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 18px; background: var(--nav-bg); border: 1px solid var(--nav-border);
+            border-radius: 999px; z-index: 999; box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            width: min(92vw, 860px); transition: background 0.4s, border-color 0.4s;
         }
+        [data-theme="dark"] nav.studio-nav { box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
 
         .brand-logo {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: -0.02em;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            text-decoration: none;
+            font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+            letter-spacing: -0.02em; color: var(--text-main); display: flex; align-items: center; gap: 8px; text-decoration: none;
         }
-
         .brand-badge {
-            font-family: var(--font-mono);
-            font-size: 0.62rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            color: var(--text-muted);
+            font-family: var(--font-mono); font-size: 0.62rem; padding: 2px 6px;
+            border-radius: 4px; background: var(--surface-card); border: 1px solid var(--border-hairline); color: var(--text-muted);
         }
-
-        .nav-links-menu {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
+        .nav-links-menu { display: flex; align-items: center; gap: 6px; }
         .nav-item {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 999px;
-            transition: all 0.25s var(--ease-out);
+            color: var(--text-muted); text-decoration: none; font-family: var(--font-mono);
+            font-size: 0.75rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; transition: all 0.25s var(--ease-out);
         }
-
-        .nav-item:hover, .nav-item.active {
-            color: var(--text-main);
-            background: var(--surface-card);
-        }
+        .nav-item:hover, .nav-item.active { color: var(--text-main); background: var(--surface-card); }
 
         /* Theme switch pill */
         .theme-pill {
-            width: 44px;
-            height: 24px;
-            border-radius: 999px;
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 3px;
+            width: 44px; height: 24px; border-radius: 999px; background: var(--surface-card);
+            border: 1px solid var(--border-hairline); position: relative; cursor: pointer; display: flex; align-items: center; padding: 3px;
         }
         .theme-pill-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--text-main);
-            transition: transform 0.3s var(--ease-out);
+            width: 16px; height: 16px; border-radius: 50%; background: var(--text-main); transition: transform 0.3s var(--ease-out);
         }
-        [data-theme="light"] .theme-pill-thumb {
-            transform: translateX(20px);
-        }
+        [data-theme="dark"] .theme-pill-thumb { transform: translateX(20px); }
 
-        section.hero-stage {
-            min-height: 100vh;
-            padding-top: 130px;
-            padding-bottom: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+        section.hero-stage { min-height: 100vh; padding-top: 130px; padding-bottom: 60px; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .hero-header-area { max-width: 980px; margin-top: 20px; }
+        .act-tag { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .act-tag::before { content: ''; width: 18px; height: 1px; background: var(--text-muted); }
+        .hero-title { font-family: var(--font-display); font-size: clamp(2.8rem, 6.5vw, 5.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.035em; color: var(--text-main); margin-bottom: 24px; }
+        .hero-title .title-accent { color: var(--text-muted); font-weight: 400; }
+        .hero-desc { font-size: clamp(1.05rem, 1.6vw, 1.25rem); line-height: 1.65; color: var(--text-muted); max-width: 740px; margin-bottom: 32px; }
 
-        .hero-header-area {
-            max-width: 980px;
-            margin-top: 20px;
-        }
+        .metrics-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; margin-bottom: 40px; }
+        .metric-card { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: 12px; padding: 16px 20px; transition: border-color 0.25s; }
+        .metric-card:hover { border-color: var(--border-highlight); }
+        .metric-value { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; }
+        .metric-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
 
-        .act-tag {
-            font-family: var(--font-mono);
-            font-size: 0.78rem;
-            letter-spacing: 0.12em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        .walkable-atlas-world { position: relative; background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: 16px; padding: 30px 24px 20px 24px; margin-top: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); }
+        [data-theme="dark"] .walkable-atlas-world { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); }
 
-        .act-tag::before {
-            content: '';
-            width: 18px;
-            height: 1px;
-            background: var(--text-muted);
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.8rem, 6.5vw, 5.8rem);
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.035em;
-            color: var(--text-main);
-            margin-bottom: 24px;
-        }
-
-        .hero-title .title-accent {
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .hero-desc {
-            font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-            line-height: 1.65;
-            color: var(--text-muted);
-            max-width: 740px;
-            margin-bottom: 32px;
-        }
-
-        .metrics-strip {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
-            margin-bottom: 40px;
-        }
-
-        .metric-card {
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 12px;
-            padding: 16px 20px;
-            transition: border-color 0.25s;
-        }
-        .metric-card:hover {
-            border-color: var(--border-highlight);
-        }
-        .metric-value {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
-        }
-        .metric-label {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 4px;
-        }
-
-        .walkable-atlas-world {
-            position: relative;
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 16px;
-            padding: 30px 24px 20px 24px;
-            margin-top: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        }
-
-        .atlas-header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-hairline);
-            padding-bottom: 14px;
-            margin-bottom: 25px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-        }
-
-        .atlas-title-text {
-            color: var(--text-main);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .atlas-instruction-keys {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            color: var(--text-muted);
-        }
-
-        .key-badge {
-            background: var(--surface-color);
-            border: 1px solid var(--border-hairline);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.68rem;
-            color: var(--text-main);
-            box-shadow: 0 2px 0 var(--border-hairline);
-        }
+        .atlas-header-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-hairline); padding-bottom: 14px; margin-bottom: 25px; font-family: var(--font-mono); font-size: 0.75rem; }
+        .atlas-title-text { color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .atlas-instruction-keys { display: flex; gap: 8px; align-items: center; color: var(--text-muted); }
+        .key-badge { background: var(--surface-color); border: 1px solid var(--border-hairline); padding: 3px 8px; border-radius: 4px; font-size: 0.68rem; color: var(--text-main); box-shadow: 0 2px 0 var(--border-hairline); }
 
         /* The Ground Track */
-        .ground-track-container {
-            position: relative;
-            width: 100%;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            touch-action: pan-y;
-            cursor: grab;
-        }
-        .ground-track-container:active {
-            cursor: grabbing;
-        }
+        .ground-track-container { position: relative; width: 100%; height: 120px; display: flex; align-items: center; touch-action: pan-y; cursor: grab; }
+        .ground-track-container:active { cursor: grabbing; }
+        .ground-horizontal-line { position: absolute; bottom: 24px; left: 0; width: 100%; height: 2px; background: var(--atlas-line); }
 
-        .ground-horizontal-line {
-            position: absolute;
-            bottom: 24px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--atlas-line);
-        }
+        .milestone-station { position: absolute; bottom: 24px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 5; transition: transform 0.2s; }
+        .milestone-station:hover { transform: translateX(-50%) translateY(-3px); }
+        .milestone-node { width: 12px; height: 12px; border-radius: 50%; background: var(--bg-color); border: 2px solid var(--text-muted); margin-bottom: -7px; transition: all 0.3s; }
+        .milestone-station.active .milestone-node { background: var(--text-main); border-color: var(--text-main); transform: scale(1.3); box-shadow: 0 0 14px rgba(255,255,255,0.7); }
+        [data-theme="light"] .milestone-station.active .milestone-node { box-shadow: 0 0 14px rgba(0,0,0,0.3); }
+        .milestone-label { position: absolute; bottom: 22px; font-family: var(--font-mono); font-size: 0.65rem; white-space: nowrap; color: var(--text-muted); letter-spacing: 0.04em; transition: color 0.2s; }
+        .milestone-station.active .milestone-label { color: var(--text-main); font-weight: 600; }
 
-        /* Ground milestones */
-        .milestone-station {
-            position: absolute;
-            bottom: 24px;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            z-index: 5;
-            transition: transform 0.2s;
-        }
-        .milestone-station:hover {
-            transform: translateX(-50%) translateY(-3px);
-        }
-
-        .milestone-node {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--bg-color);
-            border: 2px solid var(--text-muted);
-            margin-bottom: -7px;
-            transition: all 0.3s;
-        }
-        .milestone-station.active .milestone-node {
-            background: var(--text-main);
-            border-color: var(--text-main);
-            transform: scale(1.3);
-            box-shadow: 0 0 14px rgba(255,255,255,0.7);
-        }
-
-        .milestone-label {
-            position: absolute;
-            bottom: 22px;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            white-space: nowrap;
-            color: var(--text-muted);
-            letter-spacing: 0.04em;
-            transition: color 0.2s;
-        }
-        .milestone-station.active .milestone-label {
-            color: var(--text-main);
-            font-weight: 600;
-        }
-
-        /* The Animated Walking Traveler (Robot) */
-        .atlas-traveler {
-            position: absolute;
-            bottom: 25px;
-            left: 5%;
-            transform: translateX(-50%);
-            width: 32px;
-            height: 48px;
-            z-index: 10;
-            pointer-events: none;
-            transition: left 0.15s ease-out;
-        }
-
-        .traveler-svg {
-            width: 100%;
-            height: 100%;
-            color: var(--text-main);
-        }
-
-        .leg-l { transform-origin: 12px 34px; }
-        .leg-r { transform-origin: 20px 34px; }
-        .arm-l { transform-origin: 8px 23px; }
-        .arm-r { transform-origin: 24px 23px; }
-
-        .is-walking .leg-l { animation: step1 0.35s infinite alternate ease-in-out; }
-        .is-walking .leg-r { animation: step2 0.35s infinite alternate ease-in-out; }
-        .is-walking .arm-l { animation: step2 0.35s infinite alternate ease-in-out; }
-        .is-walking .arm-r { animation: step1 0.35s infinite alternate ease-in-out; }
-
+        .atlas-traveler { position: absolute; bottom: 25px; left: 5%; transform: translateX(-50%); width: 32px; height: 48px; z-index: 10; pointer-events: none; transition: left 0.15s ease-out; }
+        .traveler-svg { width: 100%; height: 100%; color: var(--text-main); }
+        .leg-l { transform-origin: 12px 34px; } .leg-r { transform-origin: 20px 34px; } .arm-l { transform-origin: 8px 23px; } .arm-r { transform-origin: 24px 23px; }
+        .is-walking .leg-l { animation: step1 0.35s infinite alternate ease-in-out; } .is-walking .leg-r { animation: step2 0.35s infinite alternate ease-in-out; } .is-walking .arm-l { animation: step2 0.35s infinite alternate ease-in-out; } .is-walking .arm-r { animation: step1 0.35s infinite alternate ease-in-out; }
         @keyframes step1 { from { transform: rotate(-35deg); } to { transform: rotate(35deg); } }
         @keyframes step2 { from { transform: rotate(35deg); } to { transform: rotate(-35deg); } }
 
-        /* Discovery Dossier Drawer */
-        .atlas-telemetry-dossier {
-            background: var(--surface-color);
-            border: 1px solid var(--border-hairline);
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin-top: 15px;
-            font-family: var(--font-mono);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
+        .atlas-telemetry-dossier { background: var(--surface-color); border: 1px solid var(--border-hairline); border-radius: 10px; padding: 16px 20px; margin-top: 15px; font-family: var(--font-mono); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
+        .dossier-heading { font-size: 0.88rem; color: var(--text-main); font-weight: 600; }
+        .dossier-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; max-width: 650px; line-height: 1.5; }
+        .dossier-action-btn { background: var(--text-main); color: var(--bg-color); border: none; padding: 8px 18px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; text-decoration: none; display: inline-block; }
+        .dossier-action-btn:hover { opacity: 0.88; }
 
-        .dossier-heading {
-            font-size: 0.88rem;
-            color: var(--text-main);
-            font-weight: 600;
-        }
-        .dossier-desc {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-            max-width: 650px;
-            line-height: 1.5;
-        }
+        section { padding: 110px 0; position: relative; }
+        .section-header-box { display: flex; flex-direction: column; gap: 8px; margin-bottom: 50px; border-bottom: 1px solid var(--border-hairline); padding-bottom: 24px; }
+        .section-index-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; }
+        .section-display-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: var(--text-main); }
 
-        .dossier-action-btn {
-            background: var(--text-main);
-            color: var(--bg-color);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .dossier-action-btn:hover {
-            opacity: 0.88;
-        }
+        .projects-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
+        .project-card { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.3s, transform 0.3s; position: relative; }
+        .project-card:hover { border-color: var(--border-highlight); transform: translateY(-4px); z-index: 20; }
+        .project-card.featured-large { grid-column: span 12; display: grid; grid-template-columns: 1.25fr 1fr; }
+        .project-card.medium-span { grid-column: span 6; }
 
-        section {
-            padding: 110px 0;
-            position: relative;
-        }
+        /* 3D Image Wrappers */
+        .project-card-image { position: relative; width: 100%; height: 100%; min-height: 280px; background: var(--surface-color); overflow: hidden; perspective: 1000px; transform-style: preserve-3d; }
+        .img-inner-wrap { width: 100%; height: 100%; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; transform-origin: center center; }
+        .project-card-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(85%) contrast(105%); transition: filter 0.5s var(--ease-out); }
+        .project-card:hover .project-card-image img { filter: grayscale(0%) contrast(100%); }
 
-        .section-header-box {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 50px;
-            border-bottom: 1px solid var(--border-hairline);
-            padding-bottom: 24px;
-        }
+        .image-hud-badge { position: absolute; top: 16px; left: 16px; background: rgba(7, 7, 9, 0.8); border: 1px solid var(--border-hairline); color: #dcd8c0; padding: 4px 10px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.68rem; backdrop-filter: blur(8px); z-index: 5; }
 
-        .section-index-tag {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
+        .project-card-content { padding: 34px; display: flex; flex-direction: column; justify-content: space-between; }
+        .project-card-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .project-stack-tag { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--text-muted); text-transform: uppercase; }
+        .project-status-badge { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-main); background: var(--bg-color); border: 1px solid var(--border-highlight); padding: 2px 8px; border-radius: 999px; }
+        .project-card-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 14px; }
+        .project-card-summary { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 26px; }
+        .project-action-row { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+        .btn-inspect { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 999px; border: 1px solid var(--border-hairline); background: var(--surface-color); color: var(--text-main); font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; text-decoration: none; transition: all 0.25s; }
+        .btn-inspect:hover { border-color: var(--text-main); background: var(--text-main); color: var(--bg-color); }
 
-        .section-display-title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            color: var(--text-main);
-        }
+        .cv-matrix-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .cv-column-card { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: 20px; padding: 36px; }
+        .cv-column-title { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
+        .cv-column-title::before { content: '●'; color: var(--text-main); font-size: 0.7rem; }
+        .timeline-entry { position: relative; padding-left: 28px; margin-bottom: 36px; }
+        .timeline-entry:last-child { margin-bottom: 0; }
+        .timeline-entry::before { content: ''; position: absolute; left: 0; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--text-main); }
+        .timeline-entry::after { content: ''; position: absolute; left: 3.5px; top: 20px; width: 1px; height: calc(100% + 22px); background: var(--border-hairline); }
+        .timeline-entry:last-child::after { display: none; }
+        .timeline-period { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 4px; }
+        .timeline-role { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .timeline-org { font-family: var(--font-body); font-size: 0.95rem; color: var(--text-muted); margin-bottom: 12px; }
+        .timeline-detail { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
 
-        .filter-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 36px;
-        }
+        .arcade-container { background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: 20px; padding: 24px; position: relative; overflow: hidden; transition: all 0.3s ease; }
+        .arcade-container:fullscreen { background: var(--bg-color); border: none; border-radius: 0; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        
+        .terminal-top-hud { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-hairline); padding-bottom: 16px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
+        #pong-canvas { width: 100%; height: 380px; background: var(--bg-color); border: 1px solid var(--border-hairline); border-radius: 12px; display: block; cursor: crosshair; touch-action: none; }
+        .arcade-container:fullscreen #pong-canvas { height: calc(100vh - 150px); }
 
-        .filter-btn {
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            color: var(--text-muted);
-            padding: 8px 18px;
-            border-radius: 999px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.25s var(--ease-out);
-        }
+        footer.studio-footer { border-top: 1px solid var(--border-hairline); padding: 60px 0 40px 0; margin-top: 60px; background: var(--surface-color); position: relative; z-index: 10; }
+        .footer-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-mono-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); }
 
-        .filter-btn:hover, .filter-btn.active {
-            color: var(--text-main);
-            border-color: var(--text-main);
-            background: var(--surface-color);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 30px;
-        }
-
-        .project-card {
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 20px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: border-color 0.3s, transform 0.3s;
-            position: relative;
-        }
-
-        .project-card:hover {
-            border-color: var(--border-highlight);
-            transform: translateY(-4px);
-        }
-
-        .project-card.featured-large {
-            grid-column: span 12;
-            display: grid;
-            grid-template-columns: 1.25fr 1fr;
-        }
-
-        .project-card.medium-span {
-            grid-column: span 6;
-        }
-
-        .project-card-image {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            min-height: 280px;
-            background: var(--surface-color);
-            overflow: hidden;
-            perspective: 1000px; /* For 3D tilt */
-        }
-
-        .project-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(85%) contrast(105%);
-            transition: filter 0.5s var(--ease-out), transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
-        }
-
-        .project-card:hover .project-card-image img {
-            filter: grayscale(0%) contrast(100%);
-        }
-
-        .image-hud-badge {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            background: rgba(7, 7, 9, 0.8);
-            border: 1px solid var(--border-hairline);
-            color: var(--text-main);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            backdrop-filter: blur(8px);
-            z-index: 5;
-        }
-
-        .project-card-content {
-            padding: 34px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .project-card-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .project-stack-tag {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .project-status-badge {
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--text-main);
-            background: var(--bg-color);
-            border: 1px solid var(--border-highlight);
-            padding: 2px 8px;
-            border-radius: 999px;
-        }
-
-        .project-card-title {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.02em;
-            color: var(--text-main);
-            margin-bottom: 14px;
-        }
-
-        .project-card-summary {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 26px;
-        }
-
-        .project-action-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-top: auto;
-        }
-
-        .btn-inspect {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 22px;
-            border-radius: 999px;
-            border: 1px solid var(--border-hairline);
-            background: var(--surface-color);
-            color: var(--text-main);
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.25s;
-        }
-
-        .btn-inspect:hover {
-            border-color: var(--text-main);
-            background: var(--text-main);
-            color: var(--bg-color);
-        }
-
-        .cv-matrix-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .cv-column-card {
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 20px;
-            padding: 36px;
-        }
-
-        .cv-column-title {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cv-column-title::before {
-            content: '●';
-            color: var(--text-main);
-            font-size: 0.7rem;
-        }
-
-        .timeline-entry {
-            position: relative;
-            padding-left: 28px;
-            margin-bottom: 36px;
-        }
-        .timeline-entry:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-entry::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 6px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--text-main);
-        }
-
-        .timeline-entry::after {
-            content: '';
-            position: absolute;
-            left: 3.5px;
-            top: 20px;
-            width: 1px;
-            height: calc(100% + 22px);
-            background: var(--border-hairline);
-        }
-        .timeline-entry:last-child::after {
-            display: none;
-        }
-
-        .timeline-period {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
-        }
-
-        .timeline-role {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 4px;
-        }
-
-        .timeline-org {
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .timeline-detail {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .timeline-detail ul {
-            list-style: none;
-            margin-top: 8px;
-        }
-        .timeline-detail li {
-            position: relative;
-            padding-left: 16px;
-            margin-bottom: 5px;
-        }
-        .timeline-detail li::before {
-            content: '–';
-            position: absolute;
-            left: 0;
-            color: var(--text-dim);
-        }
-
-        .arcade-container {
-            background: var(--surface-card);
-            border: 1px solid var(--border-hairline);
-            border-radius: 20px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .terminal-top-hud {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-hairline);
-            padding-bottom: 16px;
-            margin-bottom: 20px;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        #pong-canvas {
-            width: 100%;
-            height: 380px;
-            background: var(--bg-color);
-            border: 1px solid var(--border-hairline);
-            border-radius: 12px;
-            display: block;
-            cursor: crosshair;
-            touch-action: none;
-        }
-
-        #arcade-overlay {
-            position: absolute;
-            inset: 70px 24px 24px 24px;
-            background: rgba(7, 7, 9, 0.75);
-            backdrop-filter: blur(12px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            border-radius: 12px;
-            z-index: 20;
-        }
-
-        footer.studio-footer {
-            border-top: 1px solid var(--border-hairline);
-            padding: 60px 0 40px 0;
-            margin-top: 60px;
-            background: var(--surface-color);
-        }
-
-        .footer-grid {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .footer-mono-label {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* --- Floating Contact Node --- */
-        .floating-contact-node {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 15px;
-        }
-
-        .contact-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background: var(--nav-bg);
-            border: 1px solid var(--border-hairline);
-            padding: 16px;
-            border-radius: 12px;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(20px) scale(0.95);
-            transform-origin: bottom right;
-            transition: all 0.4s var(--ease-out);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .floating-contact-node.is-open .contact-menu {
-            opacity: 1;
-            pointer-events: all;
-            transform: translateY(0) scale(1);
-        }
-
-        .contact-link {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            background: var(--surface-color);
-            border: 1px solid transparent;
-            transition: all 0.25s var(--ease-out);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .contact-link:hover {
-            color: var(--text-main);
-            background: var(--surface-card);
-            border-color: var(--border-hairline);
-        }
-
+        /* Floating Contact Node (Inverted for pop) */
+        .floating-contact-node { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; }
+        .contact-menu { display: flex; flex-direction: column; gap: 8px; background: var(--nav-bg); border: 1px solid var(--border-hairline); padding: 16px; border-radius: 12px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.95); transform-origin: bottom right; transition: all 0.4s var(--ease-out); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .floating-contact-node.is-open .contact-menu { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+        .contact-link { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-decoration: none; padding: 8px 16px; border-radius: 6px; background: var(--surface-color); border: 1px solid transparent; transition: all 0.25s var(--ease-out); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+        .contact-link:hover { color: var(--text-main); background: var(--surface-card); border-color: var(--border-hairline); }
+        
         .contact-trigger {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--nav-bg);
-            border: 1px solid var(--border-hairline);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            transition: all 0.3s var(--ease-out);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 50px; height: 50px; border-radius: 25px;
+            background: var(--text-main); /* Inverted color */
+            color: var(--bg-color); border: none;
+            display: flex; align-items: center; justify-content: flex-start;
+            padding-left: 14px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: width 0.3s var(--ease-out), background 0.3s;
+            overflow: hidden;
         }
-
-        .contact-trigger:hover {
-            background: var(--surface-color);
-            transform: scale(1.05);
-        }
-
-        .contact-trigger svg {
-            width: 20px;
-            height: 20px;
-            transition: transform 0.4s var(--ease-out);
-        }
-
-        .floating-contact-node.is-open .contact-trigger svg {
-            transform: rotate(45deg);
-        }
+        .contact-trigger:hover { width: 140px; }
+        .contact-trigger svg { width: 22px; height: 22px; flex-shrink: 0; transition: transform 0.4s var(--ease-out); }
+        .floating-contact-node.is-open .contact-trigger svg { transform: rotate(45deg); }
         
-        .contact-link-arrow {
-            opacity: 0;
-            transform: translateX(-5px);
-            transition: all 0.25s var(--ease-out);
+        .contact-trigger-text {
+            font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600;
+            margin-left: 12px; white-space: nowrap; opacity: 0; transition: opacity 0.2s;
         }
-        
-        .contact-link:hover .contact-link-arrow {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        .contact-trigger:hover .contact-trigger-text { opacity: 1; transition-delay: 0.1s; }
 
         @media (max-width: 992px) {
-            .project-card.featured-large {
-                grid-template-columns: 1fr;
-            }
-            .project-card.medium-span {
-                grid-column: span 12;
-            }
-            .cv-matrix-container {
-                grid-template-columns: 1fr;
-            }
+            .project-card.featured-large { grid-template-columns: 1fr; }
+            .project-card.medium-span { grid-column: span 12; }
+            .cv-matrix-container { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 768px) {
-            nav.studio-nav {
-                width: calc(100vw - 32px);
-                top: 48px;
-            }
-            .nav-links-menu {
-                display: none;
-            }
-            .telemetry-hud .hud-coords {
-                display: none;
-            }
-            .atlas-instruction-keys {
-                display: none;
-            }
-            #pong-canvas {
-                height: 280px;
-            }
-            .metrics-strip {
-                grid-template-columns: 1fr;
-            }
-            .floating-contact-node {
-                bottom: 20px;
-                right: 20px;
-            }
+            nav.studio-nav { width: calc(100vw - 32px); top: 48px; }
+            .nav-links-menu { display: none; }
+            .telemetry-hud .hud-coords { display: none; }
+            .atlas-instruction-keys { display: none; }
+            #pong-canvas { height: 280px; }
+            .metrics-strip { grid-template-columns: 1fr; }
+            .floating-contact-node { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -1112,7 +338,15 @@
     <div class="custom-cursor-dot"></div>
     <div class="custom-cursor-ring"></div>
 
-    <!-- Architectural Grid Canvas & Particles -->
+    <!-- Boot Sequence Screen -->
+    <div class="boot-screen" id="boot-screen">
+        <div class="boot-log">SYS_INIT: OK</div>
+        <div class="boot-log">MOUNTING ATLAS_V4...</div>
+        <div class="boot-log">LOADING ASSETS [||||||||||] 100%</div>
+        <div class="boot-log" style="color: var(--text-main); font-weight: 600; margin-top: 10px;">WELCOME, USER.</div>
+    </div>
+
+    <!-- Architectural Grid Canvas & 3D Dots -->
     <div class="bg-grid-overlay"></div>
     <canvas id="webgl-canvas"></canvas>
 
@@ -1120,11 +354,11 @@
         <div class="hud-group">
             <span class="status-dot"></span>
             <span>FAIZ.M</span>
-            <span class="hud-coords" style="color: var(--text-dim);">[ MCR, UK ]</span>
+            <span class="hud-coords" style="color: var(--text-dim);">[ MANCHESTER, UK ]</span>
         </div>
         <div class="hud-group">
             <span id="telemetry-step-counter" style="color: var(--text-muted);">MILESTONE: [01/05]</span>
-            <button id="btn-audio-toggle" class="audio-toggle-btn" title="Toggle Synthesizer Feedback">AUDIO: ON</button>
+            <button id="btn-audio-toggle" class="audio-toggle-btn">AUDIO: ON</button>
         </div>
     </div>
 
@@ -1134,13 +368,13 @@
             <span class="brand-badge">ATLAS v4.0</span>
         </a>
         <div class="nav-links-menu">
-            <a href="#atlas-walk" class="nav-item active">01. Atlas</a>
-            <a href="#work" class="nav-item">02. Works</a>
-            <a href="#trajectory" class="nav-item">03. Trajectory</a>
-            <a href="#credentials" class="nav-item">04. Certs</a>
-            <a href="#terminal" class="nav-item">05. Terminal</a>
+            <a href="#atlas-walk" class="nav-item active btn-audio-hover">01. Atlas</a>
+            <a href="#work" class="nav-item btn-audio-hover">02. Works</a>
+            <a href="#experience" class="nav-item btn-audio-hover">03. Exp</a>
+            <a href="#credentials" class="nav-item btn-audio-hover">04. Certs</a>
+            <a href="#terminal" class="nav-item btn-audio-hover">05. Terminal</a>
         </div>
-        <div class="theme-pill" id="theme-toggle-btn" title="Switch Day/Night Contrast">
+        <div class="theme-pill btn-audio-hover" id="theme-toggle-btn" title="Toggle Theme">
             <div class="theme-pill-thumb"></div>
         </div>
     </nav>
@@ -1154,7 +388,7 @@
                     <span class="title-accent">Reliable Architecture.</span>
                 </h1>
                 <p class="hero-desc gs-reveal">
-                    First Class Applied Computing graduate & adaptive tech innovator. Integrating resilient full-stack architectures (Node.js, Express, REST APIs) with cloud telemetry, ML pipelines, and hardware-level IoT edge devices.
+                    First Class Applied Computing graduate & adaptive tech innovator based in Manchester. Integrating resilient full-stack architectures (Node.js, Express, REST APIs) with cloud telemetry, ML pipelines, and hardware-level IoT edge devices.
                 </p>
 
                 <div class="metrics-strip gs-reveal">
@@ -1164,7 +398,7 @@
                     </div>
                     <div class="metric-card">
                         <div class="metric-value">90%</div>
-                        <div class="metric-label">Data-Driven AI Project Score</div>
+                        <div class="metric-label">Data-Driven AI Module Score</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-value">04+</div>
@@ -1194,33 +428,25 @@
                     </div>
                 </div>
 
-                <!-- Ground Horizon Track -->
                 <div class="ground-track-container" id="ground-track">
                     <div class="ground-horizontal-line"></div>
 
-                    <!-- Traveler SVG (Minimalist Robot) -->
+                    <!-- Traveling Robot Avatar -->
                     <div class="atlas-traveler" id="atlas-traveler">
                         <svg class="traveler-svg" viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Antenna -->
                             <line x1="16" y1="2" x2="16" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                             <circle cx="16" cy="2" r="1.5" fill="currentColor"/>
-                            <!-- Head -->
                             <rect x="10" y="8" width="12" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
-                            <!-- Eyes -->
                             <circle cx="13" cy="13" r="1.5" fill="currentColor"/>
                             <circle cx="19" cy="13" r="1.5" fill="currentColor"/>
-                            <!-- Body -->
                             <rect x="8" y="20" width="16" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-                            <!-- Arms -->
                             <line class="arm-l" x1="8" y1="23" x2="2" y2="30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                             <line class="arm-r" x1="24" y1="23" x2="30" y2="30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                            <!-- Legs -->
                             <line class="leg-l" x1="12" y1="34" x2="12" y2="46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                             <line class="leg-r" x1="20" y1="34" x2="20" y2="46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                         </svg>
                     </div>
 
-                    <!-- Stations -->
                     <div class="milestone-station active" data-index="0" style="left: 10%;">
                         <div class="milestone-label">01 // SMART CAMPUS</div>
                         <div class="milestone-node"></div>
@@ -1243,7 +469,6 @@
                     </div>
                 </div>
 
-                <!-- Telemetry Dossier Drawer -->
                 <div class="atlas-telemetry-dossier" id="atlas-dossier">
                     <div>
                         <div class="dossier-heading" id="dossier-title">01 // Smart Campus Safety System (Flagship)</div>
@@ -1262,23 +487,15 @@
                 <h2 class="section-display-title">Selected Projects</h2>
             </div>
 
-            <!-- Category Filter Controls -->
-            <div class="filter-controls gs-reveal">
-                <button class="filter-btn active btn-audio-hover" data-filter="all">ALL [04]</button>
-                <button class="filter-btn btn-audio-hover" data-filter="fullstack">FULL-STACK & APIS</button>
-                <button class="filter-btn btn-audio-hover" data-filter="iot">IoT & EMBEDDED</button>
-                <button class="filter-btn btn-audio-hover" data-filter="ai">AI & AUTOMATION</button>
-            </div>
-
-            <!-- Bento Project Grid -->
             <div class="projects-grid">
-                
-                <!-- Project 01: Smart Campus Safety System -->
-                <div class="project-card featured-large gs-reveal" data-category="fullstack iot">
-                    <div class="project-card-image tilt-card">
-                        <span class="image-hud-badge">SYS: NODE_ESP32_V1</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
-                        <img src="images/campus.png" alt="Smart Campus Safety System" onerror="this.src='https://placehold.co/1200x800/dcd8c0/242423?text=Add+campus.png'">
+                <!-- Project 01 -->
+                <div class="project-card featured-large gs-reveal img-tilt-card">
+                    <div class="project-card-image">
+                        <div class="img-inner-wrap">
+                            <span class="image-hud-badge">SYS: NODE_ESP32_V1</span>
+                            <!-- HOW TO ADD YOUR IMAGE: Replace src below with images/campus.png -->
+                            <img src="https://placehold.co/1200x800/dcd8c0/242423?text=Add+campus.png" alt="Smart Campus Safety System">
+                        </div>
                     </div>
                     <div class="project-card-content">
                         <div>
@@ -1300,17 +517,19 @@
                     </div>
                 </div>
 
-                <!-- Project 02: SmartGuard Detection -->
-                <div class="project-card medium-span gs-reveal" data-category="iot">
-                    <div class="project-card-image tilt-card">
-                        <span class="image-hud-badge">SYS: ESP8266_BLYNK</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
-                        <img src="images/smartguard.jpg" alt="SmartGuard Detection System" onerror="this.src='https://placehold.co/800x500/dcd8c0/242423?text=Add+smartguard.jpg'">
+                <!-- Project 02 -->
+                <div class="project-card medium-span gs-reveal img-tilt-card">
+                    <div class="project-card-image">
+                        <div class="img-inner-wrap">
+                            <span class="image-hud-badge">SYS: ESP8266_BLYNK</span>
+                            <!-- HOW TO ADD YOUR IMAGE: Replace src below with images/smartguard.jpg -->
+                            <img src="https://placehold.co/800x500/dcd8c0/242423?text=Add+smartguard.jpg" alt="SmartGuard Detection System">
+                        </div>
                     </div>
                     <div class="project-card-content">
                         <div>
                             <div class="project-card-meta">
-                                <span class="project-stack-tag">ESP8266 · C++ · DHT11 · Blynk IoT</span>
+                                <span class="project-stack-tag">ESP8266 · C++ · Blynk IoT</span>
                                 <span class="project-status-badge">DEPLOYED</span>
                             </div>
                             <h3 class="project-card-title">SmartGuard Detection</h3>
@@ -1327,17 +546,19 @@
                     </div>
                 </div>
 
-                <!-- Project 03: Mobile Bluetooth RC Car -->
-                <div class="project-card medium-span gs-reveal" data-category="iot">
-                    <div class="project-card-image tilt-card">
-                        <span class="image-hud-badge">SYS: ARDUINO_BT_PWM</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
-                        <img src="images/rc-car.jpg" alt="Bluetooth RC Car" onerror="this.src='https://placehold.co/800x500/dcd8c0/242423?text=Add+rc-car.jpg'">
+                <!-- Project 03 -->
+                <div class="project-card medium-span gs-reveal img-tilt-card">
+                    <div class="project-card-image">
+                        <div class="img-inner-wrap">
+                            <span class="image-hud-badge">SYS: ARDUINO_BT_PWM</span>
+                            <!-- HOW TO ADD YOUR IMAGE: Replace src below with images/rc-car.jpg -->
+                            <img src="https://placehold.co/800x500/dcd8c0/242423?text=Add+rc-car.jpg" alt="Bluetooth RC Car">
+                        </div>
                     </div>
                     <div class="project-card-content">
                         <div>
                             <div class="project-card-meta">
-                                <span class="project-stack-tag">Arduino Nano · C++ · Bluetooth RF</span>
+                                <span class="project-stack-tag">Arduino Nano · C++ · Bluetooth</span>
                                 <span class="project-status-badge">HARDWARE LAB</span>
                             </div>
                             <h3 class="project-card-title">Autonomous & Remote RC Car</h3>
@@ -1353,18 +574,20 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Project 04: Python Utilities & Automation -->
-                <div class="project-card featured-large gs-reveal" data-category="ai">
-                    <div class="project-card-image tilt-card">
-                        <span class="image-hud-badge">SYS: PY_CLI_SUITE</span>
-                        <!-- HOW TO ADD YOUR IMAGE: Replace the src link below with your actual image path -->
-                        <img src="images/python.png" alt="Python Scripting Suite" onerror="this.src='https://placehold.co/1200x800/dcd8c0/242423?text=Add+python.png'">
+                
+                <!-- Project 04 -->
+                <div class="project-card featured-large gs-reveal img-tilt-card">
+                    <div class="project-card-image">
+                        <div class="img-inner-wrap">
+                            <span class="image-hud-badge">SYS: PY_CLI_SUITE</span>
+                            <!-- HOW TO ADD YOUR IMAGE: Replace src below with images/python.png -->
+                            <img src="https://placehold.co/1200x800/dcd8c0/242423?text=Add+python.png" alt="Python Scripting Suite">
+                        </div>
                     </div>
                     <div class="project-card-content">
                         <div>
                             <div class="project-card-meta">
-                                <span class="project-stack-tag">Python 3 · Cryptography · File Automation</span>
+                                <span class="project-stack-tag">Python 3 · Cryptography · Scripting</span>
                                 <span class="project-status-badge">OPEN SOURCE</span>
                             </div>
                             <h3 class="project-card-title">Python Utilities & Security Engine</h3>
@@ -1384,72 +607,70 @@
             </div>
         </section>
 
-        <section class="container" id="trajectory">
+        <section class="container" id="experience">
             <div class="section-header-box gs-reveal">
                 <span class="section-index-tag">02 // EXPERIENCE</span>
-                <h2 class="section-display-title">Experience & Education</h2>
+                <h2 class="section-display-title">Field & Industry Experience</h2>
             </div>
-
-            <div class="cv-matrix-container">
-                <!-- Column 1: Industry Experience -->
-                <div class="cv-column-card gs-reveal">
-                    <div class="cv-column-title">Field & Industry Experience</div>
-
-                    <div class="timeline-entry">
-                        <div class="timeline-period">JUN 2024 — AUG 2024</div>
-                        <div class="timeline-role">Artificial Intelligence Intern</div>
-                        <div class="timeline-org">Unsway Online — AI Club (Remote)</div>
-                        <div class="timeline-detail">
-                            Collaborated on machine learning model iterations and cloud-based automated datasets. Received an official Letter of Recommendation for technical initiative and delivery speed.
-                        </div>
-                    </div>
-
-                    <div class="timeline-entry">
-                        <div class="timeline-period">NOV 2023 & NOV 2024</div>
-                        <div class="timeline-role">Guest Services Team Lead & Usher</div>
-                        <div class="timeline-org">Formula 1 Abu Dhabi Grand Prix (UAE)</div>
-                        <div class="timeline-detail">
-                            Promoted to Team Lead to coordinate guest resolution flows, live crowd telemetry, and operational ticketing support in a fast-paced international event.
-                        </div>
-                    </div>
-
-                    <div class="timeline-entry">
-                        <div class="timeline-period">SEP 2022 — AUG 2023</div>
-                        <div class="timeline-role">Sales & Systems Assistant</div>
-                        <div class="timeline-org">Threads School Uniform Store (Abu Dhabi)</div>
-                        <div class="timeline-detail">
-                            Operated inventory and POS transactions for over 300 customers daily. Awarded Best Employee for Customer Support and Problem Resolution.
-                        </div>
+            
+            <div class="cv-column-card gs-reveal">
+                <div class="timeline-entry">
+                    <div class="timeline-period">JUN 2024 — AUG 2024</div>
+                    <div class="timeline-role">Artificial Intelligence Intern</div>
+                    <div class="timeline-org">Unsway Online — AI Club (Remote)</div>
+                    <div class="timeline-detail">
+                        Contributed to AI development challenges and workshops, building practical experience in machine learning, data processing, automation and AI development workflows. Awarded a Letter of Recommendation for technical impact and teamwork.
                     </div>
                 </div>
 
-                <!-- Column 2: Education & Academic Records -->
-                <div class="cv-column-card gs-reveal" style="transition-delay: 0.15s;">
-                    <div class="cv-column-title">Academic Credentials</div>
-
-                    <div class="timeline-entry">
-                        <div class="timeline-period">2025 — 2026 // COMPLETED</div>
-                        <div class="timeline-role">BSc (Hons) Applied Computing</div>
-                        <div class="timeline-org">University of Huddersfield, United Kingdom</div>
-                        <div class="timeline-detail">
-                            <strong>Awarded First Class Honours.</strong>
-                            <ul>
-                                <li>Data-Driven AI (90%)</li>
-                                <li>Software Architecture (86%)</li>
-                                <li>Large-Scale Software Engineering (78%)</li>
-                                <li>Information Architecture (74%)</li>
-                                <li>Individual Engineering Project (71%)</li>
-                            </ul>
-                        </div>
+                <div class="timeline-entry">
+                    <div class="timeline-period">NOV 2023 & NOV 2024</div>
+                    <div class="timeline-role">Guest Services Team Lead & Usher</div>
+                    <div class="timeline-org">Formula 1 Abu Dhabi Grand Prix (UAE)</div>
+                    <div class="timeline-detail">
+                        Promoted to Team Lead to coordinate guest resolution flows, task allocation, and operational ticketing support in a fast-paced international event under immense time pressure.
                     </div>
+                </div>
 
-                    <div class="timeline-entry">
-                        <div class="timeline-period">2023 — 2024 // COMPLETED</div>
-                        <div class="timeline-role">BTEC Level 5 HND in Computing</div>
-                        <div class="timeline-org">UKCBC, Dubai</div>
-                        <div class="timeline-detail">
-                            Awarded Merit profile with Distinctions in Computing Research Project and UX/UI Architecture.
-                        </div>
+                <div class="timeline-entry">
+                    <div class="timeline-period">SEP 2022 — AUG 2023</div>
+                    <div class="timeline-role">Sales Assistant</div>
+                    <div class="timeline-org">Threads School Uniform Store (Abu Dhabi)</div>
+                    <div class="timeline-detail">
+                        Operated inventory and POS transactions for over 300 customers daily. Awarded Best Employee for Customer Friendliness and problem resolution.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="education">
+            <div class="section-header-box gs-reveal">
+                <span class="section-index-tag">03 // EDUCATION</span>
+                <h2 class="section-display-title">Academic Credentials</h2>
+            </div>
+            
+            <div class="cv-column-card gs-reveal">
+                <div class="timeline-entry">
+                    <div class="timeline-period">2025 — 2026 // COMPLETED</div>
+                    <div class="timeline-role">BSc (Hons) Applied Computing</div>
+                    <div class="timeline-org">University of Huddersfield, United Kingdom</div>
+                    <div class="timeline-detail">
+                        <strong style="color: var(--text-main);">Awarded First Class Honours.</strong>
+                        <ul style="list-style: none; margin-top: 8px;">
+                            <li style="position: relative; padding-left: 16px; margin-bottom: 4px;"><span style="position: absolute; left: 0; color: var(--text-dim);">–</span> Data-Driven AI (90%)</li>
+                            <li style="position: relative; padding-left: 16px; margin-bottom: 4px;"><span style="position: absolute; left: 0; color: var(--text-dim);">–</span> Software Architecture (86%)</li>
+                            <li style="position: relative; padding-left: 16px; margin-bottom: 4px;"><span style="position: absolute; left: 0; color: var(--text-dim);">–</span> Large-Scale Software Engineering (78%)</li>
+                            <li style="position: relative; padding-left: 16px; margin-bottom: 4px;"><span style="position: absolute; left: 0; color: var(--text-dim);">–</span> Information Architecture (74%)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-entry">
+                    <div class="timeline-period">2023 — 2024 // COMPLETED</div>
+                    <div class="timeline-role">BTEC Level 5 HND in Computing</div>
+                    <div class="timeline-org">UKCBC, Dubai</div>
+                    <div class="timeline-detail">
+                        Awarded Merit profile with Distinctions in Computing Research Project and UX/UI Architecture.
                     </div>
                 </div>
             </div>
@@ -1457,8 +678,8 @@
 
         <section class="container" id="credentials">
             <div class="section-header-box gs-reveal">
-                <span class="section-index-tag">03 // CERTIFICATIONS</span>
-                <h2 class="section-display-title">Certifications & Standards</h2>
+                <span class="section-index-tag">04 // CERTIFICATIONS</span>
+                <h2 class="section-display-title">Standards & Accreditations</h2>
             </div>
 
             <div class="metrics-strip gs-reveal">
@@ -1467,19 +688,16 @@
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">AWS Cloud Practitioner</h4>
                     <p class="timeline-period" style="margin-top: 4px;">CLF-C02 · Amazon Web Services</p>
                 </div>
-
                 <div class="metric-card">
                     <span class="project-status-badge" style="border-color: var(--text-main); background: var(--accent-glow);">VERIFIED</span>
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Machine Learning with Python</h4>
                     <p class="timeline-period" style="margin-top: 4px;">Anaconda Professional Certificate</p>
                 </div>
-
                 <div class="metric-card">
                     <span class="project-status-badge" style="border-color: var(--text-main); background: var(--accent-glow);">VERIFIED</span>
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Microsoft Security Essentials</h4>
                     <p class="timeline-period" style="margin-top: 4px;">Microsoft / NASBA (GRC & AI Sec)</p>
                 </div>
-
                 <div class="metric-card">
                     <span class="project-status-badge" style="border-color: var(--text-main); background: var(--accent-glow);">VERIFIED</span>
                     <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-top: 10px; color: var(--text-main);">Cisco Packet Tracer</h4>
@@ -1490,33 +708,26 @@
 
         <section class="container" id="terminal">
             <div class="section-header-box gs-reveal">
-                <span class="section-index-tag">04 // TERMINAL</span>
-                <h2 class="section-display-title">Neural Pong Terminal</h2>
+                <span class="section-index-tag">05 // TERMINAL</span>
+                <h2 class="section-display-title">Neural Pong (Auto-Play)</h2>
             </div>
 
             <div class="arcade-container gs-reveal">
                 <div class="terminal-top-hud">
                     <span>PONG_V2</span>
                     <span id="game-score-readout">PLAYER: 00 | SYS_AI: 00</span>
-                    <span style="color: var(--active-node);">STATUS: STANDBY</span>
-                </div>
-
-                <div id="arcade-overlay">
-                    <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-main); text-align: center;">
-                        PADDLE KINEMATICS
-                    </p>
-                    <button id="btn-start-arcade" class="dossier-action-btn btn-audio-hover" style="padding: 12px 28px; font-size: 0.85rem;">
-                        INSERT COIN TO ENGAGE
-                    </button>
+                    <div style="display: flex; gap: 8px;">
+                        <button id="btn-pause-arcade" class="key-badge btn-audio-hover" style="cursor:pointer">PAUSE</button>
+                        <button id="btn-fullscreen-arcade" class="key-badge btn-audio-hover" style="cursor:pointer">FULLSCREEN</button>
+                    </div>
                 </div>
 
                 <canvas id="pong-canvas"></canvas>
                 <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
-                    TRACKPAD / MOUSE / TOUCH VERTICAL SWIPE TO DEFEND NODE
+                    GAME RUNNING. MOVE MOUSE OR PRESS [ UP / DOWN ] ARROWS TO TAKE CONTROL OF LEFT PADDLE.
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="studio-footer">
@@ -1538,10 +749,6 @@
     <div class="floating-contact-node" id="floating-contact">
         <div class="contact-menu">
             <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); margin-bottom: 8px; padding-left: 4px;">SECURE COMM LINK</div>
-            <a href="mailto:faizmuhammed07@outlook.com" class="contact-link btn-audio-hover">
-                <span>EMAIL</span>
-                <span class="contact-link-arrow">↗</span>
-            </a>
             <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" class="contact-link btn-audio-hover">
                 <span>LINKEDIN</span>
                 <span class="contact-link-arrow">↗</span>
@@ -1550,12 +757,17 @@
                 <span>GITHUB</span>
                 <span class="contact-link-arrow">↗</span>
             </a>
+            <a href="https://fa-iizii.github.io/" target="_blank" class="contact-link btn-audio-hover">
+                <span>PORTFOLIO</span>
+                <span class="contact-link-arrow">↗</span>
+            </a>
         </div>
         <button class="contact-trigger btn-audio-hover" id="contact-trigger-btn" aria-label="Toggle Contact Menu">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
+            <span class="contact-trigger-text">CONTACTS</span>
         </button>
     </div>
 
@@ -1567,49 +779,42 @@
         let ringX = cursorX, ringY = cursorY;
 
         window.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-            cursorDot.style.left = cursorX + 'px';
-            cursorDot.style.top = cursorY + 'px';
+            cursorX = e.clientX; cursorY = e.clientY;
+            cursorDot.style.left = cursorX + 'px'; cursorDot.style.top = cursorY + 'px';
         });
 
         function animateCursor() {
-            ringX += (cursorX - ringX) * 0.15;
-            ringY += (cursorY - ringY) * 0.15;
-            cursorRing.style.left = ringX + 'px';
-            cursorRing.style.top = ringY + 'px';
+            ringX += (cursorX - ringX) * 0.15; ringY += (cursorY - ringY) * 0.15;
+            cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px';
             requestAnimationFrame(animateCursor);
         }
-        animateCursor();
+        if(window.innerWidth > 768) animateCursor(); // Disable on mobile
 
-        // 3D Tilt Effect on Images
-        const tiltCards = document.querySelectorAll('.tilt-card');
-        tiltCards.forEach(card => {
-            const img = card.querySelector('img');
+        // Interactive Elements Hover State
+        document.querySelectorAll('a, button, .milestone-station, .theme-pill, .img-tilt-card').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+        // 3D Image Tilt Effect
+        document.querySelectorAll('.img-tilt-card').forEach(card => {
+            const inner = card.querySelector('.img-inner-wrap');
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -10; // Max tilt deg
-                const rotateY = ((x - centerX) / centerX) * 10;
-                
-                img.style.transform = `scale(1.05) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                const rotateX = ((y - centerY) / centerY) * -12; 
+                const rotateY = ((x - centerX) / centerX) * 12;
+                inner.style.transform = `scale(1.08) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
             card.addEventListener('mouseleave', () => {
-                img.style.transform = `scale(1) perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+                inner.style.transform = `scale(1) rotateX(0deg) rotateY(0deg)`;
             });
         });
 
-        // Add hover effects to interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, .milestone-station, .filter-btn, .ground-track-container, .theme-pill, .brand-logo');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-        });
-
-        // Audio System
+        // Audio Engine
         let audioCtx = null;
         let isAudioEnabled = true;
 
@@ -1618,22 +823,14 @@
                 const AudioContextClass = window.AudioContext || window.webkitAudioContext;
                 if (AudioContextClass) audioCtx = new AudioContextClass();
             }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         }
 
         const unlockAudio = () => {
             initAudio();
-            document.removeEventListener('click', unlockAudio);
-            document.removeEventListener('keydown', unlockAudio);
-            document.removeEventListener('touchstart', unlockAudio);
-            document.removeEventListener('scroll', unlockAudio);
+            ['click', 'keydown', 'touchstart', 'scroll'].forEach(evt => document.removeEventListener(evt, unlockAudio));
         };
-        document.addEventListener('click', unlockAudio);
-        document.addEventListener('keydown', unlockAudio);
-        document.addEventListener('touchstart', unlockAudio);
-        document.addEventListener('scroll', unlockAudio);
+        ['click', 'keydown', 'touchstart', 'scroll'].forEach(evt => document.addEventListener(evt, unlockAudio));
 
         function playAtlasBlip(freq = 480, duration = 0.05, type = 'sine') {
             if (!isAudioEnabled || !audioCtx) return;
@@ -1643,14 +840,10 @@
                 osc.type = type;
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(freq * 0.5, audioCtx.currentTime + duration);
-
                 gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
             } catch (err) {}
         }
 
@@ -1666,17 +859,14 @@
             el.addEventListener('mouseenter', () => playAtlasBlip(800, 0.02, 'triangle'));
         });
 
-        // Floating Contact Node Logic
+        // Contact Node
         const contactNode = document.getElementById('floating-contact');
-        const contactTrigger = document.getElementById('contact-trigger-btn');
-
-        contactTrigger.addEventListener('click', () => {
+        document.getElementById('contact-trigger-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
             initAudio();
             contactNode.classList.toggle('is-open');
             playAtlasBlip(contactNode.classList.contains('is-open') ? 600 : 400, 0.05, 'sine');
         });
-        
-        // Close when clicking outside
         document.addEventListener('click', (e) => {
             if (!contactNode.contains(e.target) && contactNode.classList.contains('is-open')) {
                 contactNode.classList.remove('is-open');
@@ -1684,7 +874,7 @@
             }
         });
 
-        // Lenis Smooth Scrolling Configured for ultra-smoothness
+        // Smooth Scroll (Lenis)
         const lenis = new Lenis({
             duration: 1.5,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -1692,84 +882,43 @@
             smoothTouch: true,
             touchMultiplier: 2
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // GSAP ScrollTrigger Integration
+        // GSAP Setup
         gsap.registerPlugin(ScrollTrigger);
-        
-        const revealElements = document.querySelectorAll('.gs-reveal');
-        revealElements.forEach((el) => {
+        document.querySelectorAll('.gs-reveal').forEach((el) => {
             gsap.fromTo(el, 
                 { autoAlpha: 0, y: 40 },
                 { 
-                    autoAlpha: 1, 
-                    y: 0, 
-                    duration: 1, 
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 85%",
-                        toggleActions: "play none none none"
-                    }
+                    autoAlpha: 1, y: 0, duration: 1, ease: "power3.out",
+                    scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" }
                 }
             );
         });
 
+        // Theme Switcher (Now defaults to Light, toggles to Dark)
         const themeBtn = document.getElementById('theme-toggle-btn');
-        let isDarkMode = true;
+        let isDarkMode = false; // Changed initial state to false
 
         themeBtn.addEventListener('click', () => {
             isDarkMode = !isDarkMode;
             if (isDarkMode) {
-                document.documentElement.removeAttribute('data-theme');
+                document.documentElement.setAttribute('data-theme', 'dark');
             } else {
-                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.removeAttribute('data-theme');
             }
             playAtlasBlip(520, 0.06);
             updateThreeColors();
         });
 
+        // Walkable Timeline Logic
         const milestones = [
-            {
-                step: "01/05",
-                title: "01 // Smart Campus Safety System (Flagship)",
-                desc: "Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL with JWT security.",
-                posPercent: 10,
-                targetId: "work"
-            },
-            {
-                step: "02/05",
-                title: "02 // SmartGuard Intrusion Detection",
-                desc: "Cloud-connected security node built on ESP8266 and embedded C++, parsing temperature, humidity, and PIR motion interrupts.",
-                posPercent: 30,
-                targetId: "work"
-            },
-            {
-                step: "03/05",
-                title: "03 // Artificial Intelligence Internship",
-                desc: "Unsway Online AI Club: delivered ML pipelines and cloud automation workflows within an agile international team.",
-                posPercent: 50,
-                targetId: "trajectory"
-            },
-            {
-                step: "04/05",
-                title: "04 // BSc (Hons) Applied Computing — 1st Class",
-                desc: "Graduated with First Class Honours from the University of Huddersfield, scoring 90% in Data-Driven AI.",
-                posPercent: 70,
-                targetId: "trajectory"
-            },
-            {
-                step: "05/05",
-                title: "05 // Cloud & Security Accreditations",
-                desc: "Specialized in cloud governance and AI-driven security operations through Microsoft, Anaconda, and Cisco programs.",
-                posPercent: 90,
-                targetId: "credentials"
-            }
+            { step: "01/05", title: "01 // Smart Campus Safety System (Flagship)", desc: "Full-stack IoT safety gateway connecting ESP32 environmental telemetry to Node.js, Express, and MySQL.", posPercent: 10, targetId: "work" },
+            { step: "02/05", title: "02 // SmartGuard Intrusion Detection", desc: "Cloud-connected security node built on ESP8266 and embedded C++.", posPercent: 30, targetId: "work" },
+            { step: "03/05", title: "03 // Artificial Intelligence Internship", desc: "Unsway Online AI Club: delivered ML pipelines and cloud automation workflows.", posPercent: 50, targetId: "experience" },
+            { step: "04/05", title: "04 // BSc (Hons) Applied Computing — 1st Class", desc: "Graduated with First Class Honours from the University of Huddersfield.", posPercent: 70, targetId: "education" },
+            { step: "05/05", title: "05 // Cloud & Security Accreditations", desc: "AWS, Anaconda ML, and Microsoft Security Essentials.", posPercent: 90, targetId: "credentials" }
         ];
 
         let currentMilestone = 0;
@@ -1777,116 +926,54 @@
         const stationNodes = document.querySelectorAll('.milestone-station');
         const dossierTitle = document.getElementById('dossier-title');
         const dossierText = document.getElementById('dossier-text');
-        const dossierLink = document.getElementById('dossier-link');
-        const stepCounter = document.getElementById('telemetry-step-counter');
-        const groundTrack = document.getElementById('ground-track');
-
+        
         function setMilestone(index, playSound = true) {
             if (index < 0) index = 0;
             if (index >= milestones.length) index = milestones.length - 1;
             currentMilestone = index;
 
-            stationNodes.forEach((node, i) => {
-                node.classList.toggle('active', i === index);
-            });
-
+            stationNodes.forEach((node, i) => node.classList.toggle('active', i === index));
             traveler.classList.add('is-walking');
             traveler.style.left = milestones[index].posPercent + '%';
-
-            setTimeout(() => { traveler.classList.remove('is-walking'); }, 300);
+            setTimeout(() => traveler.classList.remove('is-walking'), 300);
 
             const m = milestones[index];
-            dossierTitle.innerText = m.title;
-            dossierText.innerText = m.desc;
-            
-            gsap.fromTo([dossierTitle, dossierText], 
-                { opacity: 0, y: 10 }, 
-                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1 }
-            );
-
-            dossierLink.href = '#' + m.targetId;
-            stepCounter.innerText = `MILESTONE: [${m.step}]`;
+            dossierTitle.innerText = m.title; dossierText.innerText = m.desc;
+            gsap.fromTo([dossierTitle, dossierText], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.1 });
+            document.getElementById('telemetry-step-counter').innerText = `MILESTONE: [${m.step}]`;
 
             if (playSound) playAtlasBlip(320 + index * 60, 0.05);
         }
 
         stationNodes.forEach((node) => {
-            node.addEventListener('click', () => {
-                const idx = parseInt(node.getAttribute('data-index'));
-                setMilestone(idx);
-            });
+            node.addEventListener('click', () => setMilestone(parseInt(node.getAttribute('data-index'))));
         });
 
         window.addEventListener('keydown', (e) => {
-            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
-            if (window.scrollY > window.innerHeight) return;
-
-            if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-                if (currentMilestone < milestones.length - 1) setMilestone(currentMilestone + 1);
-            } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
-                if (currentMilestone > 0) setMilestone(currentMilestone - 1);
-            }
+            // Only capture left/right if not typing or playing pong in fullscreen
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) || document.fullscreenElement) return;
+            if (e.key === 'ArrowRight' || e.key === 'd') setMilestone(currentMilestone + 1);
+            if (e.key === 'ArrowLeft' || e.key === 'a') setMilestone(currentMilestone - 1);
         });
 
         let trackStartX = 0;
-        groundTrack.addEventListener('touchstart', (e) => { trackStartX = e.touches[0].clientX; }, { passive: true });
+        const groundTrack = document.getElementById('ground-track');
+        groundTrack.addEventListener('touchstart', (e) => trackStartX = e.touches[0].clientX, { passive: true });
         groundTrack.addEventListener('touchend', (e) => {
             const diff = e.changedTouches[0].clientX - trackStartX;
-            if (diff < -40 && currentMilestone < milestones.length - 1) setMilestone(currentMilestone + 1);
-            else if (diff > 40 && currentMilestone > 0) setMilestone(currentMilestone - 1);
+            if (diff < -40) setMilestone(currentMilestone + 1);
+            else if (diff > 40) setMilestone(currentMilestone - 1);
         });
 
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const projectCards = document.querySelectorAll('.project-card');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                playAtlasBlip(440, 0.04);
-
-                const filter = btn.getAttribute('data-filter');
-                
-                gsap.to(projectCards, {
-                    opacity: 0,
-                    y: 20,
-                    duration: 0.3,
-                    onComplete: () => {
-                        projectCards.forEach(card => {
-                            const categories = card.getAttribute('data-category').split(' ');
-                            if (filter === 'all' || categories.includes(filter)) {
-                                card.style.display = card.classList.contains('featured-large') ? 'grid' : 'flex';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        });
-                        ScrollTrigger.refresh();
-                        
-                        const visibleCards = Array.from(projectCards).filter(c => c.style.display !== 'none');
-                        gsap.to(visibleCards, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.4,
-                            stagger: 0.1,
-                            ease: "power2.out"
-                        });
-                    }
-                });
-            });
-        });
-
-        // Interactive WebGL Matrix (Born Digital Style)
+        // 3D Born Digital Wave Background (Three.js)
         let scene, camera, renderer, particles;
-        const GRID_SIZE = 64; 
-        const DOT_SPACING = 35;
+        const GRID_SIZE = 64; const DOT_SPACING = 35;
 
         function initThreeScene() {
             const canvas = document.getElementById('webgl-canvas');
             scene = new THREE.Scene();
-            
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 4000);
-            camera.position.set(0, 500, 1000);
-            camera.lookAt(0, 0, 0);
+            camera.position.set(0, 500, 1000); camera.lookAt(0, 0, 0);
 
             renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -1894,11 +981,9 @@
 
             const dotCanvas = document.createElement('canvas');
             dotCanvas.width = 64; dotCanvas.height = 64;
-            const context = dotCanvas.getContext('2d');
-            context.beginPath();
-            context.arc(32, 32, 28, 0, Math.PI * 2, false);
-            context.fillStyle = '#ffffff';
-            context.fill();
+            const ctx = dotCanvas.getContext('2d');
+            ctx.beginPath(); ctx.arc(32, 32, 28, 0, Math.PI * 2, false);
+            ctx.fillStyle = '#ffffff'; ctx.fill();
             const dotTexture = new THREE.CanvasTexture(dotCanvas);
 
             const geometry = new THREE.BufferGeometry();
@@ -1911,8 +996,7 @@
                     positions[i] = ix * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); 
                     positions[i + 1] = 0; 
                     positions[i + 2] = iy * DOT_SPACING - ((GRID_SIZE * DOT_SPACING) / 2); 
-                    scales[j] = 1;
-                    i += 3; j++;
+                    scales[j] = 1; i += 3; j++;
                 }
             }
 
@@ -1920,99 +1004,66 @@
             geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
 
             const material = new THREE.PointsMaterial({
-                size: 8,
-                map: dotTexture,
-                transparent: true,
-                opacity: 0.25,
-                color: 0x8c8c8a,
-                depthWrite: false,
-                blending: THREE.AdditiveBlending
+                size: 8, map: dotTexture, transparent: true,
+                opacity: 0.4, color: 0x535352, depthWrite: false, blending: THREE.NormalBlending
             });
 
             particles = new THREE.Points(geometry, material);
             scene.add(particles);
+            scene.fog = new THREE.FogExp2(0xdcd8c0, 0.001); // Init light mode fog
 
-            scene.fog = new THREE.FogExp2(0x1a1a1a, 0.001);
-
-            let mouseX = 0;
-            let mouseY = 0;
-            const windowHalfX = window.innerWidth / 2;
-            const windowHalfY = window.innerHeight / 2;
-
+            let mouseX3D = 0, mouseY3D = 0;
             const raycaster = new THREE.Raycaster();
             const mouse3D = new THREE.Vector2(-1000, -1000);
-            const hitPlane = new THREE.Mesh(
-                new THREE.PlaneGeometry(10000, 10000),
-                new THREE.MeshBasicMaterial({ visible: false })
-            );
-            hitPlane.rotation.x = -Math.PI / 2;
-            scene.add(hitPlane);
+            const hitPlane = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000), new THREE.MeshBasicMaterial({ visible: false }));
+            hitPlane.rotation.x = -Math.PI / 2; scene.add(hitPlane);
 
-            document.addEventListener('mousemove', (event) => {
-                mouseX = (event.clientX - windowHalfX) * 0.1;
-                mouseY = (event.clientY - windowHalfY) * 0.1;
-                
-                mouse3D.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse3D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            document.addEventListener('mousemove', (e) => {
+                mouseX3D = (e.clientX - window.innerWidth / 2) * 0.1;
+                mouseY3D = (e.clientY - window.innerHeight / 2) * 0.1;
+                mouse3D.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse3D.y = -(e.clientY / window.innerHeight) * 2 + 1;
             });
 
-            let count = 0;
-            let scrollY = 0;
+            let count = 0; let scrollY = 0;
             lenis.on('scroll', (e) => { scrollY = e.animatedScroll; });
 
             function animate() {
                 requestAnimationFrame(animate);
-
-                camera.position.x += (mouseX - camera.position.x) * 0.05;
-                camera.position.y += (-mouseY + 400 - (scrollY * 0.2) - camera.position.y) * 0.05;
+                camera.position.x += (mouseX3D - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY3D + 400 - (scrollY * 0.15) - camera.position.y) * 0.05;
                 camera.lookAt(scene.position);
 
                 raycaster.setFromCamera(mouse3D, camera);
-                const intersects = raycaster.intersectObject(hitPlane);
-                const hit = intersects.length > 0 ? intersects[0].point : null;
-
+                const hit = raycaster.intersectObject(hitPlane)[0]?.point;
                 const positions = particles.geometry.attributes.position.array;
                 const scales = particles.geometry.attributes.scale.array;
 
                 let i = 0, j = 0;
                 for (let ix = 0; ix < GRID_SIZE; ix++) {
                     for (let iy = 0; iy < GRID_SIZE; iy++) {
-                        let yBase = (Math.sin((ix + count) * 0.2) * 40) +
-                                    (Math.sin((iy + count) * 0.3) * 40);
-
-                        let scaleBase = (Math.sin((ix + count) * 0.2) + 1) * 2 +
-                                        (Math.sin((iy + count) * 0.3) + 1) * 2;
-
+                        let yBase = (Math.sin((ix + count) * 0.2) * 40) + (Math.sin((iy + count) * 0.3) * 40);
+                        let scaleBase = (Math.sin((ix + count) * 0.2) + 1) * 2 + (Math.sin((iy + count) * 0.3) + 1) * 2;
+                        
                         if (hit) {
-                            let dx = positions[i] - hit.x;
-                            let dz = positions[i + 2] - hit.z;
-                            let dist = Math.sqrt(dx * dx + dz * dz);
-                            
+                            let dist = Math.sqrt(Math.pow(positions[i] - hit.x, 2) + Math.pow(positions[i + 2] - hit.z, 2));
                             if (dist < 350) {
-                                let force = (350 - dist) / 350;
-                                let easeForce = force * force * (3 - 2 * force); 
-                                yBase += easeForce * 180; 
-                                scaleBase += easeForce * 8;
+                                let force = Math.pow((350 - dist) / 350, 2) * (3 - 2 * ((350 - dist) / 350));
+                                yBase += force * 180; scaleBase += force * 8;
                             }
                         }
-
-                        positions[i + 1] = yBase;
-                        scales[j] = scaleBase;
+                        positions[i + 1] = yBase; scales[j] = scaleBase;
                         i += 3; j++;
                     }
                 }
-
                 particles.geometry.attributes.position.needsUpdate = true;
                 particles.geometry.attributes.scale.needsUpdate = true;
-
                 count += 0.02;
                 renderer.render(scene, camera);
             }
             animate();
-
             window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
+                camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
@@ -2020,147 +1071,163 @@
 
         function updateThreeColors() {
             if (!particles || !scene.fog) return;
-            
-            const targetColor = isDarkMode ? 0x8c8c8a : 0x535352;
-            const targetFog = isDarkMode ? 0x1a1a1a : 0xdcd8c0;
-            const targetOpacity = isDarkMode ? 0.25 : 0.4;
+            const tColor = isDarkMode ? 0x8c8c8a : 0x535352;
+            const tFog = isDarkMode ? 0x1a1a1a : 0xdcd8c0;
+            const tOpacity = isDarkMode ? 0.25 : 0.4;
             const blendMode = isDarkMode ? THREE.AdditiveBlending : THREE.NormalBlending;
-
+            
             particles.material.blending = blendMode;
-
-            gsap.to(particles.material.color, {
-                r: new THREE.Color(targetColor).r,
-                g: new THREE.Color(targetColor).g,
-                b: new THREE.Color(targetColor).b,
-                duration: 0.5
-            });
-            gsap.to(scene.fog.color, {
-                r: new THREE.Color(targetFog).r,
-                g: new THREE.Color(targetFog).g,
-                b: new THREE.Color(targetFog).b,
-                duration: 0.5
-            });
-            gsap.to(particles.material, { opacity: targetOpacity, duration: 0.5 });
+            gsap.to(particles.material.color, { r: new THREE.Color(tColor).r, g: new THREE.Color(tColor).g, b: new THREE.Color(tColor).b, duration: 0.5 });
+            gsap.to(scene.fog.color, { r: new THREE.Color(tFog).r, g: new THREE.Color(tFog).g, b: new THREE.Color(tFog).b, duration: 0.5 });
+            gsap.to(particles.material, { opacity: tOpacity, duration: 0.5 });
         }
 
-        // Pong Terminal Logic
-        const pongCanvas = document.getElementById('pong-canvas');
-        const pCtx = pongCanvas.getContext('2d');
-        const scoreReadout = document.getElementById('game-score-readout');
-        const startOverlay = document.getElementById('arcade-overlay');
-        const startBtn = document.getElementById('btn-start-arcade');
-
-        let isArcadeRunning = false;
-        function fitPong() {
-            pongCanvas.width = pongCanvas.clientWidth;
-            pongCanvas.height = window.innerWidth < 768 ? 280 : 380;
-        }
-        fitPong();
-        window.addEventListener('resize', fitPong);
-
-        const pad = { w: 8, h: 70, speed: 7 };
-        let p1 = { y: 150, score: 0 };
-        let pAi = { y: 150, score: 0 };
-        let pongBall = { x: 200, y: 150, r: 5, vx: 5, vy: 4, speed: 6 };
-
-        let mouseY = p1.y;
-        pongCanvas.addEventListener('mousemove', (e) => {
-            const rect = pongCanvas.getBoundingClientRect();
-            mouseY = e.clientY - rect.top - pad.h / 2;
+        // Boot Screen Sequence
+        window.addEventListener('load', () => {
+            const logs = document.querySelectorAll('.boot-log');
+            gsap.to(logs, { opacity: 1, y: 0, duration: 0.3, stagger: 0.2, delay: 0.2 });
+            setTimeout(() => {
+                gsap.to('#boot-screen', { yPercent: -100, duration: 0.8, ease: "power3.inOut" });
+            }, 1800);
         });
 
-        pongCanvas.addEventListener('touchmove', (e) => {
-            if (isArcadeRunning) e.preventDefault();
-            const rect = pongCanvas.getBoundingClientRect();
-            mouseY = e.touches[0].clientY - rect.top - pad.h / 2;
-        }, { passive: false });
+        // AI Pong (Auto Play & Player Takeover)
+        const pongCanvas = document.getElementById('pong-canvas');
+        const pCtx = pongCanvas.getContext('2d');
+        function fitPong() { pongCanvas.width = pongCanvas.clientWidth; pongCanvas.height = window.innerWidth < 768 ? 280 : 380; }
+        fitPong(); window.addEventListener('resize', fitPong);
+
+        const pad = { w: 8, h: 70, speed: 7 };
+        let p1 = { y: 150, score: 0 }; let pAi = { y: 150, score: 0 };
+        let pongBall = { x: 200, y: 150, r: 5, vx: 5, vy: 4, speed: 6 };
+        
+        let isArcadeRunning = true; // Auto Play by default
+        let isPlayerActive = false; // False = AI controls P1
+        let keys = { ArrowUp: false, ArrowDown: false };
 
         function resetPongBall() {
-            pongBall.x = pongCanvas.width / 2;
-            pongBall.y = pongCanvas.height / 2;
+            pongBall.x = pongCanvas.width / 2; pongBall.y = pongCanvas.height / 2;
             pongBall.vx = (Math.random() > 0.5 ? 1 : -1) * pongBall.speed;
             pongBall.vy = (Math.random() * 2 - 1) * pongBall.speed;
         }
 
-        startBtn.addEventListener('click', () => {
-            initAudio();
-            startOverlay.style.display = 'none';
-            isArcadeRunning = true;
-            resetPongBall();
-            playAtlasBlip(640, 0.1);
-            
-            if(window.innerWidth < 768) {
-                lenis.scrollTo(document.getElementById('terminal'), {offset: -60});
+        // Takeover controls
+        pongCanvas.addEventListener('mousemove', (e) => {
+            isPlayerActive = true;
+            const rect = pongCanvas.getBoundingClientRect();
+            p1.y = e.clientY - rect.top - pad.h / 2;
+        });
+        pongCanvas.addEventListener('touchmove', (e) => {
+            isPlayerActive = true;
+            if(document.fullscreenElement) e.preventDefault();
+            const rect = pongCanvas.getBoundingClientRect();
+            p1.y = e.touches[0].clientY - rect.top - pad.h / 2;
+        }, { passive: false });
+
+        window.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
+                if(isArcadeRunning && (document.fullscreenElement || e.target === document.body)) {
+                    e.preventDefault(); // Stop page scroll
+                    isPlayerActive = true;
+                    keys[e.key] = true;
+                }
             }
+        });
+        window.addEventListener('keyup', (e) => {
+            if (['ArrowUp', 'ArrowDown'].includes(e.key)) keys[e.key] = false;
+        });
+
+        // HUD Controls
+        document.getElementById('btn-pause-arcade').addEventListener('click', (e) => {
+            isArcadeRunning = !isArcadeRunning;
+            e.target.innerText = isArcadeRunning ? 'PAUSE' : 'RESUME';
+        });
+        
+        const arcadeContainer = document.querySelector('.arcade-container');
+        document.getElementById('btn-fullscreen-arcade').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                arcadeContainer.requestFullscreen().catch(err => console.log(err));
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            setTimeout(fitPong, 100);
         });
 
         function runPongLoop() {
             pCtx.clearRect(0, 0, pongCanvas.width, pongCanvas.height);
-
-            pCtx.setLineDash([6, 8]);
-            pCtx.beginPath();
-            pCtx.moveTo(pongCanvas.width / 2, 0);
-            pCtx.lineTo(pongCanvas.width / 2, pongCanvas.height);
+            
+            // Draw Net
+            pCtx.setLineDash([6, 8]); pCtx.beginPath();
+            pCtx.moveTo(pongCanvas.width / 2, 0); pCtx.lineTo(pongCanvas.width / 2, pongCanvas.height);
             pCtx.strokeStyle = isDarkMode ? 'rgba(220, 216, 192, 0.15)' : 'rgba(36, 36, 35, 0.15)';
-            pCtx.stroke();
-            pCtx.setLineDash([]);
+            pCtx.stroke(); pCtx.setLineDash([]);
 
+            // Draw Paddles
             pCtx.fillStyle = isDarkMode ? '#dcd8c0' : '#242423';
             pCtx.fillRect(16, p1.y, pad.w, pad.h);
             pCtx.fillRect(pongCanvas.width - 24, pAi.y, pad.w, pad.h);
-
-            pCtx.beginPath();
-            pCtx.arc(pongBall.x, pongBall.y, pongBall.r, 0, Math.PI * 2);
-            pCtx.fill();
+            
+            // Draw Ball
+            pCtx.beginPath(); pCtx.arc(pongBall.x, pongBall.y, pongBall.r, 0, Math.PI * 2); pCtx.fill();
 
             if (isArcadeRunning) {
-                p1.y += (mouseY - p1.y) * 0.2;
-                if (p1.y < 0) p1.y = 0;
-                if (p1.y + pad.h > pongCanvas.height) p1.y = pongCanvas.height - pad.h;
+                // Keyboard manual control
+                if(isPlayerActive) {
+                    if (keys.ArrowUp) p1.y -= pad.speed;
+                    if (keys.ArrowDown) p1.y += pad.speed;
+                } else {
+                    // AI auto-pilot for Player 1
+                    const p1Center = p1.y + pad.h / 2;
+                    if (p1Center < pongBall.y - 12) p1.y += pad.speed * 0.6;
+                    else if (p1Center > pongBall.y + 12) p1.y -= pad.speed * 0.6;
+                }
 
+                // AI for Player 2
                 const aiCenter = pAi.y + pad.h / 2;
                 if (aiCenter < pongBall.y - 12) pAi.y += pad.speed * 0.65;
                 else if (aiCenter > pongBall.y + 12) pAi.y -= pad.speed * 0.65;
-                if (pAi.y < 0) pAi.y = 0;
-                if (pAi.y + pad.h > pongCanvas.height) pAi.y = pongCanvas.height - pad.h;
 
-                pongBall.x += pongBall.vx;
-                pongBall.y += pongBall.vy;
+                // Paddle bounds
+                p1.y = Math.max(0, Math.min(p1.y, pongCanvas.height - pad.h));
+                pAi.y = Math.max(0, Math.min(pAi.y, pongCanvas.height - pad.h));
 
+                // Ball movement
+                pongBall.x += pongBall.vx; pongBall.y += pongBall.vy;
+
+                // Wall bounce
                 if (pongBall.y - pongBall.r < 0 || pongBall.y + pongBall.r > pongCanvas.height) {
-                    pongBall.vy *= -1;
-                    playAtlasBlip(300, 0.02);
+                    pongBall.vy *= -1; playAtlasBlip(300, 0.02);
                 }
 
+                // Paddle Hit
                 const hitP1 = pongBall.vx < 0 && pongBall.x - pongBall.r <= 24 && pongBall.y >= p1.y && pongBall.y <= p1.y + pad.h;
                 const hitAI = pongBall.vx > 0 && pongBall.x + pongBall.r >= pongCanvas.width - 24 && pongBall.y >= pAi.y && pongBall.y <= pAi.y + pad.h;
 
                 if (hitP1 || hitAI) {
-                    pongBall.vx *= -1.05;
+                    pongBall.vx *= -1.05; // speed up slightly
                     const paddleCenter = hitP1 ? (p1.y + pad.h / 2) : (pAi.y + pad.h / 2);
                     pongBall.vy = (pongBall.y - paddleCenter) * 0.18;
                     playAtlasBlip(550, 0.04);
                 }
 
+                // Scoring
                 if (pongBall.x < 0) {
-                    pAi.score++;
-                    updateScoreUI();
-                    playAtlasBlip(200, 0.1, 'sawtooth');
-                    resetPongBall();
+                    pAi.score++; updateScoreUI(); playAtlasBlip(200, 0.1, 'sawtooth'); resetPongBall();
                 } else if (pongBall.x > pongCanvas.width) {
-                    p1.score++;
-                    updateScoreUI();
-                    playAtlasBlip(800, 0.1);
-                    resetPongBall();
+                    p1.score++; updateScoreUI(); playAtlasBlip(800, 0.1); resetPongBall();
                 }
             }
             requestAnimationFrame(runPongLoop);
         }
         
         function updateScoreUI() {
-            scoreReadout.innerText = `PLAYER: ${p1.score.toString().padStart(2, '0')} | SYS_AI: ${pAi.score.toString().padStart(2, '0')}`;
+            document.getElementById('game-score-readout').innerText = `PLAYER: ${p1.score.toString().padStart(2, '0')} | SYS_AI: ${pAi.score.toString().padStart(2, '0')}`;
         }
         
+        resetPongBall();
         runPongLoop();
     </script>
 </body>
