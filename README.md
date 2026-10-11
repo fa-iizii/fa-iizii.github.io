@@ -1,56 +1,49 @@
-# Faiz Muhammed - Adaptive Tech Innovator Portfolio 
+# Portfolio Website
 
-Welcome to the source code for my interactive developer portfolio.
+Personal developer portfolio and interactive resume featuring a single-file architecture, glassmorphic design, custom 3D dot-matrix canvas background, and GSAP animations.
 
-As a First-Class BSc (Hons) Applied Computing graduate, I wanted to build a portfolio that goes beyond standard templates. This site is engineered entirely as a single-file architecture to maximize performance, utilizing a custom 3D WebGL background and generative audio feedback.
+**Live Site:** [fa-iizii.github.io](https://fa-iizii.github.io/) / [fa3z.com](https://fa3z.com/)
 
-**Live Site:** [fa-iizii.github.io](https://fa-iizii.github.io/?utm_source=gemini)
+## Key Features
 
-### Technical Stack
+- **Single-File Architecture:** Vanilla HTML5, CSS3, and JavaScript bundled in a single file (`index.html`) for performance.
+- **Glassmorphic Aesthetic:** Frosted glass UI cards utilizing `backdrop-filter: blur()` over an interactive background.
+- **Interactive Background:** Custom canvas dot-matrix grid reacting to cursor proximity, pointer movement, and click ripples.
+- **Animations & Scrolling:** Velocity-reactive marquee tickers and character-splitting title animations powered by GSAP, ScrollTrigger, and Lenis.
+- **Multilingual Boot Intro:** Boot screen featuring multilingual greetings assembled from dot-matrix particles.
+- **Interactive Easter Eggs:** Built-in playable Snake arcade game and hacker-style string scramble sequence.
 
-* **Architecture:** Vanilla HTML5, CSS3, JavaScript (Single-File Structure)
+## Technical Stack
 
-* **3D Rendering:** Three.js (Custom interactive wave matrix)
+- **Markup & Styling:** HTML5, CSS3, CSS Custom Properties, Flexbox/Grid
+- **Scripting:** Vanilla JavaScript (ES6+), Canvas API, Intersection Observer
+- **Libraries:** 
+  - GSAP & ScrollTrigger (Animations)
+  - Lenis (Smooth scrolling)
+- **Hosting:** GitHub Pages
 
-* **Animations:** GSAP (GreenSock) & ScrollTrigger
+## Project Structure
 
-* **Scroll Engine:** Lenis (Frictionless smooth scrolling)
-
-* **Hosting:** GitHub Pages
-
-### Key Features
-
-* **Interactive 3D Matrix:** A 64x64 WebGL dotted grid that mathematically reacts to cursor proximity and scroll depth, creating a tactile "Born Digital" aesthetic.
-
-* **Walkable Ishikawa Atlas:** A custom draggable timeline that tracks career milestones using dynamic SVG rendering.
-
-* **Neural Pong Arcade:** A fully playable, embedded 8-bit Pong game featuring AI auto-play and seamless player takeover.
-
-* **Generative Audio Engine:** Custom synthesized Web Audio API blips and tones that react to user interactions.
-
-* **Dynamic Theming:** Seamless transition between a sophisticated light mode (Synapser Studio inspired) and a sleek dark mode.
-
-### Folder Structure
-
-Because performance is the priority, all logic, styling, and markup are compressed into a single `index.html` file.
-
-```
+```text
 /
-├── index.html        # Core application (HTML/CSS/JS/Three.js)
+├── index.html        # Core application (HTML, CSS, and JS)
 ├── README.md         # Documentation
 └── /images           # Optimized project assets
     ├── campus.png
+    ├── python.png
+    ├── ml-data.jpg
+    ├── smartguard.jpg
     ├── rc-car.jpg
-    └── smartguard.jpg
-
+    └── python-projects.jpg
 ```
 
-### Local Deployment
+## Local Development
 
-To run this locally, you do not need any package managers or build tools.
+No complex build tools or package managers are required.
 
-1. Clone the repository.
+1. Clone or download the repository.
+2. Ensure the `images` folder contains all required project asset files with matching lowercase names.
+3. Open `index.html` in any modern web browser.
 
-2. Open `index.html` in any modern web browser.
-
-*Designed & Developed by [Faiz Muhammed](https://uk.linkedin.com/in/faiz-muhammed/?utm_source=gemini)*
+---
+*Designed & Developed by [Faiz Muhammed](https://uk.linkedin.com/in/faiz-muhammed/)*
