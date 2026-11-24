@@ -1,0 +1,165 @@
+{
+  "profile": {
+    "name": "Faiz Muhammed",
+    "locationLine": "United Kingdom / Applied Computing",
+    "summary": "I’m an Applied Computing graduate in the UK with project experience in full-stack development, machine learning and IoT. I’ve built connected systems with Node.js, Express, MySQL and ESP32, as well as machine-learning projects with Python and TensorFlow.",
+    "github": "https://github.com/fa-iizii",
+    "linkedin": "https://uk.linkedin.com/in/faiz-muhammed/",
+    "technologies": [
+      "Node.js",
+      "Express.js",
+      "MySQL",
+      "JavaScript",
+      "Python",
+      "TensorFlow",
+      "ESP32",
+      "C++",
+      "REST APIs",
+      "JWT",
+      "Pandas",
+      "Git & GitHub"
+    ],
+    "title": "Applied Computing graduate · Software, AI & IoT",
+    "description": "Applied Computing graduate with hands-on project experience in full-stack development, machine learning and IoT."
+  },
+  "journey": [
+    {
+      "tag": "Education",
+      "title": "BSc (Hons) Applied Computing",
+      "description": "I completed the Top-Up degree at the University of Huddersfield, scoring 90% in Data-Driven Artificial Intelligence and 86% in Software Architecture."
+    },
+    {
+      "tag": "Final Year Project · 71%",
+      "title": "Smart Campus Safety System",
+      "description": "I built a safety platform connecting ESP32 devices to a Node.js and Express backend, a MySQL database and a browser dashboard."
+    },
+    {
+      "tag": "Machine Learning · 95%",
+      "title": "Handwash Protocol Image Classifier",
+      "description": "I built a TensorFlow image-classification pipeline for the eight stages of the WHO handwashing protocol, using Cleanlab to find noisy labels and EfficientNetB0 for transfer learning."
+    },
+    {
+      "tag": "Organising Committee",
+      "title": "HudHack 2026",
+      "description": "I helped organise the University of Huddersfield’s first student-led hackathon for more than 60 students, working with sponsors, university staff and industry speakers."
+    }
+  ],
+  "stats": [
+    {
+      "value": 90,
+      "suffix": "%",
+      "label": "Data-Driven Artificial Intelligence"
+    },
+    {
+      "value": 86,
+      "suffix": "%",
+      "label": "Software Architecture"
+    },
+    {
+      "value": 78,
+      "suffix": "%",
+      "label": "Large-Scale Software Engineering"
+    },
+    {
+      "value": 71,
+      "suffix": "%",
+      "label": "Individual Project · Grade A"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Smart Campus Safety System",
+      "image": "images/campus.png",
+      "alt": "Smart Campus Safety System project",
+      "technologies": "Node.js · Express.js · MySQL · ESP32 · JWT",
+      "tag": "Final Year Project · 71%",
+      "description": "I built a safety platform connecting ESP32 devices to a Node.js and Express backend, a MySQL database and a browser dashboard. It includes REST APIs, JWT authentication, sensor logging, incident management and live monitoring for temperature, humidity and fire-exit status.",
+      "url": "https://github.com/fa-iizii/Smart-Campus-Safety-System",
+      "linkText": "View repository",
+      "featured": true
+    },
+    {
+      "title": "Handwash Protocol Image Classifier",
+      "image": "images/python.png",
+      "alt": "Handwash protocol image classification project",
+      "technologies": "Python · TensorFlow · EfficientNetB0 · Scikit-learn",
+      "tag": "Academic Project · 95%",
+      "description": "I built a machine-learning pipeline to classify images into the eight stages of the WHO handwashing protocol. I used Cleanlab to find noisy labels, then trained and fine-tuned an EfficientNetB0 model.",
+      "url": "https://github.com/fa-iizii/handwash-protocol-image-classifier",
+      "linkText": "View repository"
+    },
+    {
+      "title": "Hotel Booking Cancellation Prediction",
+      "image": "images/ml-data.jpg",
+      "alt": "Hotel booking cancellation prediction project",
+      "technologies": "Python · Scikit-learn · Pandas · Random Forest",
+      "tag": "86.33% Accuracy",
+      "description": "I trained a Random Forest model on historical booking data to predict cancellations, reaching 86.33% accuracy. I prepared and explored the data with Pandas, then used feature engineering to identify factors linked to cancellation risk.",
+      "url": "https://github.com/fa-iizii/hotel-booking-cancellation-prediction",
+      "linkText": "View repository"
+    },
+    {
+      "title": "SmartGuard Intruder Detection & Environmental Monitoring",
+      "image": "images/smartguard.jpg",
+      "alt": "SmartGuard IoT monitoring project",
+      "technologies": "ESP8266 · C++ · DHT11 · HC-SR04 · Blynk",
+      "description": "I connected an ESP8266 to temperature, humidity and distance sensors to monitor its surroundings and detect movement. The system sends readings and alerts to Blynk for remote monitoring.",
+      "url": "https://github.com/fa-iizii/SmartGuard",
+      "linkText": "View repository"
+    },
+    {
+      "title": "Mobile Bluetooth RC Car",
+      "image": "images/rc-car.jpg",
+      "alt": "Arduino Bluetooth remote-control car project",
+      "technologies": "Arduino Nano · C++ · Bluetooth · MIT App Inventor",
+      "description": "I built an Arduino car controlled over Bluetooth from a companion Android app. I wrote the embedded C++ code and tested the connection between the app and the hardware.",
+      "url": "https://github.com/fa-iizii/Arduino-Mobile-RC-Car",
+      "linkText": "View repository"
+    }
+  ],
+  "experience": [
+    {
+      "period": "Nov 2025 – Jul 2026",
+      "role": "Organising Committee Member",
+      "organisation": "HuddsCyberSoc · University of Huddersfield",
+      "description": "I helped plan and run HudHack 2026, the University of Huddersfield’s first student-led hackathon, for more than 60 students. I coordinated attendee engagement and event logistics and worked with sponsors, university staff and industry speakers. I also supported cybersecurity workshops and society events."
+    },
+    {
+      "period": "Dec 2024",
+      "role": "Usher",
+      "organisation": "Anshab Events · Abu Dhabi Grand Prix",
+      "description": "I welcomed and guided guests during the 2024 race weekend, answering questions and helping people find their way around a busy event."
+    },
+    {
+      "period": "Jun 2024 – Jul 2024",
+      "role": "Artificial Intelligence Intern",
+      "organisation": "Unsway · Remote",
+      "description": "I worked on AI projects and learning materials with a multidisciplinary team, and helped create practical AI courses for young learners."
+    },
+    {
+      "period": "Dec 2023",
+      "role": "Guest Service Representative",
+      "organisation": "Class Act Middle East · Abu Dhabi Grand Prix",
+      "description": "I helped guests with questions, directions and event information during the race weekend, working with the event team in a fast-paced setting."
+    }
+  ],
+  "education": [
+    {
+      "period": "Sep 2025 – Jul 2026",
+      "role": "BSc (Hons) Applied Computing (Top-Up)",
+      "organisation": "The University of Huddersfield",
+      "description": "Graduated with First Class Honours. Selected results: Data-Driven Artificial Intelligence (90%), Software Architecture (86%) and Large-Scale Software Engineering (78%)."
+    },
+    {
+      "period": "Apr 2023 – Jun 2025",
+      "role": "Pearson BTEC Level 5 Higher National Diploma in Computing",
+      "organisation": "UKCBC · Dubai Campus",
+      "description": "Achieved a Merit, with Distinctions in Computing Research Project and User Experience and Interface Design."
+    }
+  ],
+  "certifications": [
+    "Machine Learning with Python Professional Certificate · Anaconda · Nov 2025",
+    "Microsoft Security Essentials Professional Certificate · Nov 2025",
+    "Claude Academy: Claude 101 · Anthropic · Oct 2026"
+  ]
+}
