@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Faiz Muhammed — Adaptive Tech Innovator</title>
-    <meta name="description" content="Faiz Muhammed — First Class BSc (Hons) Applied Computing graduate specialising in full-stack development, ML pipelines and cloud-connected IoT.">
+    <title>Portfolio</title>
+    <meta name="description" content="Portfolio">
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#eeede9">
 
@@ -45,7 +45,7 @@
 
     <style>
         /* =========================================================
-           TOKENS — Glassmorphism variables included
+           DESIGN TOKENS
         ========================================================= */
         :root {
             --bg: #eeede9;
@@ -53,7 +53,7 @@
             --card-glass: rgba(245, 244, 240, 0.55);
             --ink: #0c0c0c;
             --soft: #55554f;
-            --faint: #8d8d86;
+            --faint: #66665f;
             --red: #d71921;
             --line: rgba(12, 12, 12, 0.14);
             --line-strong: rgba(12, 12, 12, 0.32);
@@ -65,7 +65,8 @@
             --f-mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
             --gutter: clamp(1.25rem, 5vw, 3.5rem);
-            --container: clamp(1160px, 72vw, 1600px);
+            --container: 72rem;
+            --ease-ui: cubic-bezier(0.2, 0.7, 0.2, 1);
             --section: clamp(5rem, 12vw, 10rem);
             --radius: clamp(14px, 2vw, 24px);
             --expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -76,7 +77,7 @@
             --card-glass: rgba(25, 25, 25, 0.55);
             --ink: #f1f0ec;
             --soft: #a3a39c;
-            --faint: #6d6d68;
+            --faint: #a3a39b;
             --red: #ff3b3b;
             --line: rgba(241, 240, 236, 0.13);
             --line-strong: rgba(241, 240, 236, 0.3);
@@ -86,7 +87,7 @@
         @media (prefers-color-scheme: dark) {
             :root:not([data-theme]) {
                 --bg: #0a0a0a; --bg-transparent: rgba(10, 10, 10, 0.4); --card-glass: rgba(25, 25, 25, 0.55); 
-                --ink: #f1f0ec; --soft: #a3a39c; --faint: #6d6d68; --red: #ff3b3b;
+                --ink: #f1f0ec; --soft: #a3a39c; --faint: #a3a39b; --red: #ff3b3b;
                 --line: rgba(241, 240, 236, 0.13); --line-strong: rgba(241, 240, 236, 0.3);
                 --dot: rgba(241, 240, 236, 0.18); --nav-bg: rgba(10, 10, 10, 0.78);
             }
@@ -118,6 +119,11 @@
         a { color: inherit; }
         ::selection { background: var(--red); color: #fff; }
         :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+        .hero-name, .section-title, .project-title, .cv-role { text-wrap: balance; }
+        .hero-name { overflow-wrap: anywhere; }
+        .section-title { max-width: min(100%, 19ch); overflow-wrap: anywhere; }
+        .nav-links a, .btn, .project-link, .cv-period, .step-index, .stat-num, .work-counter { font-variant-numeric: tabular-nums; }
+        .btn, .contact-trigger, .game-btn, .icon-btn { -webkit-tap-highlight-color: transparent; }
 
         .container {
             width: 100%;
@@ -130,6 +136,8 @@
 
         #dots { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
+        .content-error { position: fixed; inset: 0 0 auto; z-index: 999; padding: 0.75rem 1rem; background: var(--red); color: #fff; text-align: center; }
+
         .progress {
             position: fixed; top: 0; left: 0; right: 0; height: 2px;
             background: var(--red);
@@ -138,9 +146,9 @@
         }
 
         .label {
-            font-family: var(--f-mono);
-            font-size: 0.74rem;
-            letter-spacing: 0.1em;
+            font-family: var(--f-body);
+            font-size: 0.72rem;
+            letter-spacing: 0.09em;
             text-transform: uppercase;
             color: var(--faint);
         }
@@ -157,7 +165,7 @@
         ========================================================= */
         .site-header {
             position: fixed; top: 0; left: 0; right: 0; z-index: 150;
-            padding: 0.9rem var(--gutter);
+            padding: max(0.75rem, env(safe-area-inset-top)) var(--gutter);
             background: var(--nav-bg);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--line);
@@ -170,11 +178,12 @@
             position: relative;
         }
         .brand {
-            display: inline-flex; align-items: center; gap: 0.6rem;
+            display: inline-flex; align-items: center; gap: 0.6rem; max-width: min(50vw, 18rem); min-width: 0;
             font-weight: 600; font-size: 1rem; letter-spacing: -0.01em;
             text-decoration: none; white-space: nowrap;
         }
-        .brand i { width: 9px; height: 9px; border-radius: 50%; background: var(--red); display: block; }
+        .brand i { width: 9px; height: 9px; border-radius: 50%; background: var(--red); display: block; flex: none; }
+        .brand span { overflow: hidden; text-overflow: ellipsis; }
         .nav-links { display: flex; align-items: center; gap: clamp(0.5rem, 2vw, 1.75rem); list-style: none; }
         .nav-links a {
             font-family: var(--f-mono); font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -189,12 +198,12 @@
             width: 38px; height: 38px; display: grid; place-items: center;
             border-radius: 50%; border: 1px solid var(--line-strong);
             background: transparent; color: var(--ink); cursor: pointer;
-            transition: background-color 0.35s var(--expo), color 0.35s var(--expo), transform 0.5s var(--expo);
+            transition: background-color 0.22s var(--ease-ui), color 0.22s var(--ease-ui);
         }
-        .icon-btn:hover { background: var(--ink); color: var(--bg); transform: rotate(180deg); }
+        .icon-btn:hover { background: var(--ink); color: var(--bg); }
+        .icon-btn:active { transform: scale(0.97); transition-duration: 55ms; }
         .icon-btn svg { width: 17px; height: 17px; }
         .menu-btn { display: none; }
-        .menu-btn:hover { transform: none; }
 
         @media (max-width: 900px) {
             .menu-btn { display: grid; }
@@ -205,7 +214,7 @@
                 backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
                 padding: 0.5rem var(--gutter) 1rem;
                 opacity: 0; visibility: hidden; transform: translateY(-10px);
-                transition: opacity 0.4s var(--expo), transform 0.4s var(--expo), visibility 0.4s;
+                transition: opacity 220ms var(--ease-ui), transform 220ms var(--ease-ui), visibility 220ms;
             }
             .nav.is-open .nav-links { opacity: 1; visibility: visible; transform: none; }
             .nav-links a { padding: 0.9rem 0; font-size: 0.85rem; border-bottom: 1px solid var(--line); display: block; }
@@ -221,7 +230,7 @@
             font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
             text-decoration: none; color: var(--ink);
             border: 1px solid var(--line-strong); background: transparent;
-            transition: color 0.45s var(--expo), border-color 0.45s var(--expo);
+            transition: color 0.22s var(--expo), border-color 0.22s var(--expo);
             will-change: transform;
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
         }
@@ -229,13 +238,15 @@
             content: ''; position: absolute; inset: 0; z-index: -1;
             background: var(--red); transform: translateY(101%);
             border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-            transition: transform 0.55s var(--expo), border-radius 0.55s var(--expo);
+            transition: transform 0.3s var(--expo), border-radius 0.3s var(--expo);
         }
         .btn:hover { color: #fff; border-color: var(--red); }
         .btn:hover::before { transform: translateY(0); border-radius: 0; }
+        .btn:active, .contact-trigger:active, .game-btn:active { transform: scale(0.97); transition-duration: 55ms; }
         .btn .arrow { display: inline-block; transition: transform 0.45s var(--expo); }
         .btn:hover .arrow { transform: translate(3px, -3px); }
-        .btn-solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        .btn-solid { background: var(--red); color: #fff; border-color: var(--red); }
+        .btn-solid::before { background: var(--ink); }
 
         /* =========================================================
            HERO
@@ -247,7 +258,8 @@
             padding-bottom: clamp(3rem, 8vw, 5rem);
             background: transparent;
         }
-        .hero-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+        .hero-top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.5rem 2rem; margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+        .hero-top .label { max-width: 100%; }
         .hero-name {
             font-family: var(--f-display);
             font-weight: 900;
@@ -259,7 +271,8 @@
         }
         .hero-name .line { display: block; }
         .hero-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: end; }
-        .hero-desc { color: var(--soft); max-width: 34rem; }
+        .hero-copy { grid-column: 1 / -1; }
+        .hero-desc { color: var(--soft); max-width: 34rem; overflow-wrap: anywhere; }
         .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
         .scroll-cue { margin-top: clamp(2.5rem, 7vw, 5rem); display: flex; align-items: center; gap: 1rem; }
         .scroll-cue span.bar { width: 1px; height: 46px; background: var(--line-strong); position: relative; overflow: hidden; }
@@ -270,6 +283,7 @@
         /* =========================================================
            MARQUEE - Transparent
         ========================================================= */
+        .marquee[hidden], .marquee-row[hidden] { display: none !important; }
         .marquee { position: relative; z-index: 2; overflow: hidden; padding-block: clamp(1.5rem, 4vw, 3rem); border-block: 1px solid var(--line); background: transparent; }
         .marquee-row { display: flex; width: max-content; will-change: transform; }
         .marquee-row + .marquee-row { margin-top: clamp(0.5rem, 1.5vw, 1rem); }
@@ -298,9 +312,11 @@
            JOURNEY
         ========================================================= */
         .journey-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+        .journey-grid > * { min-width: 0; }
         .journey-head { position: sticky; top: 7rem; }
         .journey-head p { color: var(--soft); max-width: 24rem; margin-top: 1.5rem; }
-        .stepper { list-style: none; position: relative; padding-left: clamp(2rem, 5vw, 3.5rem); }
+        .stepper-wrap { position: relative; }
+        .stepper { list-style: none; padding-left: clamp(2rem, 5vw, 3.5rem); }
         .stepper-line, .stepper-fill { position: absolute; left: 7px; top: 0.6rem; bottom: 0.6rem; width: 1px; }
         .stepper-line { background: var(--line-strong); }
         .stepper-fill { background: var(--red); transform: scaleY(0); transform-origin: 50% 0; width: 2px; left: 6.5px; }
@@ -316,19 +332,19 @@
         }
         .step.is-active::before { background: var(--red); border-color: var(--red); transform: scale(1.2); }
         .step-index { font-family: var(--f-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1; color: var(--red); margin-bottom: 0.6rem; }
-        .step-tag { margin-bottom: 0.6rem; display: block; }
-        .step-title { font-size: clamp(1.4rem, 1rem + 1.6vw, 2.2rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
-        .step-text { color: var(--soft); max-width: 34rem; }
+        .step-tag { margin-bottom: 0.6rem; display: block; overflow-wrap: anywhere; }
+        .step-title { min-width: 0; overflow-wrap: anywhere; font-size: clamp(1.4rem, 1rem + 1.6vw, 2.2rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 0.75rem; }
+        .step-text { color: var(--soft); max-width: 34rem; overflow-wrap: anywhere; }
         @media (max-width: 860px) {
             .journey-grid { grid-template-columns: 1fr; }
             .journey-head { position: static; }
         }
 
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr)); margin-top: clamp(4rem, 9vw, 7rem); border-top: 1px solid var(--line-strong); }
-        .stat { padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 3vw, 2rem) 0; border-bottom: 1px solid var(--line); }
-        .stat-num { font-family: var(--f-display); font-weight: 900; font-size: clamp(3rem, 2rem + 4vw, 5.5rem); line-height: 1; display: flex; align-items: baseline; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); margin-top: clamp(4rem, 9vw, 7rem); border-top: 1px solid var(--line-strong); }
+        .stat { min-width: 0; padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 3vw, 2rem) 0; border-bottom: 1px solid var(--line); }
+        .stat-num { font-family: var(--f-display); font-weight: 900; font-size: clamp(3rem, 2rem + 4vw, 5.5rem); line-height: 1; display: flex; align-items: baseline; font-variant-numeric: tabular-nums lining-nums; }
         .stat-num small { font-size: 0.4em; color: var(--red); margin-left: 0.1em; }
-        .stat .label { margin-top: 0.6rem; display: block; }
+        .stat .label { margin-top: 0.6rem; display: block; overflow-wrap: anywhere; }
 
         /* =========================================================
            WORK - Glassmorphed Cards
@@ -336,6 +352,8 @@
         .work { position: relative; z-index: 2; padding-block: var(--section); background: transparent; border-top: 1px solid var(--line); }
         .work-inner { display: flex; flex-direction: column; gap: clamp(1.5rem, 4vw, 3rem); }
         .work-head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+        .work-head-row > div:first-child { flex: 1 1 24rem; min-width: 0; }
+        .work-head-row .section-title { width: 100%; }
         .work-counter { font-family: var(--f-display); font-weight: 900; font-size: clamp(1.8rem, 1rem + 3vw, 3.4rem); line-height: 1; display: none; }
         .work-counter span { color: var(--faint); }
         .work-bar { display: none; height: 1px; background: var(--line-strong); margin-top: 1.25rem; position: relative; }
@@ -347,17 +365,29 @@
         .project {
             display: flex; flex-direction: column;
             background: var(--card-glass); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
-            transition: border-color 0.5s var(--expo), transform 0.7s var(--expo);
+            transition: border-color 220ms var(--ease-ui), transform 220ms var(--ease-ui);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
         }
-        .project:hover { border-color: var(--red); }
+        .project:hover { border-color: var(--red); transform: translateY(-2px); }
         .work:not(.is-hscroll) .project.featured { grid-column: 1 / -1; }
         @media (min-width: 900px) {
             .work:not(.is-hscroll) .project.featured { flex-direction: row; }
             .work:not(.is-hscroll) .project.featured .project-media { flex: 1.2 1 0; aspect-ratio: auto; min-height: 320px; }
             .work:not(.is-hscroll) .project.featured .project-body { flex: 1 1 0; padding: clamp(1.75rem, 4vw, 3rem); }
         }
-        .project-media { position: relative; aspect-ratio: 16 / 10; background: transparent; overflow: hidden; }
+        .project-media {
+            position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+            background-color: var(--card-glass);
+            background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+            background-size: 12px 12px;
+        }
+        .project-media::after {
+            content: attr(data-placeholder); position: absolute; inset: auto 1rem 1rem; z-index: 1;
+            color: var(--soft); font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.06em;
+            text-transform: uppercase; opacity: 0.8; transition: opacity 180ms var(--ease-ui);
+        }
+        .project-media.has-image::after { opacity: 0; }
+        .project-media.image-failed img { display: none; }
         .project-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05); transition: filter 0.7s var(--expo), transform 1.2s var(--expo); }
         .project:hover .project-media img { filter: grayscale(0); transform: scale(1.06); }
         .project-no {
@@ -365,16 +395,19 @@
             font-family: var(--f-display); font-weight: 900; font-size: 1.5rem; line-height: 1;
             color: #fff; mix-blend-mode: difference;
         }
-        .project-body { display: flex; flex-direction: column; flex: 1; padding: clamp(1.25rem, 3vw, 1.9rem); }
-        .project-meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem 1rem; margin-bottom: 0.9rem; }
-        .tag { font-family: var(--f-mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid var(--red); color: var(--red); white-space: nowrap; }
-        .project-title { font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 0.7rem; }
+        .project-body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: clamp(1.25rem, 3vw, 1.9rem); }
+        .project-meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.5rem 1rem; margin-bottom: 0.9rem; }
+        .project-meta > * { min-width: 0; }
+        .project-meta .label, .project-result { overflow-wrap: anywhere; }
+        .project-result { max-width: 100%; color: var(--red); font-size: 0.8rem; font-weight: 600; line-height: 1.35; }
+        .project-result:empty { display: none; }
+        .project-title { min-width: 0; overflow-wrap: anywhere; font-size: clamp(1.35rem, 1.1rem + 1vw, 1.9rem); font-weight: 500; line-height: 1.12; letter-spacing: -0.03em; margin-bottom: 0.7rem; }
         .project-desc { color: var(--soft); font-size: 0.95rem; margin-bottom: 1.4rem; }
         .project-link {
             margin-top: auto; align-self: flex-start; display: inline-flex; gap: 0.5rem; align-items: center;
             font-family: var(--f-mono); font-size: 0.76rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
             padding-bottom: 3px; background: linear-gradient(var(--red), var(--red)) 0 100% / 0% 1px no-repeat, linear-gradient(var(--line-strong), var(--line-strong)) 0 100% / 100% 1px no-repeat;
-            transition: background-size 0.6s var(--expo), color 0.3s;
+            transition: background-size 220ms var(--ease-ui), color 220ms var(--ease-ui);
         }
         .project-link:hover { background-size: 100% 1px, 100% 1px; color: var(--red); }
         .project-link .arrow { transition: transform 0.45s var(--expo); }
@@ -400,23 +433,26 @@
            EXPERIENCE & EDUCATION - Glassmorphed Cards
         ========================================================= */
         .cv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: clamp(1.25rem, 3vw, 2rem); }
-        .cv-card { background: var(--card-glass); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.5rem, 4vw, 2.75rem); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .cv-card { min-width: 0; background: var(--card-glass); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 2.25rem); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
         .cv-card .label { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); display: block; }
-        .cv-entry { padding-bottom: 1.75rem; margin-bottom: 1.75rem; border-bottom: 1px solid var(--line); }
+        .cv-entry { min-width: 0; padding-bottom: 1.75rem; margin-bottom: 1.75rem; border-bottom: 1px solid var(--line); }
         .cv-entry:last-child { padding-bottom: 0; margin-bottom: 0; border-bottom: none; }
         .cv-period { font-family: var(--f-mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.4rem; }
-        .cv-role { font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.55rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
-        .cv-org { color: var(--red); font-size: 0.93rem; margin-bottom: 0.75rem; }
-        .cv-text { color: var(--soft); font-size: 0.95rem; }
+        .cv-role { min-width: 0; overflow-wrap: anywhere; font-size: clamp(1.2rem, 1.05rem + 0.7vw, 1.55rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+        .cv-org { color: var(--red); font-size: 0.93rem; margin-bottom: 0.75rem; overflow-wrap: anywhere; }
+        .cv-text { color: var(--soft); font-size: 0.95rem; overflow-wrap: anywhere; }
         .cv-text strong { color: var(--ink); font-weight: 600; }
         .cv-list { list-style: none; color: var(--soft); font-size: 0.95rem; }
-        .cv-list li { position: relative; padding-left: 1.1rem; margin-bottom: 0.35rem; }
+        .cv-list li { position: relative; padding-left: 1.1rem; margin-bottom: 0.35rem; overflow-wrap: anywhere; }
         .cv-list li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--red); }
 
         /* =========================================================
            FOOTER
         ========================================================= */
-        .site-footer { position: relative; z-index: 2; background: transparent; border-top: 1px solid var(--line); padding-block: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 4vw, 2.5rem); }
+        .site-footer {
+            position: relative; z-index: 2; background: transparent; border-top: 1px solid var(--line);
+            padding: clamp(3rem, 8vw, 6rem) max(clamp(5.5rem, 12vw, 7rem), calc(4.5rem + env(safe-area-inset-bottom))) 1.5rem;
+        }
         .footer-big {
             font-family: var(--f-display); font-weight: 900; text-transform: uppercase;
             font-size: clamp(2.6rem, 12.5vw, 11rem); line-height: 0.92; letter-spacing: -0.01em;
@@ -425,24 +461,24 @@
         .footer-big .line { display: block; }
         .footer-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
         .footer-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-        .footer-hint { margin-bottom: 1.25rem; display: block; }
 
         /* =========================================================
            FLOATING CONTACT BUTTON - Glassmorphed
         ========================================================= */
         .contact-fab {
-            position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem);
+            position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom));
             z-index: 170; display: flex; flex-direction: column; align-items: flex-end; gap: 0.75rem;
         }
         .contact-menu {
             width: min(18rem, calc(100vw - 2rem));
-            background: var(--card-glass); border: 1px solid var(--line-strong); border-radius: 22px;
+            background: var(--card-glass); border: 1px solid var(--line-strong); border-radius: var(--radius);
             padding: 0.6rem; box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            opacity: 0; visibility: hidden; transform: translateY(14px) scale(0.96); transform-origin: bottom right;
-            transition: opacity 0.45s var(--expo), transform 0.55s var(--expo), visibility 0.45s;
+            opacity: 0; visibility: hidden; transform: translateY(0.5rem) scale(0.95); transform-origin: bottom right;
+            transition: opacity 200ms var(--ease-ui), transform 200ms var(--ease-ui), visibility 200ms;
         }
         .contact-fab.is-open .contact-menu { opacity: 1; visibility: visible; transform: none; }
+        .contact-fab:not(.is-open) .contact-menu { transition-duration: 160ms; }
         .contact-menu .label { display: block; padding: 0.6rem 0.9rem 0.5rem; }
         .contact-link {
             display: flex; align-items: center; justify-content: space-between; gap: 1rem;
@@ -460,9 +496,9 @@
             background: var(--ink); color: var(--bg);
             font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
             box-shadow: 0 14px 34px -14px rgba(0, 0, 0, 0.5);
-            transition: background-color 0.4s var(--expo), color 0.4s var(--expo), transform 0.5s var(--expo);
+            transition: background-color 220ms var(--ease-ui), color 220ms var(--ease-ui), transform 220ms var(--ease-ui);
         }
-        .contact-trigger:hover { background: var(--red); color: #fff; transform: translateY(-2px); }
+        .contact-trigger:hover { background: var(--red); color: #fff; }
         .contact-trigger svg { width: 16px; height: 16px; transition: transform 0.5s var(--expo); }
         .contact-fab.is-open .contact-trigger svg { transform: rotate(45deg); }
         .contact-trigger .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: fabpulse 2s ease-in-out infinite; }
@@ -568,28 +604,15 @@
             .nav-links a { padding-block: 0.6rem; }
         }
         @media (hover: none) {
+            .project:hover { transform: none; }
             .project-media img { filter: none; }
             .project:hover .project-media img { transform: none; }
-        }
-        @media (max-width: 900px) {
-            .nav-links { max-height: calc(100dvh - 5.5rem); overflow-y: auto; }
-        }
-        @media (max-width: 380px) {
-            .btn { padding: 0.75rem 1.1rem; font-size: 0.72rem; }
-            .hero-actions { gap: 0.5rem; }
-            .brand { font-size: 0.92rem; }
-        }
-        .site-footer { padding-bottom: clamp(5.5rem, 12vw, 7rem); }
-        .contact-fab {
-            right: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-right));
-            bottom: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-bottom));
         }
 
         /* Snake Fullscreen Controls */
         .snake-modal { --board: min(100%, calc(100dvh - 210px)); }
         .snake-board { width: max(220px, var(--board)); margin-inline: auto; }
         .snake-ctrls { display: flex; align-items: center; gap: 0.5rem; }
-        .snake-ctrls .icon-btn:hover { transform: none; }
         #snake-play .i-pause { display: none; }
         #snake-play[data-state="pause"] .i-play { display: none; }
         #snake-play[data-state="pause"] .i-pause { display: block; }
@@ -627,6 +650,35 @@
             .scroll-cue span.bar::after { animation: none; }
             *, *::before, *::after { transition-duration: 0.01ms !important; }
             .js .step { opacity: 1; }
+            .project:hover { transform: none; }
+            .project-media::after { transition: none; }
+        }
+
+        /* Small screens keep the same cards, with a simpler vertical project layout. */
+        @media (max-width: 620px) {
+            :root { --section: clamp(4rem, 16vw, 6rem); --gutter: clamp(1rem, 5vw, 1.5rem); }
+            .hero { min-height: 100svh; justify-content: center; }
+            .hero-name { font-size: clamp(2.15rem, 13vw, 5rem); }
+            .hero-actions { gap: 0.6rem; }
+            .hero-actions .btn { flex: 1 1 auto; justify-content: center; }
+            .section-title { font-size: clamp(2rem, 10vw, 3.6rem); }
+            .stepper { padding-left: 2.25rem; }
+            .step::before { left: -2.25rem; }
+            .project-meta { align-items: flex-start; }
+            .project-title { overflow-wrap: anywhere; }
+            .work.is-hscroll { height: auto; min-height: 0; overflow: visible; padding-block: var(--section); }
+            .work.is-hscroll .work-inner { height: auto; }
+            .work.is-hscroll .work-track { display: grid; width: auto; max-width: var(--container); margin-inline: auto; gap: 1rem; padding-inline: var(--gutter); }
+            .work.is-hscroll .project, .work.is-hscroll .project.featured { width: auto; }
+            .work.is-hscroll .project-media { height: auto; aspect-ratio: 16 / 10; }
+            .work.is-hscroll .work-counter, .work.is-hscroll .work-bar { display: none; }
+            .work.is-hscroll .more-wrap { display: flex !important; padding-inline: var(--gutter); }
+        }
+        @media (max-width: 360px) {
+            .hero-actions .btn { width: 100%; }
+            .fab-row { gap: 0.35rem; }
+            .contact-trigger, .game-btn { height: 44px; padding-inline: 0.75rem; font-size: 0.66rem; }
+            .game-btn svg { width: 15px; height: 15px; }
         }
     </style>
 </head>
@@ -635,8 +687,8 @@
     <div class="intro" id="intro" aria-hidden="true">
         <canvas id="intro-canvas"></canvas>
         <div class="intro-top">
-            <span class="label"><span class="dot-red"></span>Faiz Muhammed</span>
-            <span class="label">UK</span>
+            <span class="label"><span class="dot-red"></span><span data-content="brand"></span></span>
+            <span class="label" id="content-state" role="status" aria-live="polite">Loading portfolio</span>
         </div>
         <div class="intro-bar">
             <div class="intro-langs"><span>EN</span><span>AR</span><span>FR</span><span>ML</span></div>
@@ -649,7 +701,7 @@
 
     <header class="site-header" id="site-header">
         <nav class="nav" id="nav" aria-label="Primary">
-            <a href="#top" class="brand"><i></i>Faiz Muhammed</a>
+            <a href="#top" class="brand"><i></i><span data-content="brand"></span></a>
             <ul class="nav-links" id="nav-links">
                 <li><a href="#overview" class="active">Overview</a></li>
                 <li><a href="#journey">Journey</a></li>
@@ -673,22 +725,18 @@
         <!-- OVERVIEW -->
         <section class="hero container" id="overview">
             <div class="hero-top">
-                <span class="label" data-fade><span class="dot-red"></span>Overview</span>
-                <span class="label" data-fade>UK &nbsp;/&nbsp; Applied Computing &nbsp;/&nbsp; First Class</span>
+                <span class="label" data-fade id="profile-location"></span>
             </div>
 
-            <h1 class="hero-name" aria-label="Faiz Muhammed">
-                <span class="line" data-split aria-hidden="true">Faiz</span>
-                <span class="line" data-split aria-hidden="true">Muhammed</span>
-            </h1>
+            <h1 class="hero-name" id="hero-name"></h1>
 
             <div class="hero-row">
-                <div data-fade style="grid-column: 1 / -1;">
-                    <p class="hero-desc">First Class BSc (Hons) Applied Computing graduate based in the UK. Specializing in high-end full-stack development, ML pipelines, and cloud-connected IoT architectures. From C++ hardware telemetry to Node.js backend services.</p>
+                <div class="hero-copy" data-fade>
+                    <p class="hero-desc" id="profile-summary"></p>
                     <div class="hero-actions">
-                        <a href="#work" class="btn btn-solid magnetic">View my work <span class="arrow" aria-hidden="true">↓</span></a>
-                        <a href="https://github.com/fa-iizii" target="_blank" rel="noopener" class="btn magnetic">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
-                        <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" rel="noopener" class="btn magnetic">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a>
+                        <a href="#work" class="btn btn-solid magnetic">Explore projects <span class="arrow" aria-hidden="true">↓</span></a>
+                        <a data-profile-link="github" target="_blank" rel="noopener" class="btn magnetic">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+                        <a data-profile-link="linkedin" target="_blank" rel="noopener" class="btn magnetic">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a>
                     </div>
                 </div>
             </div>
@@ -700,75 +748,25 @@
 
         <!-- MARQUEE -->
         <section class="marquee" aria-label="Technologies">
-            <div class="marquee-row" data-dir="1">
-                <div class="marquee-group">
-                    <span class="marquee-item">Node.js</span><span class="marquee-item">Express</span><span class="marquee-item">MySQL</span><span class="marquee-item">Python</span><span class="marquee-item">C++</span><span class="marquee-item">AWS</span>
-                </div>
-            </div>
-            <div class="marquee-row outline" data-dir="-1">
-                <div class="marquee-group">
-                    <span class="marquee-item">ESP32</span><span class="marquee-item">ESP8266</span><span class="marquee-item">Arduino</span><span class="marquee-item">Blynk</span><span class="marquee-item">Jupyter</span><span class="marquee-item">Machine Learning</span>
-                </div>
-            </div>
+            <div class="marquee-row" data-dir="1"><div class="marquee-group" id="tech-row-one"></div></div>
+            <div class="marquee-row outline" data-dir="-1"><div class="marquee-group" id="tech-row-two"></div></div>
         </section>
 
         <!-- JOURNEY -->
         <section class="section container" id="journey">
             <div class="journey-grid">
                 <div class="journey-head">
-                    <span class="label"><span class="dot-red"></span>Journey</span>
-                    <h2 class="section-title" data-split-title>Milestones</h2>
+                    <h2 class="section-title" data-split-title>Study, build and lead</h2>
                 </div>
 
-                <ol class="stepper" id="stepper">
+                <div class="stepper-wrap">
                     <span class="stepper-line" aria-hidden="true"></span>
                     <span class="stepper-fill" id="stepper-fill" aria-hidden="true"></span>
-
-                    <li class="step">
-                        <div class="step-index">01</div>
-                        <span class="label step-tag">First Class</span>
-                        <h3 class="step-title" data-split-title>BSc (Hons) Applied Computing</h3>
-                        <p class="step-text">First Class Honours from the University of Huddersfield. Modules: Data-Driven AI (90%), Software Arch (86%).</p>
-                    </li>
-                    <li class="step">
-                        <div class="step-index">02</div>
-                        <span class="label step-tag">IoT Gateway</span>
-                        <h3 class="step-title" data-split-title>Smart Campus Gateway</h3>
-                        <p class="step-text">Grade A Final Year Project. Full-stack IoT safety platform connecting ESP32 to Node.js &amp; MySQL.</p>
-                    </li>
-                    <li class="step">
-                        <div class="step-index">03</div>
-                        <span class="label step-tag">AI Internship</span>
-                        <h3 class="step-title" data-split-title>Artificial Intelligence Internship</h3>
-                        <p class="step-text">Unsway Online. ML pipelines, data processing and AI logic automation workflows.</p>
-                    </li>
-                    <li class="step">
-                        <div class="step-index">04</div>
-                        <span class="label step-tag">AWS Cloud</span>
-                        <h3 class="step-title" data-split-title>Cloud &amp; Security</h3>
-                        <p class="step-text">Pursuing AWS Practitioner. Certified in Anaconda Python ML and Microsoft Security Essentials.</p>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-num"><span class="count" data-to="90">90</span><small>%</small></div>
-                    <span class="label">Data-Driven AI</span>
-                </div>
-                <div class="stat">
-                    <div class="stat-num"><span class="count" data-to="86">86</span><small>%</small></div>
-                    <span class="label">Software Architecture</span>
-                </div>
-                <div class="stat">
-                    <div class="stat-num"><span class="count" data-to="78">78</span><small>%</small></div>
-                    <span class="label">Large-Scale Engineering</span>
-                </div>
-                <div class="stat">
-                    <div class="stat-num"><span class="count" data-to="71">71</span><small>%</small></div>
-                    <span class="label">Final Year Project · Grade A</span>
+                    <ol class="stepper" id="stepper"></ol>
                 </div>
             </div>
+
+            <div class="stats" id="stats-items"></div>
         </section>
 
         <!-- WORK -->
@@ -777,118 +775,21 @@
                 <div class="container work-head-wrap">
                     <div class="work-head-row">
                         <div>
-                            <span class="label"><span class="dot-red"></span>Work</span>
-                            <h2 class="section-title" data-split-title>Selected Systems</h2>
+                            <h2 class="section-title" data-split-title>Software, AI &amp; IoT projects</h2>
                         </div>
-                        <div class="work-counter" id="work-counter" aria-hidden="true">01<span> / 06</span></div>
+                        <div class="work-counter" id="work-counter" aria-hidden="true">01<span> / 00</span></div>
                     </div>
                     <div class="work-bar" aria-hidden="true"><i id="work-bar-fill"></i></div>
                 </div>
 
                 <div class="work-track" id="work-track">
-                    <article class="project featured">
-                        <div class="project-media">
-                            <span class="project-no">01</span>
-                            <img src="images/campus.png" alt="Smart Campus Safety System" loading="lazy">
-                        </div>
-                        <div class="project-body">
-                            <div class="project-meta">
-                                <span class="label">Node.js · Express · MySQL · ESP32</span>
-                                <span class="tag">Grade A (71%)</span>
-                            </div>
-                            <h3 class="project-title" data-split-title>Smart Campus Safety System</h3>
-                            <p class="project-desc">Full-stack client-server architecture receiving live sensor streams from ESP32 microcontrollers. Features JWT authenticated endpoints, real-time anomaly detection, secure photo verification with Multer, and automated database cron lifecycles.</p>
-                            <a href="https://github.com/fa-iizii/Smart-Campus-Safety-System" target="_blank" rel="noopener" class="project-link">View repository <span class="arrow" aria-hidden="true">↗</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project">
-                        <div class="project-media">
-                            <span class="project-no">02</span>
-                            <img src="images/python.png" alt="Handwash Protocol Image Classifier" loading="lazy">
-                        </div>
-                        <div class="project-body">
-                            <div class="project-meta">
-                                <span class="label">Python · Jupyter Notebook · AI</span>
-                                <span class="tag">Machine Learning</span>
-                            </div>
-                            <h3 class="project-title" data-split-title>Handwash Protocol Classifier</h3>
-                            <p class="project-desc">A machine learning image classification model built to analyze and predict correct handwashing protocols using Python data science libraries.</p>
-                            <a href="https://github.com/fa-iizii/handwash-protocol-image-classifier" target="_blank" rel="noopener" class="project-link">Inspect code <span class="arrow" aria-hidden="true">↗</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project">
-                        <div class="project-media">
-                            <span class="project-no">03</span>
-                            <img src="images/ml-data.jpg" alt="Hotel Booking Prediction Model" loading="lazy">
-                        </div>
-                        <div class="project-body">
-                            <div class="project-meta">
-                                <span class="label">Python · Predictive Modeling</span>
-                                <span class="tag">Data Science</span>
-                            </div>
-                            <h3 class="project-title" data-split-title>Hotel Booking Predictor</h3>
-                            <p class="project-desc">A predictive analytics model utilizing historical booking data to forecast cancellation probabilities, aiding in revenue optimization strategies.</p>
-                            <a href="https://github.com/fa-iizii/hotel-booking-cancellation-prediction" target="_blank" rel="noopener" class="project-link">Inspect code <span class="arrow" aria-hidden="true">↗</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project">
-                        <div class="project-media">
-                            <span class="project-no">04</span>
-                            <img src="images/smartguard.jpg" alt="SmartGuard Detection System" loading="lazy">
-                        </div>
-                        <div class="project-body">
-                            <div class="project-meta">
-                                <span class="label">ESP8266 · C++ · Blynk</span>
-                                <span class="tag">Deployed</span>
-                            </div>
-                            <h3 class="project-title" data-split-title>SmartGuard IoT Detection</h3>
-                            <p class="project-desc">Cloud-synced telemetry hub integrating environmental sensors and PIR motion detection. Written in embedded C++ for microsecond polling and instant cloud alerts.</p>
-                            <a href="https://github.com/fa-iizii/SmartGuard" target="_blank" rel="noopener" class="project-link">Inspect code <span class="arrow" aria-hidden="true">↗</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project">
-                        <div class="project-media">
-                            <span class="project-no">05</span>
-                            <img src="images/rc-car.jpg" alt="Bluetooth RC Car" loading="lazy">
-                        </div>
-                        <div class="project-body">
-                            <div class="project-meta">
-                                <span class="label">Arduino Nano · C++ · Android</span>
-                                <span class="tag">Hardware</span>
-                            </div>
-                            <h3 class="project-title" data-split-title>Autonomous RC Vehicle</h3>
-                            <p class="project-desc">Motor-driver controlled dual H-bridge robotic vehicle pairing serial Bluetooth packets with custom responsive Android controls.</p>
-                            <a href="https://github.com/fa-iizii/Arduino-Mobile-RC-Car" target="_blank" rel="noopener" class="project-link">Inspect code <span class="arrow" aria-hidden="true">↗</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project">
-                        <div class="project-media">
-                            <span class="project-no">06</span>
-                            <img src="images/python-projects.jpg" alt="Python Scripts & Utilities" loading="lazy">
-                        </div>
-                        <div class="project-body">
-                            <div class="project-meta">
-                                <span class="label">Python · Automation · CLI</span>
-                                <span class="tag">Software</span>
-                            </div>
-                            <h3 class="project-title" data-split-title>Python Scripts &amp; Utilities</h3>
-                            <p class="project-desc">A diverse collection of Python scripts, automation tools, and algorithmic solutions demonstrating clean code principles and core software logic.</p>
-                            <a href="https://github.com/fa-iizii/Python-Projects" target="_blank" rel="noopener" class="project-link">Inspect code <span class="arrow" aria-hidden="true">↗</span></a>
-                        </div>
-                    </article>
-
                     <div class="more-card">
-                        <a href="https://github.com/fa-iizii" target="_blank" rel="noopener" class="btn magnetic">More on GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+                        <a data-profile-link="github" target="_blank" rel="noopener" class="btn magnetic">More on GitHub <span class="arrow" aria-hidden="true">↗</span></a>
                     </div>
                 </div>
 
                 <div class="more-wrap container" id="more-wrap">
-                    <a href="https://github.com/fa-iizii" target="_blank" rel="noopener" class="btn magnetic">View more projects on GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+                    <a data-profile-link="github" target="_blank" rel="noopener" class="btn magnetic">View more projects on GitHub <span class="arrow" aria-hidden="true">↗</span></a>
                 </div>
             </div>
         </section>
@@ -896,60 +797,18 @@
         <!-- EXPERIENCE & EDUCATION -->
         <section class="section container" id="experience">
             <div class="section-head">
-                <span class="label"><span class="dot-red"></span>Experience &amp; Education</span>
-                <h2 class="section-title" data-split-title>Career Milestones</h2>
+                <h2 class="section-title" data-split-title>Experience &amp; education</h2>
             </div>
 
             <div class="cv-grid">
                 <div class="cv-card" data-fade>
-                    <span class="label">Professional</span>
-
-                    <div class="cv-entry">
-                        <div class="cv-period">Jun 2024 — Aug 2024</div>
-                        <h3 class="cv-role" data-split-title>Artificial Intelligence Intern</h3>
-                        <div class="cv-org">Unsway Online — AI Club (Remote)</div>
-                        <p class="cv-text">Contributed to cloud-based ML workflows and data processing challenges. Awarded a Letter of Recommendation for technical impact.</p>
-                    </div>
-                    <div class="cv-entry">
-                        <div class="cv-period">Nov 2023 &amp; Nov 2024</div>
-                        <h3 class="cv-role" data-split-title>Team Lead &amp; Tech Support</h3>
-                        <div class="cv-org">Formula 1 Abu Dhabi Grand Prix (UAE)</div>
-                        <p class="cv-text">Promoted to Team Lead to coordinate fast-paced international event operations, task allocation, and ticketing logistics under immense pressure.</p>
-                    </div>
-                    <div class="cv-entry">
-                        <div class="cv-period">Nov 2025 — Jul 2026</div>
-                        <h3 class="cv-role" data-split-title>Cyber Security Member</h3>
-                        <div class="cv-org">HuddsCyberSoc — Huddersfield</div>
-                        <p class="cv-text">Active student member contributing to University of Huddersfield Cyber Security Society initiatives and networking protocols.</p>
-                    </div>
+                    <span class="label">Work history</span>
+                    <div id="experience-items"></div>
                 </div>
-
                 <div class="cv-card" id="education" data-fade>
-                    <span class="label">Academic &amp; Certifications</span>
-
-                    <div class="cv-entry">
-                        <div class="cv-period">2025 — 2026</div>
-                        <h3 class="cv-role" data-split-title>BSc (Hons) Applied Computing</h3>
-                        <div class="cv-org">University of Huddersfield, UK</div>
-                        <p class="cv-text"><strong>First Class Honours.</strong><br>Data-Driven AI (90%), Software Architecture (86%), Large-Scale Engineering (78%).</p>
-                    </div>
-                    <div class="cv-entry">
-                        <div class="cv-period">2023 — 2025</div>
-                        <h3 class="cv-role" data-split-title>BTEC HND Computing</h3>
-                        <div class="cv-org">UKCBC — Dubai Campus</div>
-                        <p class="cv-text"><strong>Merit.</strong><br>Distinctions in Computing Research Project and User Experience &amp; Interface Design.</p>
-                    </div>
-                    <div class="cv-entry">
-                        <div class="cv-period">Accreditations</div>
-                        <h3 class="cv-role" data-split-title>Cloud &amp; Data Security</h3>
-                        <ul class="cv-list">
-                            <li>AWS Cloud Practitioner (CLF-C02) In Progress</li>
-                            <li>Machine Learning with Python (Anaconda)</li>
-                            <li>Microsoft Security Essentials (NASBA)</li>
-                            <li>Cisco Packet Tracer (Network Config)</li>
-                            <li>Claude 101 Academy (Anthropic)</li>
-                        </ul>
-                    </div>
+                    <span class="label">Academic credentials</span>
+                    <div id="education-items"></div>
+                    <div id="certification-items"></div>
                 </div>
             </div>
         </section>
@@ -957,16 +816,12 @@
 
     <footer class="site-footer">
         <div class="container">
-            <div class="footer-big" aria-label="Faiz Muhammed">
-                <span class="line" data-split aria-hidden="true">Faiz</span>
-                <span class="line" data-split aria-hidden="true">Muhammed</span>
-            </div>
-            <span class="label footer-hint">Bored? Hit “Mini game” at the bottom right — or type “snake”.</span>
+            <div class="footer-big" id="footer-name"></div>
             <div class="footer-row">
-                <span class="label">Faiz Muhammed · UK</span>
+                <span class="label" id="footer-location"></span>
                 <div class="footer-links">
-                    <a href="https://github.com/fa-iizii" target="_blank" rel="noopener" class="btn magnetic">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
-                    <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" rel="noopener" class="btn magnetic">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a>
+                    <a data-profile-link="github" target="_blank" rel="noopener" class="btn magnetic">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+                    <a data-profile-link="linkedin" target="_blank" rel="noopener" class="btn magnetic">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a>
                     <a href="#top" class="btn magnetic">Top <span class="arrow" aria-hidden="true">↑</span></a>
                 </div>
             </div>
@@ -977,8 +832,8 @@
     <div class="contact-fab" id="contact-fab">
         <div class="contact-menu" id="contact-menu" role="region" aria-label="Contact links">
             <span class="label">Get in touch</span>
-            <a href="https://uk.linkedin.com/in/faiz-muhammed/" target="_blank" rel="noopener" class="contact-link">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a>
-            <a href="https://github.com/fa-iizii" target="_blank" rel="noopener" class="contact-link">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
+            <a data-profile-link="linkedin" target="_blank" rel="noopener" class="contact-link">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a>
+            <a data-profile-link="github" target="_blank" rel="noopener" class="contact-link">GitHub <span class="arrow" aria-hidden="true">↗</span></a>
         </div>
         <div class="fab-row">
             <button class="contact-trigger" id="contact-trigger" type="button" aria-expanded="false" aria-controls="contact-menu">
@@ -1030,855 +885,1041 @@
         </div>
     </div>
 
+    <!-- Load portfolio copy and repeatable cards from the editable JSON file. -->
+    <script>
+    window.portfolioContentReady = fetch('portfolio.json')
+        .then(function (response) {
+            if (!response.ok) throw new Error('Could not load portfolio.json');
+            return response.json();
+        })
+        .then(function (data) {
+            // Escape JSON values before inserting them into the small HTML templates below.
+            function escapeHTML(value) {
+                return String(value == null ? '' : value).replace(/[&<>"']/g, function (character) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#39;'
+                    }[character];
+                });
+            }
+
+            function renderList(items, renderItem) {
+                return (items || []).map(renderItem).join('');
+            }
+
+            function setText(id, value) {
+                var element = document.getElementById(id);
+                if (element) element.textContent = value;
+            }
+
+            var profile = data.profile || {};
+            var technologies = Array.isArray(profile.technologies) ? profile.technologies : [];
+            var projects = Array.isArray(data.projects) ? data.projects : [];
+            var displayName = String(profile.name || 'Portfolio').trim();
+
+            document.title = displayName + ' — ' + (profile.title || 'Portfolio');
+
+            var description = document.querySelector('meta[name="description"]');
+            if (description) description.content = profile.description || profile.summary || '';
+
+            document.querySelectorAll('[data-content="brand"]').forEach(function (element) {
+                element.textContent = displayName;
+            });
+
+            function renderName(id) {
+                var heading = document.getElementById(id);
+                if (!heading) return;
+
+                heading.setAttribute('aria-label', displayName);
+                heading.innerHTML = displayName.split(/\s+/).map(function (part) {
+                    return '<span class="line" data-split aria-hidden="true">' + escapeHTML(part) + '</span>';
+                }).join(' ');
+            }
+
+            renderName('hero-name');
+            renderName('footer-name');
+            setText('footer-location', displayName + (profile.locationLine ? ' · ' + profile.locationLine.split('/')[0].trim() : ''));
+            setText('profile-location', profile.locationLine || '');
+            setText('profile-summary', profile.summary || '');
+
+            // Reuse the same public profile links in the header, footer and contact menu.
+            document.querySelectorAll('[data-profile-link="github"]').forEach(function (link) {
+                if (profile.github) link.href = profile.github;
+            });
+            document.querySelectorAll('[data-profile-link="linkedin"]').forEach(function (link) {
+                if (profile.linkedin) link.href = profile.linkedin;
+            });
+
+            // The technology strip is split across two rows to preserve the original motion design.
+            // Split the ticker evenly so future edits can add or remove any number of skills.
+            var firstTechnologyRow = Math.ceil(technologies.length / 2);
+            document.getElementById('tech-row-one').innerHTML = renderList(
+                technologies.slice(0, firstTechnologyRow),
+                function (technology) {
+                    return '<span class="marquee-item">' + escapeHTML(technology) + '</span>';
+                }
+            );
+            document.getElementById('tech-row-two').innerHTML = renderList(
+                technologies.slice(firstTechnologyRow),
+                function (technology) {
+                    return '<span class="marquee-item">' + escapeHTML(technology) + '</span>';
+                }
+            );
+
+            // Hide unused marquee rows when the technology list has fewer items.
+            var technologyRows = document.querySelectorAll('.marquee-row');
+            if (technologyRows[1]) technologyRows[1].hidden = technologies.length <= firstTechnologyRow;
+            var marquee = document.querySelector('.marquee');
+            if (marquee) marquee.hidden = technologies.length === 0;
+
+            // Add each repeated content item as a normal child so the existing layout and animations apply.
+            document.getElementById('stepper').insertAdjacentHTML('beforeend', renderList(data.journey, function (item, index) {
+                return '<li class="step">' +
+                    '<div class="step-index">' + String(index + 1).padStart(2, '0') + '</div>' +
+                    '<span class="label step-tag">' + escapeHTML(item.tag) + '</span>' +
+                    '<h3 class="step-title" data-split-title>' + escapeHTML(item.title) + '</h3>' +
+                    '<p class="step-text">' + escapeHTML(item.description) + '</p>' +
+                '</li>';
+            }));
+
+            document.getElementById('stats-items').innerHTML = renderList(data.stats, function (item) {
+                return '<div class="stat">' +
+                    '<div class="stat-num"><span class="count" data-to="' + escapeHTML(item.value) + '">' + escapeHTML(item.value) + '</span>' +
+                    '<small>' + escapeHTML(item.suffix || '') + '</small></div>' +
+                    '<span class="label">' + escapeHTML(item.label) + '</span>' +
+                '</div>';
+            });
+
+            var workTrack = document.getElementById('work-track');
+            var moreCard = workTrack.querySelector('.more-card');
+            moreCard.insertAdjacentHTML('beforebegin', renderList(projects, function (project, index) {
+                var result = project.tag
+                    ? '<span class="project-result">' + escapeHTML(project.tag) + '</span>'
+                    : '';
+                return '<article class="project' + (project.featured ? ' featured' : '') + '">' +
+                    '<div class="project-media"><span class="project-no">' + String(index + 1).padStart(2, '0') + '</span>' +
+                    '<img src="' + escapeHTML(project.image) + '" alt="' + escapeHTML(project.alt || project.title) + '" loading="lazy"></div>' +
+                    '<div class="project-body"><div class="project-meta">' +
+                    '<span class="label">' + escapeHTML(project.technologies) + '</span>' + result + '</div>' +
+                    '<h3 class="project-title" data-split-title>' + escapeHTML(project.title) + '</h3>' +
+                    '<p class="project-desc">' + escapeHTML(project.description) + '</p>' +
+                    '<a href="' + escapeHTML(project.url) + '" target="_blank" rel="noopener" class="project-link">' +
+                    escapeHTML(project.linkText || 'View project') + ' <span class="arrow" aria-hidden="true">↗</span></a></div>' +
+                '</article>';
+            }));
+
+            var projectCount = projects.length;
+            var counter = document.getElementById('work-counter');
+            if (counter) {
+                counter.innerHTML = '01<span> / ' + String(projectCount).padStart(2, '0') + '</span>';
+            }
+
+            // Keep a dot-matrix preview visible while an image loads or if its file is missing.
+            document.querySelectorAll('.project-media').forEach(function (media) {
+                var image = media.querySelector('img');
+                if (!image) return;
+
+                media.setAttribute('data-placeholder', image.alt + ' · preview');
+                function markLoaded() { media.classList.add('has-image'); }
+                function markMissing() { media.classList.add('image-failed'); }
+
+                image.addEventListener('load', markLoaded, { once: true });
+                image.addEventListener('error', markMissing, { once: true });
+                if (image.complete) {
+                    if (image.naturalWidth) markLoaded();
+                    else markMissing();
+                }
+            });
+
+            function renderCVEntry(item) {
+                return '<div class="cv-entry">' +
+                    '<div class="cv-period">' + escapeHTML(item.period) + '</div>' +
+                    '<h3 class="cv-role" data-split-title>' + escapeHTML(item.role) + '</h3>' +
+                    '<div class="cv-org">' + escapeHTML(item.organisation) + '</div>' +
+                    '<p class="cv-text">' + escapeHTML(item.description) + '</p>' +
+                '</div>';
+            }
+
+            document.getElementById('experience-items').innerHTML = renderList(data.experience, renderCVEntry);
+            document.getElementById('education-items').innerHTML = renderList(data.education, renderCVEntry);
+            document.getElementById('certification-items').innerHTML =
+                '<div class="cv-entry"><div class="cv-period">Certifications</div>' +
+                '<h3 class="cv-role" data-split-title>Certifications &amp; Training</h3>' +
+                '<ul class="cv-list">' + renderList(data.certifications, function (certification) {
+                    return '<li>' + escapeHTML(certification) + '</li>';
+                }) + '</ul></div>';
+
+            window.portfolioData = data;
+            var status = document.getElementById('content-state');
+            if (status) status.textContent = 'Portfolio ready';
+        })
+        .catch(function (error) {
+            console.error(error);
+            var status = document.getElementById('content-state');
+            if (status) status.textContent = 'Content unavailable';
+            document.body.insertAdjacentHTML('afterbegin',
+                '<p class="content-error">Portfolio content did not load. Check that portfolio.json is beside index.html.</p>'
+            );
+        });
+    </script>
     <script>
     window.addEventListener('DOMContentLoaded', function () {
-        var root = document.documentElement;
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-        var hasGsap = !!(window.gsap && window.ScrollTrigger);
+        // Wait for JSON-rendered cards and headings before measuring or animating them.
+        window.portfolioContentReady.then(function () {
+            var root = document.documentElement;
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            var hasGsap = !!(window.gsap && window.ScrollTrigger);
 
-        // Debounce helper to prevent heavy CPU usage on window resize
-        function debounce(func, wait) {
-            var timeout;
-            return function() {
-                var context = this, args = arguments;
-                clearTimeout(timeout);
-                timeout = setTimeout(function() { func.apply(context, args); }, wait);
-            };
-        }
-
-        /* =====================================================
-           0. INTRO — "Hello" in English, Arabic, French, Malayalam.
-        ===================================================== */
-        var introState = { active: false };
-        var resolveIntro;
-        var introReady = new Promise(function (res) { resolveIntro = res; });
-
-        (function initIntro() {
-            var el = document.getElementById('intro');
-            if (!el) { resolveIntro(); return; }
-            if (reduce) { el.parentNode.removeChild(el); resolveIntro(); return; }
-
-            introState.active = true;
-            root.style.overflow = 'hidden';
-
-            var cv = document.getElementById('intro-canvas');
-            var ctx = cv.getContext('2d');
-            var langEls = el.querySelectorAll('.intro-langs span');
-            var greetings = ['HELLO', 'مرحباً', 'BONJOUR', 'നമസ്കാരം'];
-            var fontStack = '"DM Sans","Noto Sans Arabic","Noto Sans Malayalam",system-ui,sans-serif';
-            var W = 0, H = 0, dpr = 1;
-            var targets = [], parts = [];
-            var idx = -1, timer = null, finished = false, leaving = false, curR = 4;
-            var ink = '#0c0c0c', red = '#d71921';
-
-            function readColors() {
-                var cs = getComputedStyle(root);
-                ink = cs.getPropertyValue('--ink').trim() || ink;
-                red = cs.getPropertyValue('--red').trim() || red;
+            // Debounce helper to prevent heavy CPU usage on window resize
+            function debounce(func, wait) {
+                var timeout;
+                return function() {
+                    var context = this, args = arguments;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function() { func.apply(context, args); }, wait);
+                };
             }
 
-            function size() {
-                dpr = Math.min(window.devicePixelRatio || 1, 2);
-                W = window.innerWidth; H = window.innerHeight;
-                cv.width = W * dpr; cv.height = H * dpr;
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            }
+            /* =====================================================
+               0. INTRO — "Hello" in English, Arabic, French, Malayalam.
+            ===================================================== */
+            var introState = { active: false };
+            var resolveIntro;
+            var introReady = new Promise(function (res) { resolveIntro = res; });
 
-            function build() {
-                var off = document.createElement('canvas');
-                off.width = W; off.height = H;
-                var o = off.getContext('2d', { willReadFrequently: true });
-                targets = greetings.map(function (text) {
-                    o.clearRect(0, 0, W, H);
-                    o.font = '800 100px ' + fontStack;
-                    var w100 = o.measureText(text).width || 1;
-                    var fs = Math.min((Math.min(W * 0.84, 980) / w100) * 100, H * 0.36, 320);
-                    o.font = '800 ' + fs + 'px ' + fontStack;
-                    o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillStyle = '#000';
-                    o.fillText(text, W / 2, H / 2);
+            (function initIntro() {
+                var el = document.getElementById('intro');
+                if (!el) { resolveIntro(); return; }
+                if (reduce) { el.parentNode.removeChild(el); resolveIntro(); return; }
 
-                    var g = Math.max(4, fs / 19);
-                    var data = o.getImageData(0, 0, W, H).data;
-                    var pts = [], minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
-                    for (var y = g / 2; y < H; y += g) {
-                        for (var x = g / 2; x < W; x += g) {
-                            if (data[((y | 0) * W + (x | 0)) * 4 + 3] > 110) {
-                                pts.push({ x: x, y: y });
-                                if (x < minX) minX = x; if (x > maxX) maxX = x;
-                                if (y < minY) minY = y; if (y > maxY) maxY = y;
+                introState.active = true;
+                root.style.overflow = 'hidden';
+
+                var cv = document.getElementById('intro-canvas');
+                var ctx = cv.getContext('2d');
+                var langEls = el.querySelectorAll('.intro-langs span');
+                var greetings = ['HELLO', 'مرحباً', 'BONJOUR', 'നമസ്കാരം'];
+                var fontStack = '"DM Sans","Noto Sans Arabic","Noto Sans Malayalam",system-ui,sans-serif';
+                var W = 0, H = 0, dpr = 1;
+                var targets = [], parts = [];
+                var idx = -1, timer = null, finished = false, leaving = false, curR = 4;
+                var ink = '#0c0c0c', red = '#d71921';
+
+                function readColors() {
+                    var cs = getComputedStyle(root);
+                    ink = cs.getPropertyValue('--ink').trim() || ink;
+                    red = cs.getPropertyValue('--red').trim() || red;
+                }
+
+                function size() {
+                    dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    W = window.innerWidth; H = window.innerHeight;
+                    cv.width = W * dpr; cv.height = H * dpr;
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                }
+
+                function build() {
+                    var off = document.createElement('canvas');
+                    off.width = W; off.height = H;
+                    var o = off.getContext('2d', { willReadFrequently: true });
+                    targets = greetings.map(function (text) {
+                        o.clearRect(0, 0, W, H);
+                        o.font = '800 100px ' + fontStack;
+                        var w100 = o.measureText(text).width || 1;
+                        var fs = Math.min((Math.min(W * 0.84, 980) / w100) * 100, H * 0.36, 320);
+                        o.font = '800 ' + fs + 'px ' + fontStack;
+                        o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillStyle = '#000';
+                        o.fillText(text, W / 2, H / 2);
+
+                        var g = Math.max(4, fs / 19);
+                        var data = o.getImageData(0, 0, W, H).data;
+                        var pts = [], minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
+                        for (var y = g / 2; y < H; y += g) {
+                            for (var x = g / 2; x < W; x += g) {
+                                if (data[((y | 0) * W + (x | 0)) * 4 + 3] > 110) {
+                                    pts.push({ x: x, y: y });
+                                    if (x < minX) minX = x; if (x > maxX) maxX = x;
+                                    if (y < minY) minY = y; if (y > maxY) maxY = y;
+                                }
                             }
                         }
-                    }
-                    var dx = pts.length ? W / 2 - (minX + maxX) / 2 : 0;
-                    var dy = pts.length ? H / 2 - (minY + maxY) / 2 : 0;
-                    pts.forEach(function (p) { p.x += dx; p.y += dy; });
-                    return { pts: pts, r: g * 0.36 };
-                });
-                var maxN = Math.max.apply(null, targets.map(function (t) { return t.pts.length; }));
-                while (parts.length < maxN) {
-                    parts.push({
-                        x: Math.random() * W, y: Math.random() * H, tx: 0, ty: 0,
-                        a: 0, ta: 0, k: 0.07 + Math.random() * 0.1, red: Math.random() < 0.07
+                        var dx = pts.length ? W / 2 - (minX + maxX) / 2 : 0;
+                        var dy = pts.length ? H / 2 - (minY + maxY) / 2 : 0;
+                        pts.forEach(function (p) { p.x += dx; p.y += dy; });
+                        return { pts: pts, r: g * 0.36 };
                     });
-                }
-            }
-
-            function show(i) {
-                var t = targets[i];
-                var pts = t.pts.slice().sort(function (a, b) { return a.x - b.x || a.y - b.y; });
-                var order = parts.slice().sort(function (a, b) { return a.x - b.x; });
-                order.forEach(function (p) {
-                    p.tx = p.x + (Math.random() - 0.5) * 80; p.ty = p.y + (Math.random() - 0.5) * 80; p.ta = 0;
-                });
-                var step = order.length / Math.max(1, pts.length);
-                pts.forEach(function (pt, j) {
-                    var p = order[Math.min(order.length - 1, Math.floor(j * step))];
-                    p.tx = pt.x; p.ty = pt.y; p.ta = 1;
-                });
-                langEls.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
-            }
-
-            function frame() {
-                if (finished) return;
-                ctx.clearRect(0, 0, W, H);
-                var safeIdx = Math.max(0, Math.min(idx, targets.length - 1));
-                var tr = targets.length ? targets[safeIdx].r : 4;
-                curR += (tr - curR) * 0.1;
-                for (var i = 0; i < parts.length; i++) {
-                    var p = parts[i];
-                    p.x += (p.tx - p.x) * p.k; p.y += (p.ty - p.y) * p.k;
-                    p.a += (p.ta - p.a) * 0.12;
-                    if (p.a < 0.02) continue;
-                    ctx.globalAlpha = p.a;
-                    ctx.fillStyle = p.red ? red : ink;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, curR, 0, 6.2832); ctx.fill();
-                }
-                ctx.globalAlpha = 1;
-                requestAnimationFrame(frame);
-            }
-
-            function finish() {
-                if (finished) return;
-                finished = true;
-                clearTimeout(timer);
-                el.style.display = 'none';
-                introState.active = false;
-                root.style.overflow = '';
-                if (lenis && lenis.start) lenis.start();
-                window.scrollTo(0, 0);
-                resolveIntro();
-            }
-
-            function leave() {
-                if (leaving || finished) return;
-                leaving = true; clearTimeout(timer);
-                parts.forEach(function (p) {
-                    p.ta = 0; p.tx = p.x + (Math.random() - 0.5) * 240; p.ty = p.y - 60 - Math.random() * 180;
-                });
-                langEls.forEach(function (s) { s.classList.remove('is-active'); });
-                el.classList.add('is-leaving');
-                setTimeout(finish, 1050);
-            }
-
-            function next() {
-                if (leaving || finished) return;
-                idx++;
-                if (idx >= greetings.length) { leave(); return; }
-                show(idx);
-                timer = setTimeout(next, idx === 0 ? 1150 : 950);
-            }
-
-            function run() {
-                try { readColors(); size(); build(); requestAnimationFrame(frame); next(); }
-                catch (err) { finish(); }
-            }
-
-            document.getElementById('intro-skip').addEventListener('click', function (e) { e.stopPropagation(); leave(); });
-            el.addEventListener('click', leave);
-            document.addEventListener('keydown', function (e) {
-                if (introState.active && (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); leave(); }
-            });
-            window.addEventListener('resize', debounce(function () {
-                if (finished || !targets.length) return;
-                size(); parts.forEach(function (p) { p.x = Math.min(p.x, W); p.y = Math.min(p.y, H); });
-                build(); if (idx >= 0 && idx < greetings.length && !leaving) show(idx);
-            }, 150));
-
-            var loads = [];
-            if (document.fonts && document.fonts.load) {
-                loads = [
-                    document.fonts.load('800 100px "DM Sans"', 'HELLO BONJOUR'),
-                    document.fonts.load('800 100px "Noto Sans Arabic"', 'مرحباً'),
-                    document.fonts.load('800 100px "Noto Sans Malayalam"', 'നമസ്കാരം')
-                ];
-            }
-            Promise.race([Promise.all(loads), new Promise(function (r) { setTimeout(r, 1800); })]).then(run, run);
-            setTimeout(finish, 12000); 
-        })();
-
-        /* =====================================================
-           1. DOT-MATRIX BACKGROUND — wave + pointer repel + click ripples
-        ===================================================== */
-        var dots = (function () {
-            var canvas = document.getElementById('dots');
-            var ctx = canvas.getContext('2d');
-            var w, h, dpr, cols, rows, gap;
-            var colors = { dot: '#999', hot: '#d71921' };
-            var mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-            var ripples = [];
-
-            function readColors() {
-                var cs = getComputedStyle(root);
-                colors.dot = cs.getPropertyValue('--dot').trim() || colors.dot;
-                colors.hot = cs.getPropertyValue('--red').trim() || colors.hot;
-            }
-            function resize() {
-                dpr = Math.min(window.devicePixelRatio || 1, 2);
-                w = window.innerWidth; h = window.innerHeight;
-                canvas.width = w * dpr; canvas.height = h * dpr;
-                canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                gap = w < 700 ? 20 : 26;
-                cols = Math.ceil(w / gap) + 1; rows = Math.ceil(h / gap) + 1;
-                if (reduce) draw(0);
-            }
-            function draw(t) {
-                var R = 170, RIP = 46, LIFE = 2600;
-                var now = performance.now();
-                mouse.x += (mouse.tx - mouse.x) * 0.18;
-                mouse.y += (mouse.ty - mouse.y) * 0.18;
-                ripples = ripples.filter(function (r) { return now - r.t < LIFE; });
-                var phase = t * 0.0006 + (window.scrollY || 0) * 0.0015;
-
-                ctx.clearRect(0, 0, w, h);
-                for (var ix = 0; ix < cols; ix++) {
-                    for (var iy = 0; iy < rows; iy++) {
-                        var bx = ix * gap + gap / 2, by = iy * gap + gap / 2;
-                        var wave = Math.sin(bx * 0.011 + by * 0.007 + phase) * 0.5 + 0.5;
-                        var r = 0.9 + wave * 0.7, x = bx, y = by, hot = 0;
-
-                        var dx = bx - mouse.x, dy = by - mouse.y, d2 = dx * dx + dy * dy;
-                        if (d2 < R * R) {
-                            var d = Math.sqrt(d2) || 1;
-                            var f = 1 - d / R; f = f * f * (3 - 2 * f);
-                            r += f * 3.4; x += dx / d * f * 14; y += dy / d * f * 14; hot = f;
-                        }
-                        for (var k = 0; k < ripples.length; k++) {
-                            var rp = ripples[k];
-                            var dist = Math.sqrt((bx - rp.x) * (bx - rp.x) + (by - rp.y) * (by - rp.y));
-                            var diff = Math.abs(dist - (now - rp.t) * 0.55);
-                            if (diff < RIP) {
-                                var g = (1 - diff / RIP) * (1 - (now - rp.t) / LIFE);
-                                r += g * 3; hot = Math.max(hot, g * 1.2);
-                            }
-                        }
-                        var isHot = hot > 0.28;
-                        ctx.globalAlpha = isHot ? Math.min(1, 0.4 + hot) : 1;
-                        ctx.fillStyle = isHot ? colors.hot : colors.dot;
-                        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+                    var maxN = Math.max.apply(null, targets.map(function (t) { return t.pts.length; }));
+                    while (parts.length < maxN) {
+                        parts.push({
+                            x: Math.random() * W, y: Math.random() * H, tx: 0, ty: 0,
+                            a: 0, ta: 0, k: 0.07 + Math.random() * 0.1, red: Math.random() < 0.07
+                        });
                     }
                 }
-                ctx.globalAlpha = 1;
-            }
-            function loop(t) { draw(t); requestAnimationFrame(loop); }
 
-            readColors(); resize();
-            window.addEventListener('resize', debounce(function () {
-                if (window.innerWidth === w && Math.abs(window.innerHeight - h) < 150) return;
-                resize();
-            }, 150));
-
-            if (!reduce) {
-                window.addEventListener('pointermove', function (e) {
-                    if (e.pointerType === 'touch') return;
-                    mouse.tx = e.clientX; mouse.ty = e.clientY;
-                });
-                document.addEventListener('pointerleave', function () { mouse.tx = mouse.ty = -9999; });
-                window.addEventListener('pointerdown', function (e) {
-                    ripples.push({ x: e.clientX, y: e.clientY, t: performance.now() });
-                    if (ripples.length > 4) ripples.shift();
-                });
-                requestAnimationFrame(loop);
-            }
-            return { refresh: function () { readColors(); if (reduce) draw(0); } };
-        })();
-
-        /* =====================================================
-           2. THEME TOGGLE + MOBILE MENU + UNIVERSAL SCRAMBLE
-        ===================================================== */
-        document.getElementById('theme-toggle').addEventListener('click', function () {
-            var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            root.setAttribute('data-theme', next);
-            try { localStorage.setItem('theme', next); } catch (e) { /* localStorage restricted */ }
-            setTimeout(dots.refresh, 30);
-        });
-        new MutationObserver(function () {
-            dots.refresh();
-            var m = document.querySelector('meta[name="theme-color"]');
-            if (m) m.setAttribute('content', root.getAttribute('data-theme') === 'dark' ? '#0a0a0a' : '#eeede9');
-        }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-
-        var nav = document.getElementById('nav');
-        var menuBtn = document.getElementById('menu-toggle');
-        function setMenu(open) {
-            nav.classList.toggle('is-open', open);
-            menuBtn.setAttribute('aria-expanded', String(open));
-        }
-        menuBtn.addEventListener('click', function () { setMenu(!nav.classList.contains('is-open')); });
-        document.addEventListener('click', function (e) { if (!nav.contains(e.target)) setMenu(false); });
-
-        /* Universal text scramble on hover */
-        if (canHover && !reduce) {
-            var glyphs = '01#/<>+*_';
-            document.querySelectorAll('a, button, .tag, .label').forEach(function (el) {
-                var textNodes = [];
-                var walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-                var n; while(n = walk.nextNode()) { if(n.nodeValue.trim().length > 0) textNodes.push({node: n, orig: n.nodeValue}); }
-                
-                el.addEventListener('mouseenter', function () {
-                    textNodes.forEach(function(tn) {
-                        var frame = 0; clearInterval(tn.timer);
-                        tn.timer = setInterval(function () {
-                            var out = '';
-                            for (var i = 0; i < tn.orig.length; i++) {
-                                out += (i < frame / 2 || tn.orig[i] === ' ') ? tn.orig[i] : glyphs[Math.floor(Math.random() * glyphs.length)];
-                            }
-                            tn.node.nodeValue = out; frame++;
-                            if (frame / 2 >= tn.orig.length) { clearInterval(tn.timer); tn.node.nodeValue = tn.orig; }
-                        }, 28);
+                function show(i) {
+                    var t = targets[i];
+                    var pts = t.pts.slice().sort(function (a, b) { return a.x - b.x || a.y - b.y; });
+                    var order = parts.slice().sort(function (a, b) { return a.x - b.x; });
+                    order.forEach(function (p) {
+                        p.tx = p.x + (Math.random() - 0.5) * 80; p.ty = p.y + (Math.random() - 0.5) * 80; p.ta = 0;
                     });
-                });
-            });
-        }
+                    var step = order.length / Math.max(1, pts.length);
+                    pts.forEach(function (pt, j) {
+                        var p = order[Math.min(order.length - 1, Math.floor(j * step))];
+                        p.tx = pt.x; p.ty = pt.y; p.ta = 1;
+                    });
+                    langEls.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
+                }
 
-        /* =====================================================
-           3. SMOOTH SCROLL (Lenis) wired into GSAP
-        ===================================================== */
-        var lenis = null;
-        var boost = 0;
-        var header = document.getElementById('site-header');
-
-        if (window.Lenis && !reduce) {
-            lenis = new Lenis({
-                duration: 1.3,
-                easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
-                smoothWheel: true
-            });
-            lenis.on('scroll', function (e) {
-                boost = Math.min(Math.abs(e.velocity || 0), 30);
-                if (e.direction === 1 && e.scroll > 240 && !nav.classList.contains('is-open')) header.classList.add('is-hidden');
-                else if (e.direction === -1 || e.scroll <= 240) header.classList.remove('is-hidden');
-            });
-            if (hasGsap) {
-                gsap.registerPlugin(ScrollTrigger);
-                lenis.on('scroll', ScrollTrigger.update);
-                gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-                gsap.ticker.lagSmoothing(0);
-            } else {
-                (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
-            }
-        } else if (hasGsap) {
-            gsap.registerPlugin(ScrollTrigger);
-        }
-
-        if (lenis && introState.active) lenis.stop();
-
-        document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-            link.addEventListener('click', function (e) {
-                var id = link.getAttribute('href');
-                var target = id === '#top' ? null : document.querySelector(id);
-                if (id !== '#top' && !target) return;
-                e.preventDefault(); setMenu(false);
-                if (lenis) lenis.scrollTo(id === '#top' ? 0 : target, { offset: id === '#top' ? 0 : -70, duration: 1.6 });
-                else if (id === '#top') window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
-                else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
-            });
-        });
-
-        if ('IntersectionObserver' in window) {
-            var navLinks = document.querySelectorAll('.nav-links a');
-            var map = {};
-            navLinks.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
-            var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (en) {
-                    if (en.isIntersecting && map[en.target.id]) {
-                        navLinks.forEach(function (a) { a.classList.remove('active'); });
-                        map[en.target.id].classList.add('active');
+                function frame() {
+                    if (finished) return;
+                    ctx.clearRect(0, 0, W, H);
+                    var safeIdx = Math.max(0, Math.min(idx, targets.length - 1));
+                    var tr = targets.length ? targets[safeIdx].r : 4;
+                    curR += (tr - curR) * 0.1;
+                    for (var i = 0; i < parts.length; i++) {
+                        var p = parts[i];
+                        p.x += (p.tx - p.x) * p.k; p.y += (p.ty - p.y) * p.k;
+                        p.a += (p.ta - p.a) * 0.12;
+                        if (p.a < 0.02) continue;
+                        ctx.globalAlpha = p.a;
+                        ctx.fillStyle = p.red ? red : ink;
+                        ctx.beginPath(); ctx.arc(p.x, p.y, curR, 0, 6.2832); ctx.fill();
                     }
+                    ctx.globalAlpha = 1;
+                    requestAnimationFrame(frame);
+                }
+
+                function finish() {
+                    if (finished) return;
+                    finished = true;
+                    clearTimeout(timer);
+                    el.style.display = 'none';
+                    introState.active = false;
+                    root.style.overflow = '';
+                    if (lenis && lenis.start) lenis.start();
+                    window.scrollTo(0, 0);
+                    resolveIntro();
+                }
+
+                function leave() {
+                    if (leaving || finished) return;
+                    leaving = true; clearTimeout(timer);
+                    parts.forEach(function (p) {
+                        p.ta = 0; p.tx = p.x + (Math.random() - 0.5) * 240; p.ty = p.y - 60 - Math.random() * 180;
+                    });
+                    langEls.forEach(function (s) { s.classList.remove('is-active'); });
+                    el.classList.add('is-leaving');
+                    setTimeout(finish, 1050);
+                }
+
+                function next() {
+                    if (leaving || finished) return;
+                    idx++;
+                    if (idx >= greetings.length) { leave(); return; }
+                    show(idx);
+                    timer = setTimeout(next, idx === 0 ? 1150 : 950);
+                }
+
+                function run() {
+                    try { readColors(); size(); build(); requestAnimationFrame(frame); next(); }
+                    catch (err) { finish(); }
+                }
+
+                document.getElementById('intro-skip').addEventListener('click', function (e) { e.stopPropagation(); leave(); });
+                el.addEventListener('click', leave);
+                document.addEventListener('keydown', function (e) {
+                    if (introState.active && (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); leave(); }
                 });
-            }, { rootMargin: '-45% 0px -50% 0px' });
-            ['overview', 'journey', 'work', 'experience', 'education'].forEach(function (id) {
-                var s = document.getElementById(id); if (s) io.observe(s);
-            });
-        }
+                window.addEventListener('resize', debounce(function () {
+                    if (finished || !targets.length) return;
+                    size(); parts.forEach(function (p) { p.x = Math.min(p.x, W); p.y = Math.min(p.y, H); });
+                    build(); if (idx >= 0 && idx < greetings.length && !leaving) show(idx);
+                }, 150));
 
-        /* =====================================================
-           CONTACT BUTTON (bottom right)
-        ===================================================== */
-        var fab = document.getElementById('contact-fab');
-        var fabTrigger = document.getElementById('contact-trigger');
-        function setContact(open) {
-            fab.classList.toggle('is-open', open);
-            fabTrigger.setAttribute('aria-expanded', String(open));
-        }
-        fabTrigger.addEventListener('click', function () { setContact(!fab.classList.contains('is-open')); });
-        document.addEventListener('click', function (e) { if (!fab.contains(e.target)) setContact(false); });
-
-        /* =====================================================
-           SNAKE EASTER EGG
-        ===================================================== */
-        (function () {
-            var modal = document.getElementById('snake-modal');
-            var canvas = document.getElementById('snake-canvas');
-            var ctx = canvas.getContext('2d');
-            var msg = document.getElementById('snake-msg');
-            var msgTitle = document.getElementById('snake-msg-title');
-            var msgText = document.getElementById('snake-msg-text');
-            var startBtn = document.getElementById('snake-start');
-            var scoreEl = document.getElementById('snake-score');
-            var bestEl = document.getElementById('snake-best');
-            var closeBtn = document.getElementById('snake-close');
-            var playBtn = document.getElementById('snake-play');
-            var fullBtn = document.getElementById('snake-full');
-
-            var N = 20, size = 400, dpr = 1;
-            var snake, dir, queue, food, score, best = 0, speed, timer, state = 'ready';
-            var isOpen = false, raf = null;
-            var colors = { ink: '#0c0c0c', dot: 'rgba(0,0,0,.2)', red: '#d71921' };
-
-            try { best = parseInt(localStorage.getItem('snakeBest'), 10) || 0; } catch (e) { /* localStorage restricted */ }
-            var pad2 = function (n) { return String(n).padStart(2, '0'); };
-            bestEl.textContent = pad2(best);
-
-            function readColors() {
-                var cs = getComputedStyle(root);
-                colors.ink = cs.getPropertyValue('--ink').trim() || colors.ink;
-                colors.dot = cs.getPropertyValue('--dot').trim() || colors.dot;
-                colors.red = cs.getPropertyValue('--red').trim() || colors.red;
-            }
-            new MutationObserver(readColors).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-            readColors();
-
-            function resizeCanvas() {
-                dpr = Math.min(window.devicePixelRatio || 1, 2);
-                size = canvas.clientWidth || 400;
-                canvas.width = size * dpr; canvas.height = size * dpr;
-                canvas.style.width = size + 'px'; canvas.style.height = size + 'px';
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            }
-
-            function rand(n) { return Math.floor(Math.random() * n); }
-            function placeFood() {
-                var tries = 0;
-                do { food = { x: rand(N), y: rand(N) }; tries++; }
-                while (tries < 400 && snake.some(function (s) { return s.x === food.x && s.y === food.y; }));
-            }
-            function showMsg(title, text, btn) {
-                msgTitle.textContent = title; msgText.textContent = text; startBtn.textContent = btn;
-                msg.classList.remove('is-hidden');
-            }
-            function updateScore() { scoreEl.textContent = pad2(score); bestEl.textContent = pad2(best); }
-            function updatePlayBtn() { playBtn.setAttribute('data-state', state === 'running' ? 'play' : 'pause'); }
-
-            function reset() {
-                clearTimeout(timer);
-                snake = [{ x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }];
-                dir = { x: 1, y: 0 }; queue = []; score = 0; state = 'ready';
-                placeFood(); updateScore(); updatePlayBtn();
-                showMsg('Snake', 'Eat the red dots. Don’t hit the walls or yourself.', 'Start');
-            }
-            function start() {
-                if (state === 'over') reset();
-                if (state === 'running') return;
-                var resuming = state === 'paused';
-                msg.classList.add('is-hidden'); state = 'running';
-                if (!resuming) speed = 125;
-                schedule(); updatePlayBtn();
-            }
-            function pause() {
-                if (state !== 'running') return;
-                state = 'paused'; clearTimeout(timer); updatePlayBtn();
-                showMsg('Paused', 'Press space or tap resume.', 'Resume');
-            }
-            function togglePlay() { if (state === 'running') pause(); else if (state === 'paused' || state === 'ready') start(); }
-            playBtn.addEventListener('click', togglePlay);
-
-            function schedule() { clearTimeout(timer); timer = setTimeout(step, speed); }
-
-            function gameOver() {
-                state = 'over'; clearTimeout(timer); updatePlayBtn();
-                if (score > best) { best = score; try { localStorage.setItem('snakeBest', String(best)); } catch (e) {} }
-                updateScore();
-                showMsg('Game over', 'Score ' + pad2(score) + ' · Best ' + pad2(best), 'Play again');
-            }
-
-            function step() {
-                if (queue.length) dir = queue.shift();
-                var head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-                var eating = head.x === food.x && head.y === food.y;
-                var body = eating ? snake : snake.slice(0, -1);
-                if (head.x < 0 || head.y < 0 || head.x >= N || head.y >= N ||
-                    body.some(function (s) { return s.x === head.x && s.y === head.y; })) {
-                    gameOver(); return;
+                var loads = [];
+                if (document.fonts && document.fonts.load) {
+                    loads = [
+                        document.fonts.load('800 100px "DM Sans"', 'HELLO BONJOUR'),
+                        document.fonts.load('800 100px "Noto Sans Arabic"', 'مرحباً'),
+                        document.fonts.load('800 100px "Noto Sans Malayalam"', 'നമസ്കാരം')
+                    ];
                 }
-                snake.unshift(head);
-                if (eating) { score++; updateScore(); placeFood(); speed = Math.max(65, speed - 3); }
-                else snake.pop();
-                schedule();
-            }
+                Promise.race([Promise.all(loads), new Promise(function (r) { setTimeout(r, 1800); })]).then(run, run);
+                setTimeout(finish, 12000); 
+            })();
 
-            function turn(dx, dy) {
-                var last = queue.length ? queue[queue.length - 1] : dir;
-                if ((last.x === -dx && last.y === -dy) || (last.x === dx && last.y === dy)) { if (state === 'ready') start(); return; }
-                if (queue.length < 2) queue.push({ x: dx, y: dy });
-                if (state === 'ready') start();
-            }
+            /* =====================================================
+               1. DOT-MATRIX BACKGROUND — wave + pointer repel + click ripples
+            ===================================================== */
+            var dots = (function () {
+                var canvas = document.getElementById('dots');
+                var ctx = canvas.getContext('2d');
+                var w, h, dpr, cols, rows, gap;
+                var colors = { dot: '#999', hot: '#d71921' };
+                var mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+                var ripples = [];
 
-            function draw(t) {
-                var c = size / N;
-                ctx.clearRect(0, 0, size, size);
-                ctx.fillStyle = colors.dot;
-                for (var x = 0; x < N; x++) for (var y = 0; y < N; y++) {
-                    ctx.beginPath(); ctx.arc(x * c + c / 2, y * c + c / 2, c * 0.07, 0, 6.2832); ctx.fill();
+                function readColors() {
+                    var cs = getComputedStyle(root);
+                    colors.dot = cs.getPropertyValue('--dot').trim() || colors.dot;
+                    colors.hot = cs.getPropertyValue('--red').trim() || colors.hot;
                 }
-                if (!snake) return;
-                for (var i = snake.length - 1; i >= 0; i--) {
-                    var s = snake[i];
-                    var r = i === 0 ? c * 0.42 : Math.max(c * 0.22, c * 0.36 - i * 0.004 * c);
-                    ctx.fillStyle = i === 0 ? colors.red : colors.ink;
-                    ctx.beginPath(); ctx.arc(s.x * c + c / 2, s.y * c + c / 2, r, 0, 6.2832); ctx.fill();
+                function resize() {
+                    dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    w = window.innerWidth; h = window.innerHeight;
+                    canvas.width = w * dpr; canvas.height = h * dpr;
+                    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                    gap = w < 700 ? 20 : 26;
+                    cols = Math.ceil(w / gap) + 1; rows = Math.ceil(h / gap) + 1;
+                    if (reduce) draw(0);
                 }
-                var pulse = 0.26 + 0.07 * Math.sin(t / 170);
-                ctx.fillStyle = colors.red;
-                ctx.beginPath(); ctx.arc(food.x * c + c / 2, food.y * c + c / 2, c * pulse, 0, 6.2832); ctx.fill();
-                ctx.strokeStyle = colors.red; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.45;
-                ctx.beginPath(); ctx.arc(food.x * c + c / 2, food.y * c + c / 2, c * (pulse + 0.16), 0, 6.2832); ctx.stroke();
-                ctx.globalAlpha = 1;
-            }
-            function frame(t) { draw(t); if (isOpen) raf = requestAnimationFrame(frame); }
+                function draw(t) {
+                    var R = 170, RIP = 46, LIFE = 2600;
+                    var now = performance.now();
+                    mouse.x += (mouse.tx - mouse.x) * 0.18;
+                    mouse.y += (mouse.ty - mouse.y) * 0.18;
+                    ripples = ripples.filter(function (r) { return now - r.t < LIFE; });
+                    var phase = t * 0.0006 + (window.scrollY || 0) * 0.0015;
 
-            function open() {
-                if (isOpen) return;
-                isOpen = true; setContact(false); setMenu(false);
-                modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false');
-                if (lenis) lenis.stop(); else root.style.overflow = 'hidden';
-                readColors(); resizeCanvas(); reset();
-                raf = requestAnimationFrame(frame);
-                setTimeout(function () { startBtn.focus({ preventScroll: true }); }, 350);
-            }
-            function close() {
-                if (!isOpen) return;
-                isOpen = false; clearTimeout(timer); cancelAnimationFrame(raf);
-                modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true');
-                if (lenis) lenis.start(); else root.style.overflow = '';
-            }
-            
-            window.addEventListener('resize', debounce(function () { if (isOpen) resizeCanvas(); }, 150));
-            closeBtn.addEventListener('click', close);
-            var gameBtn = document.getElementById('game-btn');
-            if (gameBtn) gameBtn.addEventListener('click', open);
-            modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
-            startBtn.addEventListener('click', start);
+                    ctx.clearRect(0, 0, w, h);
+                    for (var ix = 0; ix < cols; ix++) {
+                        for (var iy = 0; iy < rows; iy++) {
+                            var bx = ix * gap + gap / 2, by = iy * gap + gap / 2;
+                            var wave = Math.sin(bx * 0.011 + by * 0.007 + phase) * 0.5 + 0.5;
+                            var r = 0.9 + wave * 0.7, x = bx, y = by, hot = 0;
 
-            fullBtn.addEventListener('click', function() {
-                try {
-                    if (!document.fullscreenElement) {
-                        if (modal.requestFullscreen) modal.requestFullscreen();
-                        else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
-                        this.setAttribute('data-full', 'true');
-                    } else {
-                        if (document.exitFullscreen) document.exitFullscreen();
-                        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                        this.setAttribute('data-full', 'false');
+                            var dx = bx - mouse.x, dy = by - mouse.y, d2 = dx * dx + dy * dy;
+                            if (d2 < R * R) {
+                                var d = Math.sqrt(d2) || 1;
+                                var f = 1 - d / R; f = f * f * (3 - 2 * f);
+                                r += f * 3.4; x += dx / d * f * 14; y += dy / d * f * 14; hot = f;
+                            }
+                            for (var k = 0; k < ripples.length; k++) {
+                                var rp = ripples[k];
+                                var dist = Math.sqrt((bx - rp.x) * (bx - rp.x) + (by - rp.y) * (by - rp.y));
+                                var diff = Math.abs(dist - (now - rp.t) * 0.55);
+                                if (diff < RIP) {
+                                    var g = (1 - diff / RIP) * (1 - (now - rp.t) / LIFE);
+                                    r += g * 3; hot = Math.max(hot, g * 1.2);
+                                }
+                            }
+                            var isHot = hot > 0.28;
+                            ctx.globalAlpha = isHot ? Math.min(1, 0.4 + hot) : 1;
+                            ctx.fillStyle = isHot ? colors.hot : colors.dot;
+                            ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+                        }
                     }
-                } catch(e) {
-                    modal.classList.toggle('is-full');
-                    this.setAttribute('data-full', modal.classList.contains('is-full'));
-                    resizeCanvas();
+                    ctx.globalAlpha = 1;
                 }
-            });
-            document.addEventListener('fullscreenchange', function() {
-                fullBtn.setAttribute('data-full', !!document.fullscreenElement);
-                setTimeout(resizeCanvas, 100);
-            });
+                function loop(t) { draw(t); requestAnimationFrame(loop); }
 
-            var typed = '';
-            var konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-            var kIndex = 0;
-            document.addEventListener('keydown', function (e) {
-                var tag = (document.activeElement && document.activeElement.tagName) || '';
-                if (isOpen) {
-                    var k = e.key;
-                    var map = { ArrowUp: [0, -1], w: [0, -1], W: [0, -1], ArrowDown: [0, 1], s: [0, 1], S: [0, 1], ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0], ArrowRight: [1, 0], d: [1, 0], D: [1, 0] };
-                    if (k === 'Escape') { close(); return; }
-                    if (map[k]) { e.preventDefault(); turn(map[k][0], map[k][1]); return; }
-                    if (k === 'p' || k === 'P') { e.preventDefault(); togglePlay(); return; }
-                    if (k === 'f' || k === 'F') { e.preventDefault(); fullBtn.click(); return; }
-                    if (k === ' ' || k === 'Enter') {
-                        if (state !== 'running') { e.preventDefault(); start(); }
-                    }
-                    return;
+                readColors(); resize();
+                window.addEventListener('resize', debounce(function () {
+                    if (window.innerWidth === w && Math.abs(window.innerHeight - h) < 150) return;
+                    resize();
+                }, 150));
+
+                if (!reduce) {
+                    window.addEventListener('pointermove', function (e) {
+                        if (e.pointerType === 'touch') return;
+                        mouse.tx = e.clientX; mouse.ty = e.clientY;
+                    });
+                    document.addEventListener('pointerleave', function () { mouse.tx = mouse.ty = -9999; });
+                    window.addEventListener('pointerdown', function (e) {
+                        ripples.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+                        if (ripples.length > 4) ripples.shift();
+                    });
+                    requestAnimationFrame(loop);
                 }
-                if (introState.active) return;
-                if (e.key === 'Escape') setContact(false);
-                if (tag === 'INPUT' || tag === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
+                return { refresh: function () { readColors(); if (reduce) draw(0); } };
+            })();
 
-                if (e.key.length === 1) {
-                    typed = (typed + e.key.toLowerCase()).slice(-5);
-                    if (typed === 'snake') { typed = ''; open(); return; }
-                }
-                var expected = konami[kIndex];
-                var pressed = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-                if (pressed === expected) { kIndex++; if (kIndex === konami.length) { kIndex = 0; open(); } }
-                else kIndex = pressed === konami[0] ? 1 : 0;
+            /* =====================================================
+               2. THEME TOGGLE + MOBILE MENU + UNIVERSAL SCRAMBLE
+            ===================================================== */
+            document.getElementById('theme-toggle').addEventListener('click', function () {
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('theme', next); } catch (e) { /* localStorage restricted */ }
+                setTimeout(dots.refresh, 30);
             });
+            new MutationObserver(function () {
+                dots.refresh();
+                var m = document.querySelector('meta[name="theme-color"]');
+                if (m) m.setAttribute('content', root.getAttribute('data-theme') === 'dark' ? '#0a0a0a' : '#eeede9');
+            }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
-            var sx = 0, sy = 0;
-            canvas.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-            canvas.addEventListener('touchend', function (e) {
-                var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-                if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
-                if (Math.abs(dx) > Math.abs(dy)) turn(dx > 0 ? 1 : -1, 0); else turn(0, dy > 0 ? 1 : -1);
-            }, { passive: true });
-            document.querySelectorAll('.pad-btn').forEach(function (b) {
-                b.addEventListener('pointerdown', function (e) {
-                    e.preventDefault();
-                    var d = b.getAttribute('data-dir');
-                    turn(d === 'left' ? -1 : d === 'right' ? 1 : 0, d === 'up' ? -1 : d === 'down' ? 1 : 0);
-                });
-            });
-            var dotEl = document.querySelector('.brand i');
-            var taps = 0, tapTimer;
-            if (dotEl) {
-                dotEl.style.padding = '10px'; dotEl.style.margin = '-10px'; dotEl.style.backgroundClip = 'content-box';
-                dotEl.addEventListener('click', function (e) {
-                    e.preventDefault(); e.stopPropagation();
-                    taps++; clearTimeout(tapTimer);
-                    tapTimer = setTimeout(function () { taps = 0; }, 1200);
-                    if (taps >= 3) { taps = 0; open(); }
-                });
+            var nav = document.getElementById('nav');
+            var menuBtn = document.getElementById('menu-toggle');
+            function setMenu(open) {
+                nav.classList.toggle('is-open', open);
+                menuBtn.setAttribute('aria-expanded', String(open));
             }
-        })();
+            menuBtn.addEventListener('click', function () { setMenu(!nav.classList.contains('is-open')); });
+            document.addEventListener('click', function (e) { if (!nav.contains(e.target)) setMenu(false); });
 
-        if (!hasGsap || reduce) return;
-
-        /* =====================================================
-           4. SPLIT TEXT helpers
-        ===================================================== */
-        function splitChars(el) {
-            var text = el.textContent.trim();
-            el.textContent = '';
-            var parts = text.split(' ');
-            var chars = [];
-            parts.forEach(function (word, wi) {
-                var wEl = document.createElement('span'); wEl.className = 'word';
-                word.split('').forEach(function (ch) {
-                    var c = document.createElement('span'); c.className = 'char'; c.textContent = ch;
-                    wEl.appendChild(c); chars.push(c);
-                });
-                el.appendChild(wEl);
-                if (wi < parts.length - 1) el.appendChild(document.createTextNode(' '));
-            });
-            return chars;
-        }
-
-        var heroTweens = [];
-        introReady.then(function () { heroTweens.forEach(function (t) { t.play(); }); });
-
-        document.querySelectorAll('.hero-name [data-split]').forEach(function (line, i) {
-            var chars = splitChars(line);
-            heroTweens.push(gsap.from(chars, { yPercent: 115, rotate: 6, duration: 1.3, ease: 'expo.out', stagger: 0.04, delay: 0.1 + i * 0.18, paused: true }));
-        });
-        
-        document.querySelectorAll('.footer-big [data-split]').forEach(function (line, i) {
-            var chars = splitChars(line);
-            gsap.from(chars, {
-                yPercent: 115, rotate: 6, duration: 1.2, ease: 'expo.out', stagger: 0.035, delay: i * 0.15,
-                scrollTrigger: { trigger: '.footer-big', start: 'top 90%', once: true }
-            });
-        });
-
-        /* Hacker Animation on Click (Easter Egg) */
-        var footerBig = document.querySelector('.footer-big');
-        if (footerBig) {
-            footerBig.style.cursor = 'pointer';
-            footerBig.title = 'Discover';
-            var isHacked = false;
-            
-            footerBig.addEventListener('click', function () {
-                if (isHacked) return;
-                isHacked = true; 
-                
-                var chars = footerBig.querySelectorAll('.char');
-                gsap.killTweensOf(chars);
-
-                var lines = footerBig.querySelectorAll('.line');
+            /* Universal text scramble on hover */
+            if (canHover && !reduce) {
                 var glyphs = '01#/<>+*_';
-                var targets = ['YOU', 'FOUND ME'];
+                document.querySelectorAll('a, button, .tag, .label').forEach(function (el) {
+                    var textNodes = [];
+                    var walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+                    var n; while(n = walk.nextNode()) { if(n.nodeValue.trim().length > 0) textNodes.push({node: n, orig: n.nodeValue}); }
                 
-                lines.forEach(function (line, index) {
-                    var targetText = targets[index] || '';
-                    var frame = 0;
-                    
-                    var timer = setInterval(function () {
-                        var out = '';
-                        for (var i = 0; i < targetText.length; i++) {
-                            if (i < frame / 3) {
-                                out += targetText[i]; 
-                            } else if (targetText[i] === ' ') {
-                                out += ' '; 
-                            } else {
-                                out += glyphs[Math.floor(Math.random() * glyphs.length)]; 
-                            }
-                        }
-                        line.textContent = out;
-                        frame++;
-                        
-                        if (frame / 3 >= targetText.length) {
-                            clearInterval(timer);
-                            line.textContent = targetText;
-                            line.style.color = 'var(--red)';
-                            line.style.transition = 'color 0.5s ease';
-                        }
-                    }, 40);
+                    el.addEventListener('mouseenter', function () {
+                        textNodes.forEach(function(tn) {
+                            var frame = 0; clearInterval(tn.timer);
+                            tn.timer = setInterval(function () {
+                                var out = '';
+                                for (var i = 0; i < tn.orig.length; i++) {
+                                    out += (i < frame / 2 || tn.orig[i] === ' ') ? tn.orig[i] : glyphs[Math.floor(Math.random() * glyphs.length)];
+                                }
+                                tn.node.nodeValue = out; frame++;
+                                if (frame / 2 >= tn.orig.length) { clearInterval(tn.timer); tn.node.nodeValue = tn.orig; }
+                            }, 28);
+                        });
+                    });
+                });
+            }
+
+            /* =====================================================
+               3. SMOOTH SCROLL (Lenis) wired into GSAP
+            ===================================================== */
+            var lenis = null;
+            var boost = 0;
+            var header = document.getElementById('site-header');
+
+            if (window.Lenis && !reduce) {
+                lenis = new Lenis({
+                    duration: 1.3,
+                    easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+                    smoothWheel: true
+                });
+                lenis.on('scroll', function (e) {
+                    boost = Math.min(Math.abs(e.velocity || 0), 30);
+                    if (e.direction === 1 && e.scroll > 240 && !nav.classList.contains('is-open')) header.classList.add('is-hidden');
+                    else if (e.direction === -1 || e.scroll <= 240) header.classList.remove('is-hidden');
+                });
+                if (hasGsap) {
+                    gsap.registerPlugin(ScrollTrigger);
+                    lenis.on('scroll', ScrollTrigger.update);
+                    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+                    gsap.ticker.lagSmoothing(0);
+                } else {
+                    (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+                }
+            } else if (hasGsap) {
+                gsap.registerPlugin(ScrollTrigger);
+            }
+
+            if (lenis && introState.active) lenis.stop();
+
+            document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    var id = link.getAttribute('href');
+                    var target = id === '#top' ? null : document.querySelector(id);
+                    if (id !== '#top' && !target) return;
+                    e.preventDefault(); setMenu(false);
+                    if (lenis) lenis.scrollTo(id === '#top' ? 0 : target, { offset: id === '#top' ? 0 : -70, duration: 1.6 });
+                    else if (id === '#top') window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+                    else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
                 });
             });
-        }
 
-        /* Section titles */
-        document.querySelectorAll('[data-split-title]').forEach(function (title) {
-            var chars = splitChars(title);
-            gsap.from(chars, {
-                yPercent: 115, rotate: 5, duration: 1.1, ease: 'expo.out', stagger: 0.03,
-                scrollTrigger: { trigger: title, start: 'top 88%', once: true }
-            });
-        });
+            if ('IntersectionObserver' in window) {
+                var navLinks = document.querySelectorAll('.nav-links a');
+                var map = {};
+                navLinks.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (en.isIntersecting && map[en.target.id]) {
+                            navLinks.forEach(function (a) { a.classList.remove('active'); });
+                            map[en.target.id].classList.add('active');
+                        }
+                    });
+                }, { rootMargin: '-45% 0px -50% 0px' });
+                ['overview', 'journey', 'work', 'experience', 'education'].forEach(function (id) {
+                    var s = document.getElementById(id); if (s) io.observe(s);
+                });
+            }
 
-        gsap.utils.toArray('[data-fade]').forEach(function (el) {
-            var inHero = !!el.closest('.hero');
-            var tw = gsap.from(el, {
-                autoAlpha: 0, y: 36, duration: 1.2, ease: 'expo.out',
-                delay: inHero ? 0.6 : 0,
-                paused: inHero,
-                scrollTrigger: inHero ? null : { trigger: el, start: 'top 90%', once: true }
-            });
-            if (inHero) heroTweens.push(tw);
-        });
+            /* =====================================================
+               CONTACT BUTTON (bottom right)
+            ===================================================== */
+            var fab = document.getElementById('contact-fab');
+            var fabTrigger = document.getElementById('contact-trigger');
+            function setContact(open) {
+                fab.classList.toggle('is-open', open);
+                fabTrigger.setAttribute('aria-expanded', String(open));
+            }
+            fabTrigger.addEventListener('click', function () { setContact(!fab.classList.contains('is-open')); });
+            document.addEventListener('click', function (e) { if (!fab.contains(e.target)) setContact(false); });
 
-        gsap.to('.hero-name', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-        gsap.to('.hero-row, .scroll-cue', { autoAlpha: 0, y: -40, ease: 'none', scrollTrigger: { trigger: '.hero', start: '55% top', end: 'bottom top', scrub: true } });
-        gsap.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
+            /* =====================================================
+               SNAKE EASTER EGG
+            ===================================================== */
+            (function () {
+                var modal = document.getElementById('snake-modal');
+                var canvas = document.getElementById('snake-canvas');
+                var ctx = canvas.getContext('2d');
+                var msg = document.getElementById('snake-msg');
+                var msgTitle = document.getElementById('snake-msg-title');
+                var msgText = document.getElementById('snake-msg-text');
+                var startBtn = document.getElementById('snake-start');
+                var scoreEl = document.getElementById('snake-score');
+                var bestEl = document.getElementById('snake-best');
+                var closeBtn = document.getElementById('snake-close');
+                var playBtn = document.getElementById('snake-play');
+                var fullBtn = document.getElementById('snake-full');
 
-        /* =====================================================
-           5. MARQUEE
-        ===================================================== */
-        var marqueeTweens = [];
-        document.querySelectorAll('.marquee-row').forEach(function (row) {
-            var group = row.querySelector('.marquee-group');
-            row.appendChild(group.cloneNode(true));
-            row.lastChild.setAttribute('aria-hidden', 'true');
-            var dir = parseInt(row.getAttribute('data-dir'), 10) || 1;
-            var tw = dir === 1
-                ? gsap.to(row, { xPercent: -50, duration: 32, ease: 'none', repeat: -1 })
-                : gsap.fromTo(row, { xPercent: -50 }, { xPercent: 0, duration: 36, ease: 'none', repeat: -1 });
-            marqueeTweens.push(tw);
-        });
-        gsap.ticker.add(function () {
-            boost *= 0.92;
-            var ts = 1 + boost * 0.35;
-            marqueeTweens.forEach(function (t) { t.timeScale(ts); });
-        });
+                var N = 20, size = 400, dpr = 1;
+                var snake, dir, queue, food, score, best = 0, speed, timer, state = 'ready';
+                var isOpen = false, raf = null;
+                var colors = { ink: '#0c0c0c', dot: 'rgba(0,0,0,.2)', red: '#d71921' };
 
-        /* =====================================================
-           6. JOURNEY 
-        ===================================================== */
-        gsap.to('#stepper-fill', {
-            scaleY: 1, ease: 'none',
-            scrollTrigger: { trigger: '#stepper', start: 'top 65%', end: 'bottom 60%', scrub: 0.4 }
-        });
-        gsap.utils.toArray('.step').forEach(function (step) {
-            ScrollTrigger.create({ trigger: step, start: 'top 65%', end: 'bottom 35%', toggleClass: { targets: step, className: 'is-active' } });
-        });
-        gsap.from('.stat', {
-            autoAlpha: 0, y: 40, duration: 1, ease: 'expo.out', stagger: 0.12,
-            scrollTrigger: { trigger: '.stats', start: 'top 88%', once: true }
-        });
-        document.querySelectorAll('.count').forEach(function (el) {
-            var to = parseInt(el.getAttribute('data-to'), 10), o = { v: 0 };
-            ScrollTrigger.create({
-                trigger: el, start: 'top 92%', once: true,
-                onEnter: function () {
-                    gsap.to(o, { v: to, duration: 2, ease: 'power3.out', onUpdate: function () { el.textContent = Math.round(o.v); } });
+                try { best = parseInt(localStorage.getItem('snakeBest'), 10) || 0; } catch (e) { /* localStorage restricted */ }
+                var pad2 = function (n) { return String(n).padStart(2, '0'); };
+                bestEl.textContent = pad2(best);
+
+                function readColors() {
+                    var cs = getComputedStyle(root);
+                    colors.ink = cs.getPropertyValue('--ink').trim() || colors.ink;
+                    colors.dot = cs.getPropertyValue('--dot').trim() || colors.dot;
+                    colors.red = cs.getPropertyValue('--red').trim() || colors.red;
                 }
-            });
-            el.textContent = '0';
-        });
+                new MutationObserver(readColors).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+                readColors();
 
-        /* =====================================================
-           7. WORK
-        ===================================================== */
-        var work = document.getElementById('work');
-        var track = document.getElementById('work-track');
-        var counter = document.getElementById('work-counter');
-        var barFill = document.getElementById('work-bar-fill');
-        var moreWrap = document.getElementById('more-wrap');
-        var total = document.querySelectorAll('.project').length;
+                function resizeCanvas() {
+                    dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    size = canvas.clientWidth || 400;
+                    canvas.width = size * dpr; canvas.height = size * dpr;
+                    canvas.style.width = size + 'px'; canvas.style.height = size + 'px';
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                }
 
-        ScrollTrigger.config({ ignoreMobileResize: true });
-        var mm = gsap.matchMedia();
+                function rand(n) { return Math.floor(Math.random() * n); }
+                function placeFood() {
+                    var tries = 0;
+                    do { food = { x: rand(N), y: rand(N) }; tries++; }
+                    while (tries < 400 && snake.some(function (s) { return s.x === food.x && s.y === food.y; }));
+                }
+                function showMsg(title, text, btn) {
+                    msgTitle.textContent = title; msgText.textContent = text; startBtn.textContent = btn;
+                    msg.classList.remove('is-hidden');
+                }
+                function updateScore() { scoreEl.textContent = pad2(score); bestEl.textContent = pad2(best); }
+                function updatePlayBtn() { playBtn.setAttribute('data-state', state === 'running' ? 'play' : 'pause'); }
 
-        mm.add('(min-width: 900px) and (min-height: 760px)', function () {
-            work.classList.add('is-hscroll');
-            moreWrap.style.display = 'none';
+                function reset() {
+                    clearTimeout(timer);
+                    snake = [{ x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }];
+                    dir = { x: 1, y: 0 }; queue = []; score = 0; state = 'ready';
+                    placeFood(); updateScore(); updatePlayBtn();
+                    showMsg('Snake', 'Eat the red dots. Don’t hit the walls or yourself.', 'Start');
+                }
+                function start() {
+                    if (state === 'over') reset();
+                    if (state === 'running') return;
+                    var resuming = state === 'paused';
+                    msg.classList.add('is-hidden'); state = 'running';
+                    if (!resuming) speed = 125;
+                    schedule(); updatePlayBtn();
+                }
+                function pause() {
+                    if (state !== 'running') return;
+                    state = 'paused'; clearTimeout(timer); updatePlayBtn();
+                    showMsg('Paused', 'Press space or tap resume.', 'Resume');
+                }
+                function togglePlay() { if (state === 'running') pause(); else if (state === 'paused' || state === 'ready') start(); }
+                playBtn.addEventListener('click', togglePlay);
 
-            gsap.to(track, {
-                x: function () { return -(track.scrollWidth - document.documentElement.clientWidth); },
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: work,
-                    start: 'top top',
-                    end: function () { return '+=' + (track.scrollWidth - document.documentElement.clientWidth); },
-                    pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true,
-                    onUpdate: function (self) {
-                        var idx = Math.min(total, Math.round(self.progress * (total - 1)) + 1);
-                        counter.innerHTML = String(idx).padStart(2, '0') + '<span> / ' + String(total).padStart(2, '0') + '</span>';
-                        barFill.style.transform = 'scaleX(' + self.progress + ')';
+                function schedule() { clearTimeout(timer); timer = setTimeout(step, speed); }
+
+                function gameOver() {
+                    state = 'over'; clearTimeout(timer); updatePlayBtn();
+                    if (score > best) { best = score; try { localStorage.setItem('snakeBest', String(best)); } catch (e) {} }
+                    updateScore();
+                    showMsg('Game over', 'Score ' + pad2(score) + ' · Best ' + pad2(best), 'Play again');
+                }
+
+                function step() {
+                    if (queue.length) dir = queue.shift();
+                    var head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+                    var eating = head.x === food.x && head.y === food.y;
+                    var body = eating ? snake : snake.slice(0, -1);
+                    if (head.x < 0 || head.y < 0 || head.x >= N || head.y >= N ||
+                        body.some(function (s) { return s.x === head.x && s.y === head.y; })) {
+                        gameOver(); return;
                     }
+                    snake.unshift(head);
+                    if (eating) { score++; updateScore(); placeFood(); speed = Math.max(65, speed - 3); }
+                    else snake.pop();
+                    schedule();
                 }
-            });
-            return function () {
-                work.classList.remove('is-hscroll');
-                moreWrap.style.display = '';
-                gsap.set(track, { clearProps: 'transform' });
-            };
-        });
 
-        mm.add('(max-width: 899px), (max-height: 759px)', function () {
-            gsap.from('.project', {
-                autoAlpha: 0, y: 60, duration: 1.1, ease: 'expo.out', stagger: 0.1,
-                scrollTrigger: { trigger: track, start: 'top 85%', once: true }
-            });
-        });
+                function turn(dx, dy) {
+                    var last = queue.length ? queue[queue.length - 1] : dir;
+                    if ((last.x === -dx && last.y === -dy) || (last.x === dx && last.y === dy)) { if (state === 'ready') start(); return; }
+                    if (queue.length < 2) queue.push({ x: dx, y: dy });
+                    if (state === 'ready') start();
+                }
 
-        /* =====================================================
-           8. MAGNETIC BUTTONS
-        ===================================================== */
-        if (canHover) {
-            document.querySelectorAll('.magnetic').forEach(function (btn) {
-                var xTo = gsap.quickTo(btn, 'x', { duration: 0.6, ease: 'elastic.out(1, 0.5)' });
-                var yTo = gsap.quickTo(btn, 'y', { duration: 0.6, ease: 'elastic.out(1, 0.5)' });
-                btn.addEventListener('mousemove', function (e) {
-                    var r = btn.getBoundingClientRect();
-                    xTo((e.clientX - (r.left + r.width / 2)) * 0.3);
-                    yTo((e.clientY - (r.top + r.height / 2)) * 0.4);
+                function draw(t) {
+                    var c = size / N;
+                    ctx.clearRect(0, 0, size, size);
+                    ctx.fillStyle = colors.dot;
+                    for (var x = 0; x < N; x++) for (var y = 0; y < N; y++) {
+                        ctx.beginPath(); ctx.arc(x * c + c / 2, y * c + c / 2, c * 0.07, 0, 6.2832); ctx.fill();
+                    }
+                    if (!snake) return;
+                    for (var i = snake.length - 1; i >= 0; i--) {
+                        var s = snake[i];
+                        var r = i === 0 ? c * 0.42 : Math.max(c * 0.22, c * 0.36 - i * 0.004 * c);
+                        ctx.fillStyle = i === 0 ? colors.red : colors.ink;
+                        ctx.beginPath(); ctx.arc(s.x * c + c / 2, s.y * c + c / 2, r, 0, 6.2832); ctx.fill();
+                    }
+                    var pulse = 0.26 + 0.07 * Math.sin(t / 170);
+                    ctx.fillStyle = colors.red;
+                    ctx.beginPath(); ctx.arc(food.x * c + c / 2, food.y * c + c / 2, c * pulse, 0, 6.2832); ctx.fill();
+                    ctx.strokeStyle = colors.red; ctx.lineWidth = 1.2; ctx.globalAlpha = 0.45;
+                    ctx.beginPath(); ctx.arc(food.x * c + c / 2, food.y * c + c / 2, c * (pulse + 0.16), 0, 6.2832); ctx.stroke();
+                    ctx.globalAlpha = 1;
+                }
+                function frame(t) { draw(t); if (isOpen) raf = requestAnimationFrame(frame); }
+
+                function open() {
+                    if (isOpen) return;
+                    isOpen = true; setContact(false); setMenu(false);
+                    modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false');
+                    if (lenis) lenis.stop(); else root.style.overflow = 'hidden';
+                    readColors(); resizeCanvas(); reset();
+                    raf = requestAnimationFrame(frame);
+                    setTimeout(function () { startBtn.focus({ preventScroll: true }); }, 350);
+                }
+                function close() {
+                    if (!isOpen) return;
+                    isOpen = false; clearTimeout(timer); cancelAnimationFrame(raf);
+                    modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true');
+                    if (lenis) lenis.start(); else root.style.overflow = '';
+                }
+            
+                window.addEventListener('resize', debounce(function () { if (isOpen) resizeCanvas(); }, 150));
+                closeBtn.addEventListener('click', close);
+                var gameBtn = document.getElementById('game-btn');
+                if (gameBtn) gameBtn.addEventListener('click', open);
+                modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+                startBtn.addEventListener('click', start);
+
+                fullBtn.addEventListener('click', function() {
+                    try {
+                        if (!document.fullscreenElement) {
+                            if (modal.requestFullscreen) modal.requestFullscreen();
+                            else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
+                            this.setAttribute('data-full', 'true');
+                        } else {
+                            if (document.exitFullscreen) document.exitFullscreen();
+                            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                            this.setAttribute('data-full', 'false');
+                        }
+                    } catch(e) {
+                        modal.classList.toggle('is-full');
+                        this.setAttribute('data-full', modal.classList.contains('is-full'));
+                        resizeCanvas();
+                    }
                 });
-                btn.addEventListener('mouseleave', function () { xTo(0); yTo(0); });
-            });
-        }
+                document.addEventListener('fullscreenchange', function() {
+                    fullBtn.setAttribute('data-full', !!document.fullscreenElement);
+                    setTimeout(resizeCanvas, 100);
+                });
 
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
-        window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+                var typed = '';
+                var konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+                var kIndex = 0;
+                document.addEventListener('keydown', function (e) {
+                    var tag = (document.activeElement && document.activeElement.tagName) || '';
+                    if (isOpen) {
+                        var k = e.key;
+                        var map = { ArrowUp: [0, -1], w: [0, -1], W: [0, -1], ArrowDown: [0, 1], s: [0, 1], S: [0, 1], ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0], ArrowRight: [1, 0], d: [1, 0], D: [1, 0] };
+                        if (k === 'Escape') { close(); return; }
+                        if (map[k]) { e.preventDefault(); turn(map[k][0], map[k][1]); return; }
+                        if (k === 'p' || k === 'P') { e.preventDefault(); togglePlay(); return; }
+                        if (k === 'f' || k === 'F') { e.preventDefault(); fullBtn.click(); return; }
+                        if (k === ' ' || k === 'Enter') {
+                            if (state !== 'running') { e.preventDefault(); start(); }
+                        }
+                        return;
+                    }
+                    if (introState.active) return;
+                    if (e.key === 'Escape') setContact(false);
+                    if (tag === 'INPUT' || tag === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
+
+                    if (e.key.length === 1) {
+                        typed = (typed + e.key.toLowerCase()).slice(-5);
+                        if (typed === 'snake') { typed = ''; open(); return; }
+                    }
+                    var expected = konami[kIndex];
+                    var pressed = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+                    if (pressed === expected) { kIndex++; if (kIndex === konami.length) { kIndex = 0; open(); } }
+                    else kIndex = pressed === konami[0] ? 1 : 0;
+                });
+
+                var sx = 0, sy = 0;
+                canvas.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+                canvas.addEventListener('touchend', function (e) {
+                    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+                    if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return;
+                    if (Math.abs(dx) > Math.abs(dy)) turn(dx > 0 ? 1 : -1, 0); else turn(0, dy > 0 ? 1 : -1);
+                }, { passive: true });
+                document.querySelectorAll('.pad-btn').forEach(function (b) {
+                    b.addEventListener('pointerdown', function (e) {
+                        e.preventDefault();
+                        var d = b.getAttribute('data-dir');
+                        turn(d === 'left' ? -1 : d === 'right' ? 1 : 0, d === 'up' ? -1 : d === 'down' ? 1 : 0);
+                    });
+                });
+                var dotEl = document.querySelector('.brand i');
+                var taps = 0, tapTimer;
+                if (dotEl) {
+                    dotEl.style.padding = '10px'; dotEl.style.margin = '-10px'; dotEl.style.backgroundClip = 'content-box';
+                    dotEl.addEventListener('click', function (e) {
+                        e.preventDefault(); e.stopPropagation();
+                        taps++; clearTimeout(tapTimer);
+                        tapTimer = setTimeout(function () { taps = 0; }, 1200);
+                        if (taps >= 3) { taps = 0; open(); }
+                    });
+                }
+            })();
+
+            // The page stays usable without GSAP; reduced-motion users skip decorative motion.
+            if (!hasGsap || reduce) return;
+
+            /* =====================================================
+               4. SPLIT TEXT helpers
+            ===================================================== */
+            function splitChars(el) {
+                var text = el.textContent.trim();
+                el.textContent = '';
+                var parts = text.split(' ');
+                var chars = [];
+                parts.forEach(function (word, wi) {
+                    var wEl = document.createElement('span'); wEl.className = 'word';
+                    word.split('').forEach(function (ch) {
+                        var c = document.createElement('span'); c.className = 'char'; c.textContent = ch;
+                        wEl.appendChild(c); chars.push(c);
+                    });
+                    el.appendChild(wEl);
+                    if (wi < parts.length - 1) el.appendChild(document.createTextNode(' '));
+                });
+                return chars;
+            }
+
+            var heroTweens = [];
+            introReady.then(function () { heroTweens.forEach(function (t) { t.play(); }); });
+
+            document.querySelectorAll('.hero-name [data-split]').forEach(function (line, i) {
+                var chars = splitChars(line);
+                heroTweens.push(gsap.from(chars, { yPercent: 115, rotate: 6, duration: 1.3, ease: 'expo.out', stagger: 0.04, delay: 0.1 + i * 0.18, paused: true }));
+            });
+        
+            document.querySelectorAll('.footer-big [data-split]').forEach(function (line, i) {
+                var chars = splitChars(line);
+                gsap.from(chars, {
+                    yPercent: 115, rotate: 6, duration: 1.2, ease: 'expo.out', stagger: 0.035, delay: i * 0.15,
+                    scrollTrigger: { trigger: '.footer-big', start: 'top 90%', once: true }
+                });
+            });
+
+            /* Hacker Animation on Click (Easter Egg) */
+            var footerBig = document.querySelector('.footer-big');
+            if (footerBig) {
+                footerBig.style.cursor = 'pointer';
+                footerBig.title = 'Discover';
+                var isHacked = false;
+            
+                footerBig.addEventListener('click', function () {
+                    if (isHacked) return;
+                    isHacked = true; 
+                
+                    var chars = footerBig.querySelectorAll('.char');
+                    gsap.killTweensOf(chars);
+
+                    var lines = footerBig.querySelectorAll('.line');
+                    var glyphs = '01#/<>+*_';
+                    var targets = ['YOU', 'FOUND ME'];
+                
+                    lines.forEach(function (line, index) {
+                        var targetText = targets[index] || '';
+                        var frame = 0;
+                    
+                        var timer = setInterval(function () {
+                            var out = '';
+                            for (var i = 0; i < targetText.length; i++) {
+                                if (i < frame / 3) {
+                                    out += targetText[i]; 
+                                } else if (targetText[i] === ' ') {
+                                    out += ' '; 
+                                } else {
+                                    out += glyphs[Math.floor(Math.random() * glyphs.length)]; 
+                                }
+                            }
+                            line.textContent = out;
+                            frame++;
+                        
+                            if (frame / 3 >= targetText.length) {
+                                clearInterval(timer);
+                                line.textContent = targetText;
+                                line.style.color = 'var(--red)';
+                                line.style.transition = 'color 0.5s ease';
+                            }
+                        }, 40);
+                    });
+                });
+            }
+
+            /* Section titles */
+            document.querySelectorAll('[data-split-title]').forEach(function (title) {
+                var chars = splitChars(title);
+                gsap.from(chars, {
+                    yPercent: 115, rotate: 5, duration: 1.1, ease: 'expo.out', stagger: 0.03,
+                    scrollTrigger: { trigger: title, start: 'top 88%', once: true }
+                });
+            });
+
+            gsap.utils.toArray('[data-fade]').forEach(function (el) {
+                var inHero = !!el.closest('.hero');
+                var tw = gsap.from(el, {
+                    autoAlpha: 0, y: 36, duration: 1.2, ease: 'expo.out',
+                    delay: inHero ? 0.6 : 0,
+                    paused: inHero,
+                    scrollTrigger: inHero ? null : { trigger: el, start: 'top 90%', once: true }
+                });
+                if (inHero) heroTweens.push(tw);
+            });
+
+            gsap.to('.hero-name', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+            gsap.to('.hero-row, .scroll-cue', { autoAlpha: 0, y: -40, ease: 'none', scrollTrigger: { trigger: '.hero', start: '55% top', end: 'bottom top', scrub: true } });
+            gsap.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
+
+            /* =====================================================
+               5. MARQUEE
+            ===================================================== */
+            var marqueeTweens = [];
+            document.querySelectorAll('.marquee-row:not([hidden])').forEach(function (row) {
+                var group = row.querySelector('.marquee-group');
+                row.appendChild(group.cloneNode(true));
+                row.lastChild.setAttribute('aria-hidden', 'true');
+                var dir = parseInt(row.getAttribute('data-dir'), 10) || 1;
+                var tw = dir === 1
+                    ? gsap.to(row, { xPercent: -50, duration: 32, ease: 'none', repeat: -1 })
+                    : gsap.fromTo(row, { xPercent: -50 }, { xPercent: 0, duration: 36, ease: 'none', repeat: -1 });
+                marqueeTweens.push(tw);
+            });
+            gsap.ticker.add(function () {
+                boost *= 0.92;
+                var ts = 1 + boost * 0.35;
+                marqueeTweens.forEach(function (t) { t.timeScale(ts); });
+            });
+
+            /* =====================================================
+               6. JOURNEY 
+            ===================================================== */
+            gsap.to('#stepper-fill', {
+                scaleY: 1, ease: 'none',
+                scrollTrigger: { trigger: '#stepper', start: 'top 65%', end: 'bottom 60%', scrub: 0.4 }
+            });
+            gsap.utils.toArray('.step').forEach(function (step) {
+                ScrollTrigger.create({ trigger: step, start: 'top 65%', end: 'bottom 35%', toggleClass: { targets: step, className: 'is-active' } });
+            });
+            gsap.from('.stat', {
+                autoAlpha: 0, y: 40, duration: 1, ease: 'expo.out', stagger: 0.03,
+                scrollTrigger: { trigger: '.stats', start: 'top 88%', once: true }
+            });
+            document.querySelectorAll('.count').forEach(function (el) {
+                var to = parseInt(el.getAttribute('data-to'), 10), o = { v: 0 };
+                ScrollTrigger.create({
+                    trigger: el, start: 'top 92%', once: true,
+                    onEnter: function () {
+                        gsap.to(o, { v: to, duration: 2, ease: 'power3.out', onUpdate: function () { el.textContent = Math.round(o.v); } });
+                    }
+                });
+                el.textContent = '0';
+            });
+
+            /* =====================================================
+               7. WORK
+            ===================================================== */
+            var work = document.getElementById('work');
+            var track = document.getElementById('work-track');
+            var counter = document.getElementById('work-counter');
+            var barFill = document.getElementById('work-bar-fill');
+            var moreWrap = document.getElementById('more-wrap');
+            var total = document.querySelectorAll('.project').length;
+
+            ScrollTrigger.config({ ignoreMobileResize: true });
+            var mm = gsap.matchMedia();
+
+            // Pin the project row only on wide desktop pointers; tablets and touch screens scroll normally.
+            mm.add('(min-width: 1100px) and (min-height: 760px) and (hover: hover) and (pointer: fine)', function () {
+                if (total < 3) return;
+                work.classList.add('is-hscroll');
+                moreWrap.style.display = 'none';
+
+                gsap.to(track, {
+                    x: function () { return -(track.scrollWidth - document.documentElement.clientWidth); },
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: work,
+                        start: 'top top',
+                        end: function () { return '+=' + (track.scrollWidth - document.documentElement.clientWidth); },
+                        pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true,
+                        onUpdate: function (self) {
+                            var idx = Math.min(total, Math.round(self.progress * (total - 1)) + 1);
+                            counter.innerHTML = String(idx).padStart(2, '0') + '<span> / ' + String(total).padStart(2, '0') + '</span>';
+                            barFill.style.transform = 'scaleX(' + self.progress + ')';
+                        }
+                    }
+                });
+                return function () {
+                    work.classList.remove('is-hscroll');
+                    moreWrap.style.display = '';
+                    gsap.set(track, { clearProps: 'transform' });
+                };
+            });
+
+            mm.add('(max-width: 1099px), (max-height: 759px), (hover: none), (pointer: coarse)', function () {
+                gsap.from('.project', {
+                    autoAlpha: 0, y: 60, duration: 1.1, ease: 'expo.out', stagger: 0.03,
+                    scrollTrigger: { trigger: track, start: 'top 85%', once: true }
+                });
+            });
+
+            /* =====================================================
+               8. MAGNETIC BUTTONS
+            ===================================================== */
+            if (canHover) {
+                document.querySelectorAll('.magnetic').forEach(function (btn) {
+                    var xTo = gsap.quickTo(btn, 'x', { duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+                    var yTo = gsap.quickTo(btn, 'y', { duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+                    btn.addEventListener('mousemove', function (e) {
+                        var r = btn.getBoundingClientRect();
+                        xTo((e.clientX - (r.left + r.width / 2)) * 0.3);
+                        yTo((e.clientY - (r.top + r.height / 2)) * 0.4);
+                    });
+                    btn.addEventListener('mouseleave', function () { xTo(0); yTo(0); });
+                });
+            }
+
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+            window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+        });
     });
     </script>
 </body>
